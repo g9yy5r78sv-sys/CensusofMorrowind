@@ -42,14 +42,16 @@ hr{border:0;border-top:1px solid var(--line);margin:18px 0}
 .mode{animation:fadeIn .16s ease-out}.modeIntro{margin-bottom:18px}.modeIntro h2{margin-bottom:7px}.modeIntro .lead{max-width:760px;margin:0;color:var(--muted)}.controlGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}.controlGrid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.controlGrid.four{grid-template-columns:repeat(4,minmax(0,1fr))}.controlGrid label{min-width:0}.actionBar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}.actionBar .small{margin:0;max-width:700px}.result{margin-top:18px}.result:empty{display:none}.result>.card{margin-bottom:14px}.result>.card:last-child{margin-bottom:0}.pageNote{margin-top:14px}.homeTools{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.homeTools .card{display:flex;flex-direction:column}.homeTools .card p{flex:1}.homeIntro{margin-bottom:18px}.homeIntro .lead{max-width:720px;margin:0 auto}.homeIntro{text-align:center}.homeIntro .eyebrow{margin-bottom:5px}.checkRow{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:14px}.check{display:flex;align-items:center;gap:7px}.check input{margin:0}.referenceIntro{margin-bottom:18px}@keyframes fadeIn{from{opacity:.7;transform:translateY(2px)}to{opacity:1;transform:none}}@media(max-width:800px){.controlGrid.three,.controlGrid.four,.homeTools{grid-template-columns:1fr 1fr}}@media(max-width:560px){.controlGrid,.controlGrid.three,.controlGrid.four,.homeTools{grid-template-columns:1fr}.actionBar{align-items:stretch;flex-direction:column}}
 
 .site-disclaimer {
+  width: 100%;
   max-width: 720px;
-  margin: 40px auto 24px;
-  padding: 16px 20px;
+  box-sizing: border-box;
+  margin: 28px auto 0;
+  padding: 16px 20px 20px;
   border-top: 1px solid rgba(255, 255, 255, 0.12);
   text-align: center;
-  font-size: 0.72rem;
-  line-height: 1.5;
-  opacity: 0.7;
+  color: #b8a68c;
+  font-size: 0.75rem;
+  line-height: 1.55;
 }
 
 .site-disclaimer p {
@@ -60,9 +62,20 @@ hr{border:0;border-top:1px solid var(--line);margin:18px 0}
   margin-bottom: 0;
 }
 
+.site-disclaimer strong {
+  color: #d8b878;
+  font-family: Georgia, serif;
+  font-size: 0.8rem;
+}
+
 .site-disclaimer a {
-  color: inherit;
-}  
+  color: #c59b52;
+  text-decoration: none;
+}
+
+.site-disclaimer a:hover {
+  text-decoration: underline;
+}
   
 </style>
 </head>
@@ -885,18 +898,17 @@ customSelect("bothFate",FATES);
 </script>
 <footer class="site-disclaimer">
   <p>
-    <strong>Disclaimer</strong><br>
+    <strong>Sources &amp; Disclaimer</strong><br>
     Source information relating to <em>The Elder Scrolls III: Morrowind</em>
     is derived from the
     <a href="https://en.uesp.net/" target="_blank" rel="noopener noreferrer">Unofficial Elder Scrolls Pages (UESP)</a>
     and remains the property of its respective owners.
-    This site is an unofficial fan project and is not affiliated with or
-    endorsed by UESP, Bethesda Softworks, or ZeniMax Media.
+    This is an unofficial fan project and is not affiliated with or endorsed by
+    UESP, Bethesda Softworks, or ZeniMax Media.
   </p>
   <p>
-    UESP is used as a reference source for the information presented by this
-    project. All original code, presentation, and original content created
-    for this site are the work of the site's author.
+    All original code, presentation, and original content created for this site
+    are the work of the site's author.
   </p>
 </footer>
 </body>
