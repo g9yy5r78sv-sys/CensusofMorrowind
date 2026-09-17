@@ -323,11 +323,50 @@ function compatibleClasses(skill,style,allowNpc=false){
  const limit=allowNpc?RULES.classSelection.npcLimit:RULES.classSelection.playerLimit;
  return names.slice(0,Math.min(limit,names.length));
 }
-function bestFactions(skills){const set=new Set(skills);return Object.entries(DATA.factions).map(([name,pool])=>({name,score:pool.filter(sk=>set.has(sk)).length,tie:Math.random()})).sort((a,b)=>b.score-a.score||b.tie-a.tie).slice(0,4).map(x=>x.name)}
+const GREAT_HOUSES=["House Hlaalu","House Redoran","House Telvanni"];
+
+function bestFactions(skills){
+  const set=new Set(skills);
+  return Object.entries(DATA.factions)
+    .map(([name,pool])=>({name,score:pool.filter(sk=>set.has(sk)).length,tie:Math.random()}))
+    .sort((a,b)=>b.score-a.score||b.tie-a.tie)
+    .slice(0,4)
+    .map(x=>x.name);
+}
+
 function selectFactions(skills,style="Coherent"){
- if(style==="Chaos"||style==="RNGesus")return sample(Object.keys(DATA.factions),3+Math.floor(Math.random()*3));
- const ranked=bestFactions(skills);
- return style==="Coherent" && Math.random()<0.35 ? ranked.slice(0,4) : ranked.slice(0,3);
+  if(style==="Chaos"||style==="RNGesus"){
+    const count=3+Math.floor(Math.random()*3);
+    const pool=[...Object.keys(DATA.factions)];
+    const chosen=[];
+    let houseChosen=false;
+
+    while(chosen.length<count&&pool.length){
+      const eligible=pool.filter(name=>!GREAT_HOUSES.includes(name)||!houseChosen);
+      const faction=pick(eligible);
+      chosen.push(faction);
+      pool.splice(pool.indexOf(faction),1);
+      if(GREAT_HOUSES.includes(faction))houseChosen=true;
+    }
+
+    return chosen;
+  }
+
+  const ranked=bestFactions(skills);
+  const allowed=[];
+  let houseChosen=false;
+
+  for(const faction of ranked){
+    if(GREAT_HOUSES.includes(faction)){
+      if(houseChosen)continue;
+      houseChosen=true;
+    }
+    allowed.push(faction);
+  }
+
+  return style==="Coherent"&&Math.random()<0.35
+    ? allowed.slice(0,4)
+    : allowed.slice(0,3);
 }
 function baseStartingAttributes(b){const base=DATA.races[b.race][b.sex],stats={};ATTRIBUTE_NAMES.forEach((n,i)=>stats[n]=base[i]+(b.c.fav.includes(n)?10:0));stats.Luck=40+(b.c.fav.includes("Luck")?10:0);return stats}
 function prepareBuild(b){b.starting=buildStartingStats(b);b.spells=starterSpells(b,b.starting);return b}
