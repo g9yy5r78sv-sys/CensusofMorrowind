@@ -876,7 +876,7 @@ for(const sign of BIRTHSIGNS){document.getElementById("storyBirth").insertAdjace
 for(const r of RACES){document.getElementById("bothRace").insertAdjacentHTML("beforeend",`<option value="${esc(r)}">${esc(r)}</option>`)}
 for(const sign of BIRTHSIGNS){document.getElementById("bothBirth").insertAdjacentHTML("beforeend",`<option value="${esc(sign)}">${esc(sign)}</option>`)}
 
-document.getElementById("appVersion").textContent=APP_VERSION;
+/*document.getElementById("appVersion").textContent=APP_VERSION;*/
 document.querySelectorAll(".tab").forEach(tab=>tab.addEventListener("click",()=>show(tab.dataset.mode)));
 document.addEventListener("click",event=>{
   const button=event.target.closest("[data-action]");
