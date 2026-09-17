@@ -325,7 +325,7 @@ function compatibleClasses(skill,style,allowNpc=false){
 }
 function bestFactions(skills){const set=new Set(skills);return Object.entries(DATA.factions).map(([name,pool])=>({name,score:pool.filter(sk=>set.has(sk)).length,tie:Math.random()})).sort((a,b)=>b.score-a.score||b.tie-a.tie).slice(0,4).map(x=>x.name)}
 function selectFactions(skills,style="Coherent"){
- if(style==="Chaos"||style==="RNGesus")return sample(Object.keys(DATA.factions),3);
+ if(style==="Chaos"||style==="RNGesus")return sample(Object.keys(DATA.factions),3+Math.floor(Math.random()*3));
  const ranked=bestFactions(skills);
  return style==="Coherent" && Math.random()<0.35 ? ranked.slice(0,4) : ranked.slice(0,3);
 }
