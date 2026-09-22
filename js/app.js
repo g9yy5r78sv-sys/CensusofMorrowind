@@ -1,4 +1,3 @@
-<script>
 (() => {
 const APP_VERSION = "102";
 /* --------------------------------------------------------------------------
@@ -780,4 +779,3 @@ customSelect("bothFate",FATES);
  runConsistencyChecks();
 
 })();
-</script>
