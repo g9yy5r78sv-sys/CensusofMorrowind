@@ -19,12 +19,12 @@
 
 <nav>
   <button class="tab active" data-mode="home">Home</button>
-  <button class="tab" data-mode="both">⚔ Character Generator</button>
-  <button class="tab" data-mode="story">📜 Backstory Generator</button>
-  <button class="tab" data-mode="names">🪶 Name Generator</button>
-  <button class="tab" data-mode="custom">🧾 Build Preview</button>
-  <button class="tab" data-mode="rng">🎲 RNGesus</button>
-  <button class="tab" data-mode="reference">📚 Reference</button>
+  <button class="tab" data-mode="both">Character Generator</button>
+  <button class="tab" data-mode="story">Backstory Generator</button>
+  <button class="tab" data-mode="names">Name Generator</button>
+  <button class="tab" data-mode="custom">Build Preview</button>
+  <button class="tab" data-mode="rng">RNGesus</button>
+  <button class="tab" data-mode="reference">Reference</button>
 </nav>
 
 <section id="home" class="mode">
@@ -35,11 +35,11 @@
   </div>
   <div class="homeTools">
     <div class="card"><h2>⚔ Character Generator</h2><p>Create a complete character in one pass. The build comes first, then the backstory is written for that exact person.</p><button class="primary" data-action="show" data-target="both">Open Character Generator</button></div>
-    <div class="card"><h2>📜 Backstory Generator</h2><p>Build the person who existed before the prison ship: upbringing, work, trouble, arrest, imprisonment, and the life they leave behind.</p><button class="primary" data-action="show" data-target="story">Open Backstory Generator</button></div>
-    <div class="card"><h2>🪶 Name Generator</h2><p>Generate a race-appropriate name from the Census's UESP-derived name corpus.</p><button class="primary" data-action="show" data-target="names">Open Name Generator</button></div>
-    <div class="card"><h2>🧾 Build Preview</h2><p>Choose a race, class, birthsign, and gender, then inspect the character you would actually start with. Player, NPC, and custom classes are available too.</p><button class="primary" data-action="show" data-target="custom">Open Build Preview</button></div>
-    <div class="card"><h2>🎲 RNGesus Take the Wheel</h2><p>Race, gender, class, skills, birthsign, and backstory are surrendered to the dice. Mechanical choices stay legal. The story is allowed to get strange.</p><button class="primary" data-action="show" data-target="rng">Open Full Random Mode</button></div>
-    <div class="card"><h2>📚 Reference</h2><p>Browse the mechanical data, names, traits, classes, starting spells, faction matches, and backstory material used by the Census.</p><button class="primary" data-action="show" data-target="reference">Open Reference</button></div>
+    <div class="card"><h2>Backstory Generator</h2><p>Build the person who existed before the prison ship: upbringing, work, trouble, arrest, imprisonment, and the life they leave behind.</p><button class="primary" data-action="show" data-target="story">Open Backstory Generator</button></div>
+    <div class="card"><h2>Name Generator</h2><p>Generate a race-appropriate name from the Census's UESP-derived name corpus.</p><button class="primary" data-action="show" data-target="names">Open Name Generator</button></div>
+    <div class="card"><h2>Build Preview</h2><p>Choose a race, class, birthsign, and gender, then inspect the character you would actually start with. Player, NPC, and custom classes are available too.</p><button class="primary" data-action="show" data-target="custom">Open Build Preview</button></div>
+    <div class="card"><h2>RNGesus Take the Wheel</h2><p>Race, gender, class, skills, birthsign, and backstory are surrendered to the dice. Mechanical choices stay legal. The story is allowed to get strange.</p><button class="primary" data-action="show" data-target="rng">Open Full Random Mode</button></div>
+    <div class="card"><h2>Reference</h2><p>Browse the mechanical data, names, traits, classes, starting spells, faction matches, and backstory material used by the Census.</p><button class="primary" data-action="show" data-target="reference">Open Reference</button></div>
   </div>
 </section>
 
@@ -90,7 +90,7 @@
 
 <section id="story" class="mode hidden">
   <div class="card modeIntro">
-    <h2>📜 Backstory Generator</h2>
+    <h2>Backstory Generator</h2>
     <p class="lead">Create the person who existed before the prison ship. The Census determines the life they lived, the trouble that caught up with them, and what they hope to do next.</p>
     <div class="controlGrid three">
       <label>Tone<select id="storyStyle"></select></label>
@@ -107,7 +107,7 @@
 
 <section id="both" class="mode hidden">
   <div class="card modeIntro">
-    <h2>⚔📜 Character Generator</h2>
+    <h2>⚔Character Generator</h2>
     <p class="lead">The Census's complete character generator. It creates the build first, then writes a backstory for that exact character.</p>
     <div class="controlGrid four">
       <label>Build Style<select id="bothBuildStyle"></select></label>
@@ -126,7 +126,7 @@
 
 <section id="names" class="mode hidden">
   <div class="card modeIntro">
-    <h2>🪶 Name Generator</h2>
+    <h2>Name Generator</h2>
     <p class="lead">Choose a race and gender, then let the Census issue a fitting name from the UESP name corpus. Randomize rolls the race and gender for you.</p>
     <div class="controlGrid">
       <label>Race<select id="nameRace"></select></label>
@@ -139,7 +139,7 @@
 
 <section id="reference" class="mode hidden">
   <div class="card modeIntro referenceIntro">
-    <h2>📚 Census Reference</h2>
+    <h2>Census Reference</h2>
     <p class="lead">The reference desk. Browse the mechanical data, naming data, and backstory components used by the generators.</p>
   </div>
   <div class="card"><div id="refContent"></div></div>
