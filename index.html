@@ -37,7 +37,95 @@ hr{border:0;border-top:1px solid var(--line);margin:18px 0}
 .refGroup,.refSubGroup{margin:12px 0;border:1px solid rgba(190,160,100,.22);border-radius:8px;background:rgba(255,255,255,.02);overflow:hidden}.refGroup>summary,.refSubGroup>summary{cursor:pointer;padding:12px 14px;font-weight:700;color:#e4c98f;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px}.refGroup>summary{font-size:16px}.refSubGroup>summary{font-size:14px;color:#d8bd83;background:rgba(255,255,255,.015)}.refGroup summary::-webkit-details-marker,.refSubGroup summary::-webkit-details-marker{display:none}.refGroup>summary:after,.refSubGroup>summary:after{content:"▸";color:#a98a52;font-size:12px}.refGroup[open]>summary:after,.refSubGroup[open]>summary:after{content:"▾"}.refGroup[open]>summary{border-bottom:1px solid rgba(190,160,100,.16)}.refBody{padding:0 14px 14px}.refSubGroup{margin:10px 0;border-color:rgba(190,160,100,.14);background:rgba(0,0,0,.08)}.refSubGroup .refBody{padding:0 12px 10px}.refItem{padding:10px 0;border-top:1px solid rgba(190,160,100,.12)}.refItem:first-child{border-top:0}.refItem h4{margin:4px 0 8px;color:#d8bd83}.refList{margin:8px 0 0;padding-left:22px}.refList li{margin:6px 0;color:#d7d0c2}.pillRow{display:flex;flex-wrap:wrap;gap:3px}.pillRow .pill{margin:0}.nameCloud{display:flex;flex-wrap:wrap;gap:4px 7px;line-height:1.8}.nameCloud span{display:inline-block;color:#d7d0c2}.nameCloud span:not(:last-child):after{content:" ·";color:#6f604c;margin-left:7px}.refNotice{margin-bottom:4px}@media(max-width:560px){.refGroup>summary,.refSubGroup>summary{padding:11px 12px}.refBody{padding-left:10px;padding-right:10px}.row{flex-direction:column;gap:3px}.row b{color:#d8bd83}}
 .previewModes{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.previewMode{flex:1 1 0;min-width:120px;text-align:center}.previewMode.active{border-color:var(--gold);color:#f2dca8;background:#4b3924}@media(max-width:560px){.previewModes{display:grid;grid-template-columns:1fr 1fr}.previewMode:last-child{grid-column:1/-1}}
 .skillGrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-bottom:18px}.skillGrid label{margin:0}.birthsignName{font-size:1.05rem;font-weight:700;margin:4px 0 8px;color:#e2c98e}
+.skillColumns{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+  margin:10px 0 18px;
+}
 
+.skillColumn{
+  min-width:0;
+}
+
+.skillColumn h4{
+  margin:0 0 7px;
+  padding-bottom:6px;
+  border-bottom:1px solid var(--line);
+  color:#d8bd83;
+  font-family:Georgia,serif;
+}
+
+.skillItem{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  padding:5px 0;
+  border-bottom:1px solid rgba(190,160,100,.10);
+}
+
+.skillItem span:last-child{
+  color:var(--muted);
+  white-space:nowrap;
+}
+
+.statList{
+  margin:8px 0 18px;
+}
+
+.statItem{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  padding:5px 0;
+  border-bottom:1px solid rgba(190,160,100,.10);
+}
+
+.statItem span:last-child{
+  color:#e2c98e;
+  font-weight:600;
+}
+
+.attributeList{
+  margin:8px 0 18px;
+}
+
+.attributeItem{
+  padding:5px 0;
+  border-bottom:1px solid rgba(190,160,100,.10);
+}
+
+.traitList{
+  margin:6px 0 14px;
+}
+
+.traitItem{
+  padding:5px 0;
+  border-bottom:1px solid rgba(190,160,100,.10);
+}
+
+.traitHeading{
+  margin:10px 0 4px;
+  color:#d8bd83;
+  font-weight:700;
+}
+.resourceHealth{
+  color:#d9534f;
+}
+
+.resourceMagicka{
+  color:#4d8fd8;
+}
+
+.resourceFatigue{
+  color:#5aa65a;
+}
+@media(max-width:560px){
+  .skillColumns{
+    grid-template-columns:1fr;
+    gap:14px;
+  }
+}
 .rngBannerCard{margin-bottom:22px}.rngBanner{font-size:1.8rem;line-height:1.25;letter-spacing:.04em;text-align:center;color:#e4c98f;padding:8px 10px 4px;margin:0 0 4px;font-weight:700}.rngBanner::after{content:"The paperwork is now legally your problem.";display:block;font:italic 14px Georgia,serif;letter-spacing:.01em;color:#a99a80;margin-top:7px}@media(max-width:800px){.skillGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
 .site-disclaimer{
@@ -478,12 +566,28 @@ function makeBuild(style="Coherent",dir="Any",allowNpc=false,racePreference="Any
    -------------------------------------------------------------------------- */
 function genderLabel(sex){ return sex ? sex.charAt(0).toUpperCase()+sex.slice(1) : ""; }
 function renderTraits(t){
- if(!t) return '<p class="muted">None recorded.</p>';
- const sections=[];
- if(t.abilities?.length) sections.push(`<div class="row"><b>Abilities</b><span>${t.abilities.map(esc).join("; ")}</span></div>`);
- if(t.powers?.length) sections.push(`<div class="row"><b>Powers</b><span>${t.powers.map(esc).join("; ")}</span></div>`);
- if(t.spells?.length) sections.push(`<div class="row"><b>Starting Spells</b><span>${t.spells.map(esc).join("; ")}</span></div>`);
- return sections.length ? sections.join("") : '<p class="muted">None recorded.</p>';
+  if(!t) return '<p class="muted">None recorded.</p>';
+
+  const sections=[];
+
+  function renderTraitSection(title,items){
+    if(!items?.length) return "";
+
+    return `
+      <div class="traitHeading">${esc(title)}</div>
+      <div class="traitList">
+        ${items.map(x=>`<div class="traitItem">${esc(x)}</div>`).join("")}
+      </div>
+    `;
+  }
+
+  sections.push(renderTraitSection("Abilities",t.abilities));
+  sections.push(renderTraitSection("Powers",t.powers));
+  sections.push(renderTraitSection("Starting Spells",t.spells));
+
+  const output=sections.join("");
+
+  return output || '<p class="muted">None recorded.</p>';
 }
 function renderBirthsign(birth){
  const data=DATA.birthsigns[birth];
@@ -492,10 +596,59 @@ function renderBirthsign(birth){
 function buildCard(b,title="Census Record"){
  return `<div class="card"><h2>${esc(title)}</h2><div class="big">${esc(b.name)} · ${esc(b.race)} ${esc(b.cls)}</div><p><span class="pill">${esc(b.c.spec)}</span><span class="pill">${esc(b.birth)}</span></p>
  <div class="row"><b>Gender</b><span>${esc(genderLabel(b.sex))}</span></div>
- <div class="row"><b>Favored Attributes</b><span>${b.c.fav.map(esc).join(", ")}</span></div>
- <div class="row"><b>Major Skills</b><span>${b.majors.map(x=>esc(x)+" ("+b.starting.skills[x]+")").join(", ")}</span></div>
- <div class="row"><b>Minor Skills</b><span>${b.minors.map(x=>esc(x)+" ("+b.starting.skills[x]+")").join(", ")}</span></div>
- <div class="row"><b>Faction Matches</b><span>${b.factions.map(esc).join(", ")}</span></div><h3>Starting Attributes</h3><p>${Object.entries(b.starting.stats).map(([k,v])=>`<span class="pill">${esc(k)} ${v}</span>`).join("")}</p><div class="row"><b>Starting Health</b><span>${b.starting.health}</span></div><div class="row"><b>Starting Magicka</b><span>${b.starting.mag}</span></div><div class="row"><b>Starting Fatigue</b><span>${b.starting.fatigue}</span></div><h3>Starting Spells</h3>${b.spells.length?b.spells.map(sp=>`<div class="row"><b>${sp.name}</b><span>${sp.desc} • ${sp.cost} magicka</span></div>`).join(""):"<p class=\"muted\">None granted</p>"}
+<h3>Favored Attributes</h3>
+<div class="attributeList">
+  ${b.c.fav.map(x=>`
+    <div class="attributeItem">${esc(x)}</div>
+  `).join("")}
+</div>
+<div class="skillColumns">
+  <div class="skillColumn">
+    <h4>Major Skills</h4>
+    ${b.majors.map(x=>`
+      <div class="skillItem">
+        <span>${esc(x)}</span>
+        <span>${b.starting.skills[x]}</span>
+      </div>
+    `).join("")}
+  </div>
+
+  <div class="skillColumn">
+    <h4>Minor Skills</h4>
+    ${b.minors.map(x=>`
+      <div class="skillItem">
+        <span>${esc(x)}</span>
+        <span>${b.starting.skills[x]}</span>
+      </div>
+    `).join("")}
+  </div>
+</div>
+ <div class="row"><b>Faction Matches</b><span>${b.factions.map(esc).join(", ")}</span></div>
+<h3>Starting Attributes</h3>
+<div class="statList">
+  ${Object.entries(b.starting.stats).map(([k,v])=>`
+    <div class="statItem">
+      <span>${esc(k)}</span>
+      <span>${v}</span>
+    </div>
+  `).join("")}
+</div>
+<div class="row">
+  <b>Starting <span class="resourceHealth">Health</span></b>
+  <span class="resourceHealth">${b.starting.health}</span>
+</div>
+
+<div class="row">
+  <b>Starting <span class="resourceMagicka">Magicka</span></b>
+  <span class="resourceMagicka">${b.starting.mag}</span>
+</div>
+
+<div class="row">
+  <b>Starting <span class="resourceFatigue">Fatigue</span></b>
+  <span class="resourceFatigue">${b.starting.fatigue}</span>
+</div>
+
+<h3>Starting Spells</h3>${b.spells.length?b.spells.map(sp=>`<div class="row"><b>${sp.name}</b><span>${sp.desc} • ${sp.cost} magicka</span></div>`).join(""):"<p class=\"muted\">None granted</p>"}
  <h3>Racial Traits</h3>${renderTraits(DATA.races[b.race].traits)}
  <h3>Birthsign</h3>${renderBirthsign(b.birth)}
  <p><button type="button" data-action="copy" data-copy="${esc(formatBuild(b))}">Copy Build</button></p></div>`;
