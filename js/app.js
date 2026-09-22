@@ -261,15 +261,56 @@ function renderBirthsign(birth){
  return `<div class="birthsignName">${esc(birth)}</div>${renderTraits(data.traits)}`;
 }
 function buildCard(b,title="Census Record"){
- return `<div class="card"><h2>${esc(title)}</h2><div class="big">${esc(b.name)} · ${esc(b.race)} ${esc(b.cls)}</div><p><span class="pill">${esc(b.c.spec)}</span><span class="pill">${esc(b.birth)}</span></p>
- <div class="row"><b>Gender</b><span>${esc(genderLabel(b.sex))}</span></div>
-<h3>Favored Attributes</h3>
-<div class="attributeList">
-  ${b.c.fav.map(x=>`
-    <div class="attributeItem">${esc(x)}</div>
-  `).join("")}
-</div>
-<div class="skillColumns">
+ return `<div class="card"><h2>${esc(title)}</h2><div class="big">${esc(b.name)} · ${esc(genderLabel(b.sex))} ${esc(b.race)} ${esc(b.cls)}</div><p><span class="pill">${esc(b.c.spec)}</span><span class="pill">${esc(b.birth)}</span></p>
+
+ <div class="characterStatsGrid">
+
+  <div class="startingAttributes">
+    <h3>Starting Attributes</h3>
+    <div class="statList">
+      ${Object.entries(b.starting.stats).map(([k,v])=>`
+        <div class="statItem">
+          <span>${esc(k)}</span>
+          <span>${v}</span>
+        </div>
+      `).join("")}
+    </div>
+  </div>
+
+  <div class="characterSummary">
+
+    <div class="row">
+      <b>Build Focus</b>
+      <span>${esc(b.c.spec)}</span>
+    </div>
+
+    <h3>Favored Attributes</h3>
+    <div class="attributeList">
+      ${b.c.fav.map(x=>`
+        <div class="attributeItem">${esc(x)}</div>
+      `).join("")}
+    </div>
+
+    <div class="row">
+      <b>Starting <span class="resourceHealth">Health</span></b>
+      <span class="resourceHealth">${b.starting.health}</span>
+    </div>
+
+    <div class="row">
+      <b>Starting <span class="resourceMagicka">Magicka</span></b>
+      <span class="resourceMagicka">${b.starting.mag}</span>
+    </div>
+
+    <div class="row">
+      <b>Starting <span class="resourceFatigue">Fatigue</span></b>
+      <span class="resourceFatigue">${b.starting.fatigue}</span>
+    </div>
+
+  </div>
+
+ </div>
+
+ <div class="skillColumns">
   <div class="skillColumn">
     <h4>Major Skills</h4>
     ${b.majors.map(x=>`
@@ -289,35 +330,16 @@ function buildCard(b,title="Census Record"){
       </div>
     `).join("")}
   </div>
-</div>
+ </div>
+
  <div class="row"><b>Faction Matches</b><span>${b.factions.map(esc).join(", ")}</span></div>
-<h3>Starting Attributes</h3>
-<div class="statList">
-  ${Object.entries(b.starting.stats).map(([k,v])=>`
-    <div class="statItem">
-      <span>${esc(k)}</span>
-      <span>${v}</span>
-    </div>
-  `).join("")}
-</div>
-<div class="row">
-  <b>Starting <span class="resourceHealth">Health</span></b>
-  <span class="resourceHealth">${b.starting.health}</span>
-</div>
 
-<div class="row">
-  <b>Starting <span class="resourceMagicka">Magicka</span></b>
-  <span class="resourceMagicka">${b.starting.mag}</span>
-</div>
+ <h3>Starting Spells</h3>${b.spells.length?b.spells.map(sp=>`<div class="row"><b>${sp.name}</b><span>${sp.desc} • ${sp.cost} magicka</span></div>`).join(""):"<p class=\"muted\">None granted</p>"}
 
-<div class="row">
-  <b>Starting <span class="resourceFatigue">Fatigue</span></b>
-  <span class="resourceFatigue">${b.starting.fatigue}</span>
-</div>
-
-<h3>Starting Spells</h3>${b.spells.length?b.spells.map(sp=>`<div class="row"><b>${sp.name}</b><span>${sp.desc} • ${sp.cost} magicka</span></div>`).join(""):"<p class=\"muted\">None granted</p>"}
  <h3>Racial Traits</h3>${renderTraits(DATA.races[b.race].traits)}
+
  <h3>Birthsign</h3>${renderBirthsign(b.birth)}
+
  <p><button type="button" data-action="copy" data-copy="${esc(formatBuild(b))}">Copy Build</button></p></div>`;
 }
 function formatBuild(b){return `The Census of Morrowind\\nRace: ${b.race}\\nClass: ${b.cls}\\nSpecialization: ${b.c.spec}\\nBirthsign: ${b.birth}\\nFavored Attributes: ${b.c.fav.join(", ")}\\nMajor Skills: ${b.majors.join(", ")}\\nMinor Skills: ${b.minors.join(", ")}\\nPrimary Skill: ${b.primary}\\nFaction Matches: ${b.factions.join(", ")}`}
