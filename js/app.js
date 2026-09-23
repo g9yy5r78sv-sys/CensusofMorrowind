@@ -273,6 +273,10 @@ function buildCard(b,title="Census Record"){
           <span>${esc(k)}</span>
           <span>${v}</span>
         </div>
+         <div class="row">
+            <b>Build Focus</b>
+            <span>${esc(b.c.spec)}</span>
+          </div>
       `).join("")}
     </div>
   </div>
@@ -284,11 +288,6 @@ function buildCard(b,title="Census Record"){
       ${b.c.fav.map(x=>`
         <div class="attributeItem">${esc(x)}</div>
       `).join("")}
-    </div>
-
-    <h3>Specialization</h3>
-    <div class="row">
-      <b>${esc(b.c.spec)}</b>
     </div>
 
     <h3>Starting Resources</h3>
