@@ -19,7 +19,7 @@ const allSkills = DATA.skills;
 function sortSkillsByCanon(skills){
   return [...skills].sort((a,b)=>allSkills.indexOf(a)-allSkills.indexOf(b));
 }
-const ATTRIBUTE_NAMES = ["Strength","Intelligence","Willpower","Agility","Speed","Endurance","Personality"];
+const ATTRIBUTE_NAMES = ["Strength","Intelligence","Willpower","Agility","Speed","Endurance","Personality","Luck"];
 const GENDERS = ["male","female"];
 const RACES = ORDER.races;
 const BIRTHSIGNS = ORDER.birthsigns;
