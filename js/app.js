@@ -71,7 +71,10 @@ const ORC_UNPREFIXED_SURNAMES=DATA.orcUnprefixedSurnames;
 function pick(a){return a[Math.floor(Math.random()*a.length)]}
 function sample(a,n){const out=a.slice();for(let i=out.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[out[i],out[j]]=[out[j],out[i]]}return out.slice(0,n)}
 function scoreClass(c,skill,style){if(style==="Unusual")return c.min.includes(skill)?5:c.maj.includes(skill)?2:0;return (c.maj.includes(skill)?5:0)+(c.min.includes(skill)?2:0)}
-function classPool(allowNpc=false){return allowNpc?ALL_CLASSES:DATA.classes}
+function classPool(allowNpc=false,allowTR=false){
+ if(allowTR)return allowNpc?ALL_CLASSES_WITH_TR:ALL_TR_CLASSES;
+ return allowNpc?ALL_CLASSES:DATA.classes;
+}
 function rankedClasses(skill,style,allowNpc=false){
  const pool=classPool(allowNpc);
  const groups=new Map();
