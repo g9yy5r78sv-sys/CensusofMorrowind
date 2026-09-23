@@ -75,8 +75,8 @@ function classPool(allowNpc=false,allowTR=false){
  if(allowTR)return allowNpc?ALL_CLASSES_WITH_TR:ALL_TR_CLASSES;
  return allowNpc?ALL_CLASSES:DATA.classes;
 }
-function rankedClasses(skill,style,allowNpc=false){
- const pool=classPool(allowNpc);
+function rankedClasses(skill,style,allowNpc=false,allowTR=false){
+ const pool=classPool(allowNpc,allowTR);
  const groups=new Map();
  for(const name of Object.keys(pool)){const score=scoreClass(pool[name],skill,style);if(!groups.has(score))groups.set(score,[]);groups.get(score).push(name)}
  return [...groups.keys()].sort((a,b)=>b-a).flatMap(score=>sample(groups.get(score),groups.get(score).length));
