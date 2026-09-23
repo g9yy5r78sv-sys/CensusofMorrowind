@@ -266,7 +266,6 @@ function buildCard(b,title="Census Record"){
   <div>${esc(genderLabel(b.sex))}</div>
   <div>${esc(b.race)}</div>
   <div>${esc(b.cls)}</div>
-  <div>${esc(b.birth)}</div>
 </div>
 
  <div class="characterStatsGrid">
