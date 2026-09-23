@@ -261,7 +261,8 @@ function renderBirthsign(birth){
  return `<div class="birthsignName">${esc(birth)}</div>${renderTraits(data.traits)}`;
 }
 function buildCard(b,title="Census Record"){
- return `<div class="card"><h2>${esc(title)}</h2><div class="big">${esc(b.name)} · ${esc(genderLabel(b.sex))} · ${esc(b.race)} · ${esc(b.cls)}</div><p><span class="pill">${esc(b.c.spec)}</span><span class="pill">${esc(b.birth)}</span></p>
+ return `<div class="card"><h2>${esc(title)}</h2><div class="big">${esc(b.name)} · ${esc(b.race)} · ${esc(b.cls)}</div>
+    <p><span class='pill">${esc(genderLabel(b.sex))}</span><span class="pill">${esc(b.c.spec)}</span><span class="pill">${esc(b.birth)}</span></p>
 
  <div class="characterStatsGrid">
 
