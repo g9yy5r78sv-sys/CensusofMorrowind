@@ -333,7 +333,7 @@ function buildCard(b,title="Census Record"){
   <div class="traitsColumn">
     <h3>Major Skills</h3>
     ${b.majors.map(x=>`
-      <div class="traitItem">
+      <div class="statItem">
         <span>${esc(x)}</span>
         <span>${b.starting.skills[x]}</span>
       </div>
@@ -343,7 +343,7 @@ function buildCard(b,title="Census Record"){
   <div class="traitsColumn">
     <h3>Minor Skills</h3>
     ${b.minors.map(x=>`
-      <div class="traitItem">
+      <div class="statItem">
         <span>${esc(x)}</span>
         <span>${b.starting.skills[x]}</span>
       </div>
