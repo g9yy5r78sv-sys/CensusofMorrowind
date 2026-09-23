@@ -341,8 +341,6 @@ function buildCard(b,title="Census Record"){
 
  <div class="row"><b>Faction Matches</b><span>${b.factions.map(esc).join(", ")}</span></div>
 
- <h3>Starting Spells</h3>${b.spells.length?b.spells.map(sp=>`<div class="row"><b>${sp.name}</b><span>${sp.desc} • ${sp.cost} magicka</span></div>`).join(""):"<p class=\"muted\">None granted</p>"}
-
 <div class="traitsColumns">
 
   <div class="traitsColumn">
@@ -354,6 +352,8 @@ function buildCard(b,title="Census Record"){
     <h3>Birthsign</h3>
     ${renderBirthsign(b.birth)}
   </div>
+
+ <h3>Starting Spells</h3>${b.spells.length?b.spells.map(sp=>`<div class="row"><b>${sp.name}</b><span>${sp.desc} • ${sp.cost} magicka</span></div>`).join(""):"<p class=\"muted\">None granted</p>"}
 
 </div>
 
