@@ -600,8 +600,37 @@ function generateStory(){
  const s=storyFor(fake,document.getElementById("storyStyle").value,fate,genderPref,birthPref);
  const text=storyText(s,fake);
  const meta=`Name: ${s.name} • Race: ${s.race} • Gender: ${genderLabel(s.sex)} • Age: ${s.age} • Birthday: ${s.birthday.label} • Birthsign: ${s.birth} • Tone: ${document.getElementById("storyStyle").value} • Fate: ${fate}`;
- document.getElementById("storyResult").innerHTML=`<div class="card"><h2>📜 Census Record</h2><div class="big">${s.name}</div><p class="muted"><b>Race:</b> ${esc(s.race)} • <b>Gender:</b> ${esc(genderLabel(s.sex))} • <b>Birthsign:</b> ${esc(s.birth)}</p><p class="muted"><b>Age:</b> ${s.age} • <b>Birthday:</b> ${esc(s.birthday.label)}</p><p class="muted"><b>Tone:</b> ${esc(s.tone)} • <b>Fate:</b> ${esc(fate)}</p><p>${text.replace(/\n\n/g,"</p><p>")}</p><button type="button" data-action="copy" data-copy="${esc(meta+"\n\n"+text)}">Copy Story</button></div>`;
-}
+document.getElementById("storyResult").innerHTML=`
+<div class="card">
+  <h2>📜 Census Record</h2>
+
+  <div class="big">${esc(s.name)}</div>
+
+  <p class="muted">
+    <b>Race:</b> ${esc(s.race)} •
+    <b>Gender:</b> ${esc(genderLabel(s.sex))} •
+    <b>Birthsign:</b> ${esc(s.birth)}
+  </p>
+
+  <p class="muted">
+    <b>Age:</b> ${s.age} •
+    <b>Birthday:</b> ${esc(s.birthday.label)}
+  </p>
+
+  <p class="muted">
+    <b>Tone:</b> ${esc(s.tone)} •
+    <b>Fate:</b> ${esc(fate)}
+  </p>
+
+  <p>${text.replace(/\n\n/g,"</p><p>")}</p>
+
+  <div class="storyFactionMatches">
+    <h3>Faction Match</h3>
+    <div class="factionMatch">${esc(s.faction)}</div>
+  </div>
+
+  <button type="button" data-action="copy" data-copy="${esc(meta+"\n\n"+text+"\n\nFaction Match: "+s.faction)}">Copy Story</button>
+</div>`;}
 
 function generateBoth(){
  const buildStyle=document.getElementById("bothBuildStyle").value;
