@@ -331,6 +331,20 @@ function buildCard(b,title="Census Record"){
 <div class="traitsColumns">
 
   <div class="traitsColumn">
+    <h3>Major Skills</h3>
+    ${b.majors.map(x=>`<div class="traitItem">${esc(x)}</div>`).join("")}
+  </div>
+
+  <div class="traitsColumn">
+    <h3>Minor Skills</h3>
+    ${b.minors.map(x=>`<div class="traitItem">${esc(x)}</div>`).join("")}
+  </div>
+
+</div>
+
+<div class="traitsColumns">
+
+  <div class="traitsColumn">
     <h3>Racial Traits</h3>
     ${renderTraits(DATA.races[b.race].traits)}
   </div>
