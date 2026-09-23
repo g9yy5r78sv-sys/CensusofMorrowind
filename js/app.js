@@ -268,8 +268,6 @@ function buildCard(b,title="Census Record"){
   <div>${esc(b.cls)}</div>
 </div>
 
- <div class="row"><b>Faction Matches</b><span>${b.factions.map(esc).join(", ")}</span></div>
-
  <div class="characterStatsGrid">
 
   <div class="startingAttributes">
@@ -339,6 +337,8 @@ function buildCard(b,title="Census Record"){
     `).join("")}
   </div>
  </div>
+
+ <div class="row"><b>Faction Matches</b><span>${b.factions.map(esc).join(", ")}</span></div>
 
 <div class="traitsColumns">
 
