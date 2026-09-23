@@ -279,7 +279,6 @@ function buildCard(b,title="Census Record"){
 
   <div class="characterSummary">
 
-
     <h3>Favored Attributes</h3>
     <div class="attributeList">
       ${b.c.fav.map(x=>`
@@ -287,16 +286,13 @@ function buildCard(b,title="Census Record"){
       `).join("")}
     </div>
 
-
+    <h3>Specialization</h3>
     <div class="row">
       <b>Build Focus</b>
       <span>${esc(b.c.spec)}</span>
     </div>
 
-    <div class="row">
-      <b> </b>
-    </div>
-    
+    <h3>Starting Resources</h3>
     <div class="row">
       <b><span class="resourceHealth">Health</span></b>
       <span class="resourceHealth">${b.starting.health}</span>
