@@ -292,19 +292,23 @@ function buildCard(b,title="Census Record"){
       <b>Build Focus</b>
       <span>${esc(b.c.spec)}</span>
     </div>
+
+    <div class="row">
+      <b> </b>
+    </div>
     
     <div class="row">
-      <b>Starting - <span class="resourceHealth">Health</span></b>
+      <b><span class="resourceHealth">Health</span></b>
       <span class="resourceHealth">${b.starting.health}</span>
     </div>
 
     <div class="row">
-      <b>Starting - <span class="resourceMagicka">Magicka</span></b>
+      <b><span class="resourceMagicka">Magicka</span></b>
       <span class="resourceMagicka">${b.starting.mag}</span>
     </div>
 
     <div class="row">
-      <b>Starting - <span class="resourceFatigue">Fatigue</span></b>
+      <b><span class="resourceFatigue">Fatigue</span></b>
       <span class="resourceFatigue">${b.starting.fatigue}</span>
     </div>
 
