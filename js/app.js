@@ -723,11 +723,12 @@ function generateBoth(){
  const tone=document.getElementById("bothTone").value;
  const fate=document.getElementById("bothFate").value;
  const allowNpc=document.getElementById("bothAllowNpcClasses")?.checked||false;
+ const allowTR=document.getElementById("bothAllowTRClasses")?.checked||false;
  const racePref=document.getElementById("bothRace").value;
  const genderPref=document.getElementById("bothGender").value;
  const birthPref=document.getElementById("bothBirth").value;
 
- const b=makeBuild(buildStyle,dir,allowNpc,racePref,genderPref,birthPref);
+ const b=makeBuild(buildStyle,dir,allowNpc,racePref,genderPref,birthPref,allowTR);
  const s=storyFor(b,tone,fate);
  const meta=storyMeta(s);
  const text=storyText(s,b);
