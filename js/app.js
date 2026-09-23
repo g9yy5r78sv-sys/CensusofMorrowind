@@ -218,7 +218,7 @@ function starterSpells(b,st=buildStartingStats(b)){
  return out;
 }
 
-function makeBuild(style="Coherent",dir="Any",allowNpc=false,racePreference="Any",genderPreference="Any",birthPreference="Any"){
+function makeBuild(style="Coherent",dir="Any",allowNpc=false,racePreference="Any",genderPreference="Any",birthPreference="Any",allowTR=false){
  const pool=dir==="Any"?allSkills:(BUILD_DIRECTIONS[dir]||allSkills);
  const primary=pick(pool);
  let race;
@@ -227,7 +227,7 @@ function makeBuild(style="Coherent",dir="Any",allowNpc=false,racePreference="Any
    const eligible=RACES.filter(r=>DATA.races[r].bonuses[primary]);
    race=pick(eligible.length?eligible:RACES);
  } else race=pick(RACES);
- const classes=compatibleClasses(primary,style,allowNpc),classData=classPool(allowNpc);
+ const classes=compatibleClasses(primary,style,allowNpc,allowTR),classData=classPool(allowNpc,allowTR);
  const cls=pick(classes);
  const c=classData[cls];
  const birth=(birthPreference && birthPreference!=="Any")?birthPreference:pick(BIRTHSIGNS);
