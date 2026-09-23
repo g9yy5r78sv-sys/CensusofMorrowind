@@ -263,7 +263,8 @@ function buildCard(b,title="Census Record"){
  <h2>${esc(title)}</h2>
  <div class="big census-row">
   <div>${esc(b.name)}</div>
-  <div>${esc(genderLabel(b.sex))} ${esc(b.race)}</div>
+  <div>${esc(genderLabel(b.sex))}</div>
+  <div>${esc(b.race)}</div>
   <div>${esc(b.cls)}</div>
   <div>${esc(b.birth)}</div>
 </div>
