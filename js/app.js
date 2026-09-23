@@ -268,7 +268,7 @@ function buildCard(b,title="Census Record"){
   <div>${esc(b.cls)}</div>
 </div>
 
- <div class="characterStatsGrid">
+<div class="characterStatsGrid">
 
   <div class="startingAttributes">
     <h3>Starting Attributes</h3>
@@ -284,59 +284,49 @@ function buildCard(b,title="Census Record"){
 
   <div class="characterSummary">
 
-    <h3>Favored Attributes</h3>
-    <div class="attributeList">
-      ${b.c.fav.map(x=>`
-        <div class="attributeItem">${esc(x)}</div>
-      `).join("")}
-    </div>
-    
-    <div class="row">
-      <b>Build Focus</b>
-      <span>${esc(b.c.spec)}</span>
-    </div>    
+    <div class="buildTop">
 
-    <h3>Starting Resources</h3>
-    <div class="row">
-      <b><span class="resourceHealth">Health</span></b>
-      <span class="resourceHealth">${b.starting.health}</span>
-    </div>
-
-    <div class="row">
-      <b><span class="resourceMagicka">Magicka</span></b>
-      <span class="resourceMagicka">${b.starting.mag}</span>
-    </div>
-
-    <div class="row">
-      <b><span class="resourceFatigue">Fatigue</span></b>
-      <span class="resourceFatigue">${b.starting.fatigue}</span>
-    </div>
-
-  </div>
-
- </div>
-
- <div class="skillColumns">
-  <div class="skillColumn">
-    <h4>Major Skills</h4>
-    ${b.majors.map(x=>`
-      <div class="skillItem">
-        <span>${esc(x)}</span>
-        <span>${b.starting.skills[x]}</span>
+      <div class="favoredAttributes">
+        <h3>Favored Attributes</h3>
+        <div class="attributeList">
+          ${b.c.fav.map(x=>`
+            <div class="attributeItem">${esc(x)}</div>
+          `).join("")}
+        </div>
       </div>
-    `).join("")}
+
+      <div class="buildFocus">
+        <h3>Build Focus</h3>
+        <div class="attributeItem">
+          ${esc(b.c.spec)}
+        </div>
+      </div>
+
+    </div>
+
+    <div class="startingResources">
+      <h3>Starting Resources</h3>
+
+      <div class="row">
+        <b><span class="resourceHealth">Health</span></b>
+        <span class="resourceHealth">${b.starting.health}</span>
+      </div>
+
+      <div class="row">
+        <b><span class="resourceMagicka">Magicka</span></b>
+        <span class="resourceMagicka">${b.starting.mag}</span>
+      </div>
+
+      <div class="row">
+        <b><span class="resourceFatigue">Fatigue</span></b>
+        <span class="resourceFatigue">${b.starting.fatigue}</span>
+      </div>
+
+    </div>
+
   </div>
 
-  <div class="skillColumn">
-    <h4>Minor Skills</h4>
-    ${b.minors.map(x=>`
-      <div class="skillItem">
-        <span>${esc(x)}</span>
-        <span>${b.starting.skills[x]}</span>
-      </div>
-    `).join("")}
-  </div>
- </div>
+</div>
 
  <div class="row"><b>Faction Matches</b><span>${b.factions.map(esc).join(", ")}</span></div>
 
