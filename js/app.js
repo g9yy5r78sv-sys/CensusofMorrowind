@@ -491,23 +491,37 @@ function generateRNGesus(){
  const b=makeRNGesus();
  b.name=unrestrictedName(b.sex);
  const fate=pick(FATES);
- const s=storyFor(b,pick(TONES),fate);
-document.getElementById("bothResult").innerHTML=buildCard(b,"Character Record")+`
-<div class="card">
-  <h2>📜 Backstory</h2>
-  <div class="big">${esc(s.name)}</div>
+ const tone=pick(TONES);
+ const s=storyFor(b,tone,fate);
+ const meta=storyMeta(s);
+ const text=storyText(s,b);
 
-  <p class="muted">${esc(meta)}</p>
+ document.getElementById("bothResult").innerHTML=
+   buildCard(b,"Character Record")+`
+   <div class="card">
+     <h2>📜 Backstory</h2>
 
-  <p>${text.replace(/\n\n/g,"</p><p>")}</p>
+     <div class="big">${esc(s.name)}</div>
 
-  <div class="storyFactionMatches">
-    <h3>Faction Match</h3>
-    <div class="factionMatch">${esc(s.faction)}</div>
-  </div>
+     <p class="muted">${esc(meta)}</p>
 
-  <button type="button" data-action="copy" data-copy="${esc(formatBuild(b)+"\n"+meta+"\n\n"+text+"\n\nFaction Match: "+s.faction)}">Copy Full Record</button>
-</div>`;
+     <p>${text.replace(/\n\n/g,"</p><p>")}</p>
+
+     <div class="storyFactionMatches">
+       <h3>Faction Matches</h3>
+
+       <div class="factionMatchList">
+         ${s.factions.map(f=>`<div class="factionMatch">${esc(f)}</div>`).join("")}
+
+         <button
+           type="button"
+           data-action="copy"
+           data-copy="${esc(formatBuild(b)+"\n"+meta+"\n\n"+text+"\n\nFaction Matches: "+s.factions.join(", "))}">
+           Copy Full Record
+         </button>
+       </div>
+     </div>
+   </div>`;
 }
 function weightedBackstoryChoice(items, preferredTags=[]){
  const tagged=items.filter(x=>Array.isArray(x.tags)&&x.tags.some(t=>preferredTags.includes(t)));
