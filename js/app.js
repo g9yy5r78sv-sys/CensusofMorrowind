@@ -205,7 +205,7 @@ function randomizeName(){
    BUILD GENERATION
    -------------------------------------------------------------------------- */
 function buildStartingStats(b){
- const race=DATA.races[b.race],stats=baseStartingAttributes(b);
+ const race=DATA.races[b.race]||DATA.trRaces[b.race],stats=baseStartingAttributes(b);
  if(b.birth==="The Lady"){stats.Personality+=25;stats.Endurance+=25}else if(b.birth==="The Lover")stats.Agility+=25;else if(b.birth==="The Steed")stats.Speed+=25;
  const skills={};DATA.skills.forEach(sk=>{let v=RULES.startingSkills.base;if(SPEC_SKILLS[b.c.spec].includes(sk))v+=RULES.startingSkills.specialization;if(b.c.maj.includes(sk))v+=RULES.startingSkills.major;else if(b.c.min.includes(sk))v+=RULES.startingSkills.minor;if(race.bonuses[sk])v+=race.bonuses[sk];skills[sk]=v});
  const mag=Math.floor(stats.Intelligence*(1+(MAGICKA_RACE_BONUS[b.race]||0)+(MAGICKA_BIRTH_BONUS[b.birth]||0)));
