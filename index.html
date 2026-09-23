@@ -118,7 +118,25 @@
       <label>Tone<select id="bothTone"></select></label>
       <label>Fate<select id="bothFate"></select></label>
     </div>
-    <div class="checkRow"><label class="check"><input type="checkbox" id="bothAllowNpcClasses"> Allow NPC classes <span class="small muted">Include NPC class templates in the character roll.</span></label></div>
+    <div class="checkRow">
+  <label class="check">
+    <input type="checkbox" id="bothAllowNpcClasses">
+    Allow NPC Classes
+    <span class="small muted">Include NPC class templates in the character roll.</span>
+  </label>
+
+  <label class="check">
+    <input type="checkbox" id="bothAllowTRClasses">
+    Allow TR Classes
+    <span class="small muted">Include Tamriel Rebuilt class templates in the character roll.</span>
+  </label>
+
+  <label class="check">
+    <input type="checkbox" id="bothAllowTRRaces">
+    Allow TR Races
+    <span class="small muted">Include Tamriel Rebuilt races in the character roll.</span>
+  </label>
+</div>
     <div class="actionBar"><span class="small muted">Build first. Backstory second. One complete character record. </span><button class="primary" data-action="generate-both">Generate Character</button></div>
   </div>
   <div id="bothResult" class="result" aria-live="polite"></div>
