@@ -488,10 +488,41 @@ function makeRNGesus(){
  return prepareBuild({primary:pick([...c.maj,...c.min]),race,cls,birth,c,majors,minors,factions:selectFactions([...c.maj,...c.min],"RNGesus"),sex,name:fullNameFor(race,sex)});
 }
 function generateRNGesus(){
-  document.getElementById("bothResult").innerHTML=`
+  const b=makeRNGesus();
+  b.name=unrestrictedName(b.sex);
+
+  const fate=pick(FATES);
+  const tone=pick(TONES);
+
+  const s=storyFor(b,tone,fate);
+  const meta=storyMeta(s);
+  const text=storyText(s,b);
+
+  document.getElementById("rngResult").innerHTML=
+    buildCard(b,"Character Record")+`
     <div class="card">
-      <h2>RNGesus Test</h2>
-      <p>If you can see this, generateRNGesus is definitely running.</p>
+      <h2>📜 Backstory</h2>
+
+      <div class="big">${esc(s.name)}</div>
+
+      <p class="muted">${esc(meta)}</p>
+
+      <p>${text.replace(/\n\n/g,"</p><p>")}</p>
+
+      <div class="storyFactionMatches">
+        <h3>Faction Matches</h3>
+
+        <div class="factionMatchList">
+          ${s.factions.map(f=>`<div class="factionMatch">${esc(f)}</div>`).join("")}
+
+          <button
+            type="button"
+            data-action="copy"
+            data-copy="${esc(formatBuild(b)+"\n"+meta+"\n\n"+text+"\n\nFaction Matches: "+s.factions.join(", "))}">
+            Copy Full Record
+          </button>
+        </div>
+      </div>
     </div>`;
 }
 function weightedBackstoryChoice(items, preferredTags=[]){
@@ -839,10 +870,7 @@ document.addEventListener("click",event=>{
   const action=button.dataset.action;
   if(action==="show")show(button.dataset.target);
   else if(action==="randomize-preview")randomizeClassPreview();
-  else if(action==="generate-rng"){
-  alert("RNGesus button clicked");
-  generateRNGesus();
-   }
+  else if(action==="generate-rng")generateRNGesus();
   else if(action==="generate-story")generateStory();
   else if(action==="generate-both")generateBoth();
   else if(action==="randomize-name")randomizeName();
