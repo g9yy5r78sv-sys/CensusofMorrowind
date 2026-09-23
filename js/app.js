@@ -22,6 +22,8 @@ function sortSkillsByCanon(skills){
 const ATTRIBUTE_NAMES = ["Strength","Intelligence","Willpower","Agility","Speed","Endurance","Personality","Luck"];
 const GENDERS = ["male","female"];
 const RACES = ORDER.races;
+const TR_RACES=Object.keys(DATA.trRaces);
+const ALL_RACES_WITH_TR=[...RACES,...TR_RACES];
 const BIRTHSIGNS = ORDER.birthsigns;
 const TONES = ORDER.tones;
 const FATES = ORDER.fates;
@@ -218,16 +220,17 @@ function starterSpells(b,st=buildStartingStats(b)){
  return out;
 }
 
-function makeBuild(style="Coherent",dir="Any",allowNpc=false,racePreference="Any",genderPreference="Any",birthPreference="Any",allowTR=false){
+function makeBuild(style="Coherent",dir="Any",allowNpc=false,racePreference="Any",genderPreference="Any",birthPreference="Any",allowTRClasses=false,allowTRRaces=false){
  const pool=dir==="Any"?allSkills:(BUILD_DIRECTIONS[dir]||allSkills);
- const primary=pick(pool);
- let race;
- if(racePreference && racePreference!=="Any") race=racePreference;
- else if(style==="Coherent"||style==="Unusual") {
-   const eligible=RACES.filter(r=>DATA.races[r].bonuses[primary]);
-   race=pick(eligible.length?eligible:RACES);
- } else race=pick(RACES);
- const classes=compatibleClasses(primary,style,allowNpc,allowTR),classData=classPool(allowNpc,allowTR);
+const primary=pick(pool);
+let race;
+const racePool=allowTRRaces?ALL_RACES_WITH_TR:RACES;
+if(racePreference && racePreference!=="Any") race=racePreference;
+else if(style==="Coherent"||style==="Unusual") {
+ const eligible=racePool.filter(r=>DATA.races[r]?.bonuses?.[primary]);
+ race=pick(eligible.length?eligible:racePool);
+} else race=pick(racePool);
+ const classes=compatibleClasses(primary,style,allowNpc,allowTRClasses),classData=classPool(allowNpc,allowTRClasses);
  const cls=pick(classes);
  const c=classData[cls];
  const birth=(birthPreference && birthPreference!=="Any")?birthPreference:pick(BIRTHSIGNS);
@@ -723,12 +726,13 @@ function generateBoth(){
  const tone=document.getElementById("bothTone").value;
  const fate=document.getElementById("bothFate").value;
  const allowNpc=document.getElementById("bothAllowNpcClasses")?.checked||false;
- const allowTR=document.getElementById("bothAllowTRClasses")?.checked||false;
+ const allowTRClasses=document.getElementById("bothAllowTRClasses")?.checked||false;
+ const allowTRRaces=document.getElementById("bothAllowTRRaces")?.checked||false;  
  const racePref=document.getElementById("bothRace").value;
  const genderPref=document.getElementById("bothGender").value;
  const birthPref=document.getElementById("bothBirth").value;
 
- const b=makeBuild(buildStyle,dir,allowNpc,racePref,genderPref,birthPref,allowTR);
+ const b=makeBuild(buildStyle,dir,allowNpc,racePref,genderPref,birthPref,allowTRClasses,allowTRRaces);
  const s=storyFor(b,tone,fate);
  const meta=storyMeta(s);
  const text=storyText(s,b);
