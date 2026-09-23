@@ -81,8 +81,8 @@ function rankedClasses(skill,style,allowNpc=false,allowTR=false){
  for(const name of Object.keys(pool)){const score=scoreClass(pool[name],skill,style);if(!groups.has(score))groups.set(score,[]);groups.get(score).push(name)}
  return [...groups.keys()].sort((a,b)=>b-a).flatMap(score=>sample(groups.get(score),groups.get(score).length));
 }
-function compatibleClasses(skill,style,allowNpc=false){
- const names=rankedClasses(skill,style,allowNpc);
+function compatibleClasses(skill,style,allowNpc=false,allowTR=false){
+ const names=rankedClasses(skill,style,allowNpc,allowTR);
  if(style==="Chaos")return names;
  const limit=allowNpc?RULES.classSelection.npcLimit:RULES.classSelection.playerLimit;
  return names.slice(0,Math.min(limit,names.length));
