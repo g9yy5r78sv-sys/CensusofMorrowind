@@ -337,9 +337,19 @@ function buildCard(b,title="Census Record"){
 
  <h3>Starting Spells</h3>${b.spells.length?b.spells.map(sp=>`<div class="row"><b>${sp.name}</b><span>${sp.desc} • ${sp.cost} magicka</span></div>`).join(""):"<p class=\"muted\">None granted</p>"}
 
- <h3>Racial Traits</h3>${renderTraits(DATA.races[b.race].traits)}
+<div class="traitsColumns">
 
- <h3>Birthsign</h3>${renderBirthsign(b.birth)}
+  <div class="traitsColumn">
+    <h3>Racial Traits</h3>
+    ${renderTraits(DATA.races[b.race].traits)}
+  </div>
+
+  <div class="traitsColumn">
+    <h3>Birthsign</h3>
+    ${renderBirthsign(b.birth)}
+  </div>
+
+</div>
 
  <p><button type="button" data-action="copy" data-copy="${esc(formatBuild(b))}">Copy Build</button></p></div>`;
 }
