@@ -259,7 +259,12 @@ function renderBirthsign(birth){
  return `<div class="birthsignName">${esc(birth)}</div>${renderTraits(data.traits)}`;
 }
 function buildCard(b,title="Census Record"){
- return `<div class="card">
+  const miscSkills = allSkills.filter(sk =>
+    !b.majors.includes(sk) &&
+    !b.minors.includes(sk)
+  );
+
+  return `<div class="card">
  <h2>${esc(title)}</h2>
  <div class="big census-row">
   <div>${esc(b.name)}</div>
@@ -348,6 +353,34 @@ function buildCard(b,title="Census Record"){
         <span>${b.starting.skills[x]}</span>
       </div>
     `).join("")}
+  </div>
+
+</div>
+
+<div class="miscSkillsSection">
+
+  <h3>Miscellaneous Skills</h3>
+
+  <div class="miscSkillsColumns">
+
+    <div class="traitsColumn">
+      ${miscSkills.slice(0, Math.ceil(miscSkills.length / 2)).map(x=>`
+        <div class="statItem">
+          <span>${esc(x)}</span>
+          <span>${b.starting.skills[x]}</span>
+        </div>
+      `).join("")}
+    </div>
+
+    <div class="traitsColumn">
+      ${miscSkills.slice(Math.ceil(miscSkills.length / 2)).map(x=>`
+        <div class="statItem">
+          <span>${esc(x)}</span>
+          <span>${b.starting.skills[x]}</span>
+        </div>
+      `).join("")}
+    </div>
+
   </div>
 
 </div>
