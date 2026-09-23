@@ -167,6 +167,10 @@ textarea {
   color: #d8c39a;
 }
 
+#rngResult > .card + .card {
+  margin-top: 1.5rem;
+}
+
 .row {
   display: flex;
   justify-content: space-between;
