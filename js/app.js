@@ -176,7 +176,7 @@ function fullNameFor(race,sex){
 function renderGeneratedName(){
  const race=document.getElementById("nameRace").value,sex=document.getElementById("nameSex").value;
  const name=fullNameFor(race,sex);
- document.getElementById("nameResult").innerHTML=`<div class="card"><h2>🪶 Census Record</h2><div class="big">${esc(name)}</div><p class="muted">${esc(race)} • ${esc(sex==="female"?"Female":"Male")}</p></div>`;
+ document.getElementById("nameResult").innerHTML=`<div class="card"><h2>Census Record</h2><div class="big">${esc(name)}</div><p class="muted">${esc(race)} • ${esc(sex==="female"?"Female":"Male")}</p></div>`;
 }
 function initNameGenerator(){
  customSelect("nameRace",RACES);
