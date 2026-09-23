@@ -288,8 +288,7 @@ function buildCard(b,title="Census Record"){
 
     <h3>Specialization</h3>
     <div class="row">
-      <b>Build Focus</b>
-      <span>${esc(b.c.spec)}</span>
+      <b>${esc(b.c.spec)}</b>
     </div>
 
     <h3>Starting Resources</h3>
