@@ -520,7 +520,15 @@ hr {
   white-space: nowrap;
 }
 
+.miscSkillsSection {
+  margin-top: 1rem;
+}
 
+.miscSkillsColumns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
 /* ==========================================================================
    TRAITS / BIRTHSIGN
    ========================================================================== */
