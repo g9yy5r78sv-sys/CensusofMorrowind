@@ -354,7 +354,7 @@ function buildCard(b,title="Census Record"){
 
  <h3>Starting Spells</h3>${b.spells.length?b.spells.map(sp=>`<div class="row"><b>${sp.name}</b><span>${sp.desc} • ${sp.cost} magicka</span></div>`).join(""):"<p class=\"muted\">None granted</p>"}
 
- <div class="row"><b>Faction Matches</b><span>${b.factions.map(esc).join(", ")}</span></div>
+ <div class="row"><h3>Faction Matches</h3><span>${b.factions.map(esc).join(", ")}</span></div>
 
  <p><button type="button" data-action="copy" data-copy="${esc(formatBuild(b))}">Copy Build</button></p></div>`;
 }
