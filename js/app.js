@@ -127,7 +127,7 @@ function selectFactions(skills,style="Coherent"){
     ? allowed.slice(0,4)
     : allowed.slice(0,3);
 }
-function baseStartingAttributes(b){const base=DATA.races[b.race][b.sex],stats={};ATTRIBUTE_NAMES.forEach((n,i)=>stats[n]=base[i]+(b.c.fav.includes(n)?10:0));stats.Luck=40+(b.c.fav.includes("Luck")?10:0);return stats}
+function baseStartingAttributes(b){const base=DATA.races[b.race][b.sex],stats={};ATTRIBUTE_NAMES.forEach((n,i)=>stats[n]=base[i]+(b.c.fav.includes(n)?10:0));return stats}
 function prepareBuild(b){b.starting=buildStartingStats(b);b.spells=starterSpells(b,b.starting);return b}
 
 
