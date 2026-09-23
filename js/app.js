@@ -514,14 +514,16 @@ function generateRNGesus(){
 
         <div class="factionMatchList">
           ${s.factions.map(f=>`<div class="factionMatch">${esc(f)}</div>`).join("")}
+        </div>
 
+        <p>
           <button
             type="button"
             data-action="copy"
             data-copy="${esc(formatBuild(b)+"\n"+meta+"\n\n"+text+"\n\nFaction Matches: "+s.factions.join(", "))}">
             Copy Full Record
           </button>
-        </div>
+        </p>
       </div>
     </div>`;
 }
