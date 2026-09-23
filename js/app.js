@@ -227,7 +227,7 @@ let race;
 const racePool=allowTRRaces?ALL_RACES_WITH_TR:RACES;
 if(racePreference && racePreference!=="Any") race=racePreference;
 else if(style==="Coherent"||style==="Unusual") {
- const eligible=racePool.filter(r=>DATA.races[r]?.bonuses?.[primary]);
+ const eligible=racePool.filter(r=>(DATA.races[r]||DATA.trRaces[r])?.bonuses?.[primary]);
  race=pick(eligible.length?eligible:racePool);
 } else race=pick(racePool);
  const classes=compatibleClasses(primary,style,allowNpc,allowTRClasses),classData=classPool(allowNpc,allowTRClasses);
