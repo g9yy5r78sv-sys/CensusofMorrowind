@@ -494,8 +494,22 @@ function generateRNGesus(){
  b.name=unrestrictedName(b.sex);
  const fate=pick(FATES);
  const s=storyFor(b,pick(TONES),fate);
- const meta=storyMeta(s);
- document.getElementById("rngResult").innerHTML=`<div class="card rngBannerCard"><div class="rngBanner">🎲 RNGesus has spoken.</div></div>`+buildCard(b,"Character Record")+`<div class="card"><h2>📜 Backstory</h2><div class="big">${s.name}</div><p class="muted">${meta}</p><p>${storyText(s,b).replace(/\n\n/g,"</p><p>")}</p><button type="button" data-action="copy" data-copy="${esc(formatBuild(b)+"\n"+meta+"\n\n"+storyText(s,b))}">Copy Full Record</button></div>`;
+document.getElementById("bothResult").innerHTML=buildCard(b,"Character Record")+`
+<div class="card">
+  <h2>📜 Backstory</h2>
+  <div class="big">${esc(s.name)}</div>
+
+  <p class="muted">${esc(meta)}</p>
+
+  <p>${text.replace(/\n\n/g,"</p><p>")}</p>
+
+  <div class="storyFactionMatches">
+    <h3>Faction Match</h3>
+    <div class="factionMatch">${esc(s.faction)}</div>
+  </div>
+
+  <button type="button" data-action="copy" data-copy="${esc(formatBuild(b)+"\n"+meta+"\n\n"+text+"\n\nFaction Match: "+s.faction)}">Copy Full Record</button>
+</div>`;
 }
 function weightedBackstoryChoice(items, preferredTags=[]){
  const tagged=items.filter(x=>Array.isArray(x.tags)&&x.tags.some(t=>preferredTags.includes(t)));
