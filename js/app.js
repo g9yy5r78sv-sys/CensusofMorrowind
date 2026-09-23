@@ -406,7 +406,7 @@ function buildCard(b,title="Census Record"){
 
   <div class="traitsColumn">
     <h3>Racial Traits</h3>
-    ${renderTraits(DATA.races[b.race].traits)}
+    ${renderTraits((DATA.races[b.race]||DATA.trRaces[b.race]).traits)}
   </div>
 
   <div class="traitsColumn">
