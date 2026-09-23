@@ -501,7 +501,7 @@ function generateRNGesus(){
   document.getElementById("rngResult").innerHTML=
     buildCard(b,"Character Record")+`
     <div class="card">
-      <h2>📜 Backstory</h2>
+      <h2>Backstory</h2>
 
       <div class="big">${esc(s.name)}</div>
 
@@ -619,7 +619,7 @@ function generateStory(){
  const meta=`Name: ${s.name} • Race: ${s.race} • Gender: ${genderLabel(s.sex)} • Age: ${s.age} • Birthday: ${s.birthday.label} • Birthsign: ${s.birth} • Tone: ${document.getElementById("storyStyle").value} • Fate: ${fate}`;
 document.getElementById("storyResult").innerHTML=`
 <div class="card">
-  <h2>📜 Census Record</h2>
+  <h2>Census Record</h2>
 
   <div class="big">${esc(s.name)}</div>
 
@@ -669,7 +669,7 @@ function generateBoth(){
  document.getElementById("bothResult").innerHTML=
    buildCard(b,"Character Record")+`
    <div class="card">
-     <h2>📜 Backstory</h2>
+     <h2>Backstory</h2>
 
      <div class="big">${esc(s.name)}</div>
 
@@ -748,14 +748,14 @@ function renderReference(){
 
  let h=`<div class="notice refNotice">This page is the Census's reference desk: one place to inspect the data, mappings, rules, and source components used by the generators. Mechanical values are intended to reproduce vanilla The Elder Scrolls III: Morrowind. Open the section you need. Nested sections stay collapsed so large pools do not turn the page into a wall of text.</div>`;
 
- h+=refSection(`🧮 Game Mechanics`,
+ h+=refSection(`Game Mechanics`,
     refSection(`Attributes & Skills (${DATA.skills.length})`,`<div class="refItem"><p class="muted">Each of Morrowind's ${DATA.skills.length} skills is governed by one primary attribute. Luck is the exception and governs no skills.</p></div>`+Object.entries({...ATTR,Luck:[]}).map(([a,skills])=>`<div class="row"><b>${esc(a)}</b><span>${skills.length?skills.map(esc).join(" · "):"None"}</span></div>`).join(""),false,2)+
     refSection("Starting attributes",`<div class="refItem"><p>Start with the race's sex-specific base attributes. Add 10 to each favored attribute, including Luck when Luck is favored. Then apply birthsign attribute bonuses.</p></div>`,false,2)+
     refSection("Starting skills",`<div class="refItem"><p>Skills start at ${RULES.startingSkills.base}. Add ${RULES.startingSkills.specialization} for specialization, ${RULES.startingSkills.major} for a major skill or ${RULES.startingSkills.minor} for a minor skill, then add the race's racial skill bonus.</p></div>`,false,2)+
     refSection("Derived stats",`<div class="refItem">${refRows([["Health","Floor((Strength + Endurance) / 2)"],["Fatigue","Strength + Willpower + Agility + Endurance"],["Maximum Magicka","Floor(Intelligence × (1 + racial modifier + birthsign modifier))"]])}</div>`,false,2)+
     refSection("Maximum Magicka modifiers",`<div class="refItem"><p>These values are additions to the base Magicka multiplier of 1.0. Maximum Magicka is calculated as Intelligence × (1 + racial modifier + birthsign modifier).</p>${refRows([["Races","Breton +0.5; High Elf +1.5"],["Birthsigns","Apprentice +1.5; Mage +0.5; Atronach +2.0"]])}</div>`,false,2),false,1,"ref-core");
 
-h+=refSection(`🧬 Races (${Object.keys(DATA.races).length})`,
+h+=refSection(`Races (${Object.keys(DATA.races).length})`,
    orderedRaceEntries(DATA.races).map(([name,d])=>{
      const trait=d.traits;
      return refSection(esc(name),
@@ -763,7 +763,7 @@ h+=refSection(`🧬 Races (${Object.keys(DATA.races).length})`,
        `<div class="refItem"><h4>Racial traits</h4>${renderTraits(trait)}</div>`,false,2);
    }).join(""),false,1,"ref-races");
 
- h+=refSection(`✨ Birthsigns (${Object.keys(DATA.birthsigns).length})`,
+ h+=refSection(`Birthsigns (${Object.keys(DATA.birthsigns).length})`,
    Object.entries(DATA.birthsigns).map(([name,d])=>refSection(esc(name),
      `<div class="refItem">${d.description?`<p class="muted">${esc(d.description)}</p>`:""}${renderTraits(d.traits)}</div>`,false,2)).join("")+
    refSection("Birthday mapping",Object.entries(DATA.birthsigns).map(([name,d])=>{
@@ -771,7 +771,7 @@ h+=refSection(`🧬 Races (${Object.keys(DATA.races).length})`,
      return `<div class="row"><b>${esc(name)}</b><span>Wandering sign • no fixed birth month</span></div>`;
    }).join("")+`<p class="muted">The Census uses TES3 month lengths. Morning Star is the historical Ritual association, but Morrowind's in-game calendar omits Morning Star, so Ritual uses a 30-day fallback. The Serpent has no fixed month, so its birthday uses a random valid calendar month and day. Current age range: ${RULES.backstory.minAge}–${RULES.backstory.minAge+RULES.backstory.ageSpan-1}.</p>`,false,2),false,1,"ref-birthsigns");
 
- h+=refSection(`⚔️ Classes (${Object.keys(DATA.classes).length + Object.keys(DATA.npcClasses).length} total)`,
+ h+=refSection(`Classes (${Object.keys(DATA.classes).length + Object.keys(DATA.npcClasses).length} total)`,
    refSection(`Player classes (${Object.keys(DATA.classes).length})`,Object.entries(DATA.classes).map(([name,d])=>refSection(esc(name),
      `<div class="refItem">${refRows([
        ["Specialization",esc(d.spec)],
@@ -788,7 +788,7 @@ h+=refSection(`🧬 Races (${Object.keys(DATA.races).length})`,
      ])}</div>`,false,2)).join(""),false,2)+
    refSection(`RNGesus custom class names (${DATA.rngClassNames.length})`,`<div class="refItem"><p class="muted">Reserved for RNGesus custom-class rolls. The name is flavor only; specialization, favored attributes, and the ten skills are rolled separately.</p><div class="pillRow">${DATA.rngClassNames.map(x=>`<span class="pill">${esc(x)}</span>`).join("")}</div></div>`,false,2),false,1,"ref-classes");
 
- h+=refSection(`✨ Starting spells (${DATA.starterSpells.length})`,DATA.starterSpells.map(sp=>refSection(esc(sp.name),
+ h+=refSection(`Starting spells (${DATA.starterSpells.length})`,DATA.starterSpells.map(sp=>refSection(esc(sp.name),
    `<div class="refItem">${refRows([
      ["Skill",esc(sp.skill)],
      ["Cost",`${esc(sp.cost)} magicka`],
@@ -796,17 +796,17 @@ h+=refSection(`🧬 Races (${Object.keys(DATA.races).length})`,
      ["Effect",esc(sp.desc)]
    ])}</div>`,false,2)).join(""),false,1,"ref-spells");
 
- h+=refSection(`🏛️ Faction affinities (${Object.keys(DATA.factions).length})`,Object.entries(DATA.factions).map(([name,skills])=>refSection(esc(name),
+ h+=refSection(`Faction affinities (${Object.keys(DATA.factions).length})`,Object.entries(DATA.factions).map(([name,skills])=>refSection(esc(name),
    `<div class="refItem"><h4>Favored skills</h4><div class="pillRow">${skills.map(sk=>`<span class="pill">${esc(sk)}</span>`).join("")}</div></div>`,false,2)).join(""),false,1,"ref-factions");
 
- h+=refSection(`🪶 Names`,
+ h+=refSection(`Names`,
    refSection(`Given names (${givenNameCount})`,orderedRaceEntries(DATA.names).map(([race,d])=>refSection(esc(race),
      `${d.male?`<div class="refItem"><h4>Male</h4><div class="nameCloud">${d.male.map(x=>`<span>${esc(x)}</span>`).join("")}</div></div>`:""}${d.female?`<div class="refItem"><h4>Female</h4><div class="nameCloud">${d.female.map(x=>`<span>${esc(x)}</span>`).join("")}</div></div>`:""}`,false,2)).join(""),false,2)+
    refSection("Family names / name endings",orderedRaceEntries(DATA.nameFamilies).filter(([r,p])=>p.length).map(([race,pool])=>refSection(esc(race),`<div class="nameCloud">${pool.map(x=>`<span>${esc(x)}</span>`).join("")}</div>`,false,2)).join("")+`<p class="muted">The name corpus is built from the supplied UESP Lore name pages across their documented Elder Scrolls games and source sections. Family-name pools preserve documented historical forms, while titles and bynames remain distinct from ordinary surnames.</p>`,false,2)+
    refSection("High Elf titles / bynames",`<div class="nameCloud">${HIGH_ELF_TITLES.map(x=>`<span>${esc(x)}</span>`).join("")}</div>`,false,2)+
    refSection("Naming conventions",`<div class="refItem"><p>Dark Elf, Imperial, and Breton use family names; High Elf, Nord, Redguard, and Wood Elf may use documented family names or bynames; Argonian and Khajiit have historical surname material but normally use single names in the later naming tradition; Orcs use gendered gra-/gro- clan construction, with documented exceptions.</p><p>RNGesus deliberately ignores ordinary race and gender naming conventions. It can choose a documented given name from any race or gender, then independently add a documented family name or title from any race.</p></div>`,false,2),false,1,"ref-names");
 
- h+=refSection(`📜 Backstory Components (${backstoryCount} stored entries)`,
+ h+=refSection(`Backstory Components (${backstoryCount} stored entries)`,
    `<div class="notice refNotice">Backstories are assembled from independent chunks. This section exposes the stored pieces rather than the final prose generated from them.</div>`+
    refSection(`Homelands (${bs.homelands.length})`,`<div class="notice refNotice">Homelands are organized by race. Universal options remain available to keep the generator from becoming completely deterministic.</div>`+refSection(`Universal (${bs.homelands.filter(x=>x.race==="Any").length})`,refList(bs.homelands.filter(x=>x.race==="Any").map(x=>`${x.place}: ${x.text}`)),false,2)+Object.entries(RACES.reduce((o,r)=>{o[r]=bs.homelands.filter(x=>x.race===r);return o},{})).map(([race,items])=>refSection(`${esc(race)} (${items.length})`,refList(items.map(x=>`${x.place}: ${x.text}`)),false,2)).join(""),false,2)+
    refSection(`Family / upbringing (${bs.family.length + Object.values(bs.familyByRace||{}).flat().length} total)`,
@@ -827,7 +827,7 @@ h+=refSection(`🧬 Races (${Object.keys(DATA.races).length})`,
    refSection(`Tone hooks (${Object.keys(bs.toneHooks).length})`,Object.entries(bs.toneHooks).map(([name,items])=>refSection(`${esc(name)} (${items.length})`,refList(items),false,2)).join(""),false,2)+
    refSection(`Fate attitudes (${Object.keys(bs.fate).length})`,Object.entries(bs.fate).map(([name,items])=>refSection(`${esc(name)} (${items.length})`,items.length?refList(items):`<p class="muted">No extra prose.</p>`,false,2)).join(""),false,2),false,1,"ref-backstory");
 
- h+=refSection(`⚙️ Generation & Selection Rules`,
+ h+=refSection(`Generation & Selection Rules`,
     refSection("Specialization skill groups",Object.entries(SPEC_SKILLS).map(([name,skills])=>`<div class="refItem"><h4>${esc(name)}</h4><div class="pillRow">${skills.map(sk=>`<span class="pill">${esc(sk)}</span>`).join("")}</div></div>`).join(""),false,2)+
     refSection("Starting spell auto-grant",`<div class="refItem"><p>During character creation, a stored PC-start spell is eligible when its governing skill is a major or minor skill and <b>2 × skill + Willpower / 5 + Luck / 10</b> meets or exceeds the spell's listed threshold. Three PC-start spells are flagged by UESP as impossible to receive during normal character creation: Exhausting Touch, Tap Energy, and Feet of Notorgo.</p></div>`,false,2)+
     refSection("Build styles",`<div class="refItem">${refRows([["Coherent","Primary skill influences race selection and compatible class selection; birthsign is independently randomized unless a preference is selected."],["Random","Race and birthsign are random; class is still drawn from the top compatible class pool for the primary skill."],["Unusual","Prefers classes that place the primary skill in a minor slot, then major slot, while still allowing unrelated classes at the bottom of the ranking."],["Chaos","Class selection ignores the normal top-four restriction and can draw from the full enabled class pool."]])}</div>`,false,2)+
