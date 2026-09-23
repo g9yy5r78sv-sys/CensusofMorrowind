@@ -16,6 +16,9 @@ const ORDER = Object.freeze({
 
 const ATTR=DATA.attributes;
 const allSkills = DATA.skills;
+function sortSkillsByCanon(skills){
+  return [...skills].sort((a,b)=>allSkills.indexOf(a)-allSkills.indexOf(b));
+}
 const ATTRIBUTE_NAMES = ["Strength","Intelligence","Willpower","Agility","Speed","Endurance","Personality"];
 const GENDERS = ["male","female"];
 const RACES = ORDER.races;
@@ -223,7 +226,8 @@ function makeBuild(style="Coherent",dir="Any",allowNpc=false,racePreference="Any
  const cls=pick(classes);
  const c=classData[cls];
  const birth=(birthPreference && birthPreference!=="Any")?birthPreference:pick(BIRTHSIGNS);
- const majors=sample(c.maj,5), minors=sample(c.min,5);
+ const majors=sortSkillsByCanon(sample(c.maj,5));
+ const minors=sortSkillsByCanon(sample(c.min,5));
  const sex=genderPreference && genderPreference!=="Any" ? genderPreference : pick(GENDERS),name=fullNameFor(race,sex);return prepareBuild({primary,race,cls,birth,c,majors,minors,factions:selectFactions([...majors,...minors],style),sex,name});
 }
 /* --------------------------------------------------------------------------
