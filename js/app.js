@@ -562,7 +562,8 @@ function storyFor(b,tone,fate,genderPreference="Any",birthPreference="Any"){
  const relationship=pick(DATA.backstory.relationships);
  const future=pick(DATA.backstory.futureIntentions);
  const skill=b&&b.primary?b.primary:pick(occupation.skills.length?occupation.skills:allSkills);
- const faction=b?pick(b.factions):pick(Object.keys(DATA.factions));
+ const factions=b?b.factions:bestFactions([skill]);
+ const faction=pick(factions);
  const birth=b?b.birth:(birthPreference && birthPreference!=="Any" ? birthPreference : pick(BIRTHSIGNS));
  const age=RULES.backstory.minAge+Math.floor(Math.random()*RULES.backstory.ageSpan);
  const birthday=birthDetails(birth);
@@ -570,7 +571,7 @@ function storyFor(b,tone,fate,genderPreference="Any",birthPreference="Any"){
  const toneHook=pick(DATA.backstory.toneHooks[tone]||[]);
  const wildcardChance=RULES.backstory.wildcardChance[tone]??RULES.backstory.wildcardChance.Default;
  const wildCard=Math.random()<wildcardChance?pick(DATA.backstory.wildCards):"";
- return {race,sex,name,homeland,occupation,family,mentor,event,crime,detail,arrest,attitude,prison,change,relationship,future,skill,faction,birth,birthday,age,fateText,toneHook,wildCard,tone};
+ return {race,sex,name,homeland,occupation,family,mentor,event,crime,detail,arrest,attitude,prison,change,relationship,future,skill,faction,factions,birth,birthday,age,fateText,toneHook,wildCard,tone};
 }
 function storyMeta(s){return `Name: ${s.name} • Race: ${s.race} • Gender: ${genderLabel(s.sex)} • Age: ${s.age} • Birthday: ${s.birthday.label} • Birthsign: ${s.birth}`}
 function storyText(s,b){
@@ -625,11 +626,13 @@ document.getElementById("storyResult").innerHTML=`
   <p>${text.replace(/\n\n/g,"</p><p>")}</p>
 
   <div class="storyFactionMatches">
-    <h3>Faction Match</h3>
-    <div class="factionMatch">${esc(s.faction)}</div>
+  <h3>Faction Matches</h3>
+  <div class="factionMatchList">
+    ${s.factions.map(f=>`<div class="factionMatch">${esc(f)}</div>`).join("")}
   </div>
+</div>
 
-  <button type="button" data-action="copy" data-copy="${esc(meta+"\n\n"+text+"\n\nFaction Match: "+s.faction)}">Copy Story</button>
+  <button type="button" data-action="copy" data-copy="${esc(meta+"\n\n"+text+"\n\nFaction Matches: "+s.factions.join(", "))}">Copy Story</button>
 </div>`;}
 
 function generateBoth(){
@@ -641,11 +644,37 @@ function generateBoth(){
  const racePref=document.getElementById("bothRace").value;
  const genderPref=document.getElementById("bothGender").value;
  const birthPref=document.getElementById("bothBirth").value;
+
  const b=makeBuild(buildStyle,dir,allowNpc,racePref,genderPref,birthPref);
  const s=storyFor(b,tone,fate);
  const meta=storyMeta(s);
  const text=storyText(s,b);
- document.getElementById("bothResult").innerHTML=buildCard(b,"Character Record")+`<div class="card"><h2>📜 Backstory</h2><div class="big">${esc(s.name)}</div><p class="muted">${esc(meta)}</p><p>${text.replace(/\n\n/g,"</p><p>")}</p><button type="button" data-action="copy" data-copy="${esc(formatBuild(b)+"\n"+meta+"\n\n"+text)}">Copy Full Record</button></div>`;
+
+ document.getElementById("bothResult").innerHTML=
+   buildCard(b,"Character Record")+`
+   <div class="card">
+     <h2>📜 Backstory</h2>
+
+     <div class="big">${esc(s.name)}</div>
+
+     <p class="muted">${esc(meta)}</p>
+
+     <p>${text.replace(/\n\n/g,"</p><p>")}</p>
+
+     <div class="storyFactionMatches">
+       <h3>Faction Matches</h3>
+       <div class="factionMatchList">
+         ${s.factions.map(f=>`<div class="factionMatch">${esc(f)}</div>`).join("")}
+       </div>
+     </div>
+
+     <button
+       type="button"
+       data-action="copy"
+       data-copy="${esc(formatBuild(b)+"\n"+meta+"\n\n"+text+"\n\nFaction Matches: "+s.factions.join(", "))}">
+       Copy Full Record
+     </button>
+   </div>`;
 }
 
 function esc(v){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));}
