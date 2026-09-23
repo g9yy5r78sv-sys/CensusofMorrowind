@@ -60,6 +60,8 @@ const RULES = Object.freeze({
   rngesus: Object.freeze({presetClassChance:.33,npcClassChance:.33})
 });
 const ALL_CLASSES={...DATA.classes,...DATA.npcClasses};
+const ALL_TR_CLASSES={...DATA.classes,...DATA.trClasses};
+const ALL_CLASSES_WITH_TR={...DATA.classes,...DATA.npcClasses,...DATA.trClasses};
 const HIGH_ELF_TITLES=DATA.highElfTitles;
 const ORC_EXCEPTIONAL_SURNAMES=DATA.orcExceptionalSurnames;
 const ORC_UNPREFIXED_SURNAMES=DATA.orcUnprefixedSurnames;
