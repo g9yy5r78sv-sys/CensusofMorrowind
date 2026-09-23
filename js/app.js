@@ -328,8 +328,6 @@ function buildCard(b,title="Census Record"){
 
 </div>
 
- <div class="row"><b>Faction Matches</b><span>${b.factions.map(esc).join(", ")}</span></div>
-
 <div class="traitsColumns">
 
   <div class="traitsColumn">
