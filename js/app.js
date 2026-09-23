@@ -884,7 +884,10 @@ document.addEventListener("click",event=>{
   const action=button.dataset.action;
   if(action==="show")show(button.dataset.target);
   else if(action==="randomize-preview")randomizeClassPreview();
-  else if(action==="generate-rng")generateRNGesus();
+  else if(action==="generate-rng"){
+  alert("RNGesus button clicked");
+  generateRNGesus();
+   }
   else if(action==="generate-story")generateStory();
   else if(action==="generate-both")generateBoth();
   else if(action==="randomize-name")randomizeName();
