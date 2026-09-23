@@ -521,7 +521,7 @@ function generateRNGesus(){
             type="button"
             data-action="copy"
             data-copy="${esc(formatBuild(b)+"\n"+meta+"\n\n"+text+"\n\nFaction Matches: "+s.factions.join(", "))}">
-            Copy Full Record
+            Copy Record
           </button>
         </p>
       </div>
@@ -688,7 +688,7 @@ function generateBoth(){
        type="button"
        data-action="copy"
        data-copy="${esc(formatBuild(b)+"\n"+meta+"\n\n"+text+"\n\nFaction Matches: "+s.factions.join(", "))}">
-       Copy Full Record
+       Copy Record
      </button>
    </div>`;
 }
