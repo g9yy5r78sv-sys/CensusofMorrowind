@@ -459,6 +459,29 @@ hr {
   color: #5aa65a;
 }
 
+.storyFactionMatches {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(190, 160, 100, .18);
+}
+
+.storyFactionMatches h3 {
+  margin-bottom: 8px;
+}
+
+.factionMatchList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.factionMatch {
+  padding: 6px 10px;
+  border: 1px solid rgba(190, 160, 100, .20);
+  border-radius: 4px;
+  background: rgba(190, 160, 100, .05);
+  color: #e2c98e;
+}
 
 /* ==========================================================================
    SKILLS
