@@ -275,20 +275,22 @@ function renderBirthsign(birth){
  const data=DATA.birthsigns[birth];
  return `<div class="birthsignName">${esc(birth)}</div>${renderTraits(data.traits)}`;
 }
-function buildCard(b,title="Census Record"){
+function buildCard(b,title="Census Record",showIdentity=true){
   const miscSkills = allSkills.filter(sk =>
     !b.majors.includes(sk) &&
     !b.minors.includes(sk)
   );
-
+  const identityRow = showIdentity ? `
+    <div class="big census-row">
+      <div>${esc(b.name)}</div>
+      <div>${esc(genderLabel(b.sex))}</div>
+      <div>${esc(b.race)}</div>
+      <div>${esc(b.cls)}</div>
+    </div>
+  ` : "";
   return `<div class="card">
  <h2>${esc(title)}</h2>
- <div class="big census-row">
-  <div>${esc(b.name)}</div>
-  <div>${esc(genderLabel(b.sex))}</div>
-  <div>${esc(b.race)}</div>
-  <div>${esc(b.cls)}</div>
-</div>
+  ${identityRow}
 
 <div class="characterStatsGrid">
 
@@ -528,7 +530,7 @@ function renderClassPreview(){
  }
  prepareBuild(b);
  const className=b.cls==="Custom Class"?(b.className||"Custom Class"):b.cls;
- document.getElementById("customResult").innerHTML=buildCard({...b,cls:className},"Character Record");
+ document.getElementById("customResult").innerHTML=buildCard({...b,cls:className},"Character Record",false);
 }
 function randomizeClassPreview(){
  const custom=previewSource==="custom";
