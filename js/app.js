@@ -498,9 +498,27 @@ function setPreviewMode(mode){
  }
  renderClassPreview();
 }
+
+function updatePreviewRaceOptions(){
+  const select = document.getElementById("previewRace");
+  const current = select.value;
+  const races = document.getElementById("previewAllowTRRaces").checked
+    ? ALL_RACES_WITH_TR
+    : RACES;
+
+  customSelect("previewRace", races);
+  select.value = races.includes(current) ? current : "Breton";
+}
+   
 function initClassPreview(){
  document.querySelectorAll("[data-preview-mode]").forEach(btn=>btn.addEventListener("click",()=>setPreviewMode(btn.dataset.previewMode)));
- customSelect("previewRace",RACES);
+ updatePreviewRaceOptions();
+
+document.getElementById("previewAllowTRRaces")
+  .addEventListener("change", () => {
+    updatePreviewRaceOptions();
+    renderClassPreview();
+  });
  customSelect("previewBirth",BIRTHSIGNS);
  customSelect("previewFav1",CUSTOM_ATTRS);customSelect("previewFav2",CUSTOM_ATTRS);
  document.getElementById("previewFav1").value="Strength";document.getElementById("previewFav2").value="Endurance";
@@ -563,7 +581,11 @@ function randomizeClassPreview(){
    renderClassPreview();
    return;
  }
- document.getElementById("previewRace").value=pick(RACES);
+ const racePool = document.getElementById("previewAllowTRRaces").checked
+  ? ALL_RACES_WITH_TR
+  : RACES;
+
+document.getElementById("previewRace").value = pick(racePool);
  document.getElementById("previewSex").value=pick(GENDERS);
  const classPool=previewSource==="npc"
    ? DATA.npcClasses
