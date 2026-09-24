@@ -190,15 +190,34 @@ function renderGeneratedName(){
  const name=fullNameFor(race,sex);
  document.getElementById("nameResult").innerHTML=`<div class="card"><h2>Census Record</h2><div class="big">${esc(name)}</div><p class="muted">${esc(race)} • ${esc(sex==="female"?"Female":"Male")}</p></div>`;
 }
-function initNameGenerator(){
- customSelect("nameRace",RACES);
- document.getElementById("nameRace").value="Breton";
- document.getElementById("nameSex").value="male";
+function updateNameRaceOptions(){
+  const select = document.getElementById("nameRace");
+  const current = select.value;
+  const races = document.getElementById("nameAllowTRRaces").checked
+    ? ALL_RACES_WITH_TR
+    : RACES;
+
+  customSelect("nameRace", races);
+  select.value = races.includes(current) ? current : "Breton";
 }
+
+function initNameGenerator(){
+  updateNameRaceOptions();
+  document.getElementById("nameRace").value = "Breton";
+  document.getElementById("nameSex").value = "male";
+
+  document.getElementById("nameAllowTRRaces")
+    .addEventListener("change", updateNameRaceOptions);
+}
+
 function randomizeName(){
- document.getElementById("nameRace").value=pick(RACES);
- document.getElementById("nameSex").value=pick(GENDERS);
- renderGeneratedName();
+  const races = document.getElementById("nameAllowTRRaces").checked
+    ? ALL_RACES_WITH_TR
+    : RACES;
+
+  document.getElementById("nameRace").value = pick(races);
+  document.getElementById("nameSex").value = pick(GENDERS);
+  renderGeneratedName();
 }
 
 /* --------------------------------------------------------------------------
