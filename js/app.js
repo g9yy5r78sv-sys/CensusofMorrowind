@@ -947,7 +947,23 @@ function show(id){
 }
 for(const r of RACES){document.getElementById("storyRace").insertAdjacentHTML("beforeend",`<option value="${esc(r)}">${esc(r)}</option>`)}
 for(const sign of BIRTHSIGNS){document.getElementById("storyBirth").insertAdjacentHTML("beforeend",`<option value="${esc(sign)}">${esc(sign)}</option>`)}
-for(const r of RACES){document.getElementById("bothRace").insertAdjacentHTML("beforeend",`<option value="${esc(r)}">${esc(r)}</option>`)}
+function updateBothRaceOptions(){
+  const select = document.getElementById("bothRace");
+  const current = select.value;
+  const allowTR = document.getElementById("bothAllowTRRaces").checked;
+  const races = allowTR ? ALL_RACES_WITH_TR : RACES;
+
+  select.innerHTML = `<option value="Any">Any</option>` +
+    races.map(r => `<option value="${esc(r)}">${esc(r)}</option>`).join("");
+
+  select.value = races.includes(current) || current === "Any"
+    ? current
+    : "Any";
+}
+
+updateBothRaceOptions();
+document.getElementById("bothAllowTRRaces")
+  .addEventListener("change", updateBothRaceOptions);
 for(const sign of BIRTHSIGNS){document.getElementById("bothBirth").insertAdjacentHTML("beforeend",`<option value="${esc(sign)}">${esc(sign)}</option>`)}
 
 /*document.getElementById("appVersion").textContent=APP_VERSION;*/
