@@ -440,11 +440,19 @@ function previewSkillSelects(overrideMajors=null,overrideMinors=null){
  renderGroup("previewMajors",majors,minors);renderGroup("previewMinors",minors,majors);
 }
 function populatePreviewClasses(){
- const select=document.getElementById("previewClass"),current=select.value;
- const classes=Object.keys(DATA.classes).concat(previewSource==="npc"?Object.keys(DATA.npcClasses):[]);
- customSelect("previewClass",[...new Set(classes)]);
- const available=[...select.options].map(o=>o.value);
- select.value=available.includes(current)?current:(available.includes("Mage")?"Mage":available[0]);
+  const select = document.getElementById("previewClass");
+  const current = select.value;
+
+  const classes = previewSource === "npc"
+    ? Object.keys(DATA.npcClasses)
+    : Object.keys(DATA.classes);
+
+  customSelect("previewClass", classes);
+
+  const available = [...select.options].map(o => o.value);
+  select.value = available.includes(current)
+    ? current
+    : available[0] || "";
 }
 let previewSource="preset";
 function setPreviewMode(mode){
