@@ -6,7 +6,7 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>The Census of Morrowind</title>
+<title>The Census of Morrowind - Character, Build, and Name Generators</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -31,14 +31,14 @@
   <div class="card homeIntro">
     <div class="eyebrow">Imperial Census and Excise Office</div>
     <h2>The Census of Morrowind</h2>
-    <p class="lead">Create a Morrowind character, build the person behind them, or surrender the whole affair to RNGesus. The Census handles the paperwork. You handle what happens next.</p>
+    <p class="lead">Create a Morrowind character, build the person behind them, or surrender the whole affair to RNGesus.</p>
   </div>
   <div class="homeTools">
     <div class="card"><h2>Character Generator</h2><p>Create a complete character in one pass. The build comes first, then the backstory is written for that exact person.</p><button class="primary" data-action="show" data-target="both">Open Character Generator</button></div>
     <div class="card"><h2>Backstory Generator</h2><p>Build the person who existed before the prison ship: upbringing, work, trouble, arrest, imprisonment, and the life they leave behind.</p><button class="primary" data-action="show" data-target="story">Open Backstory Generator</button></div>
     <div class="card"><h2>Name Generator</h2><p>Generate a race-appropriate name from the Census's UESP-derived name corpus.</p><button class="primary" data-action="show" data-target="names">Open Name Generator</button></div>
     <div class="card"><h2>Build Preview</h2><p>Choose a race, class, birthsign, and gender, then inspect the character you would actually start with. Player, NPC, and custom classes are available too.</p><button class="primary" data-action="show" data-target="custom">Open Build Preview</button></div>
-    <div class="card"><h2>RNGesus Take the Wheel</h2><p>Race, gender, class, skills, birthsign, and backstory are surrendered to the dice. Mechanical choices stay legal. The story is allowed to get strange.</p><button class="primary" data-action="show" data-target="rng">Open Full Random Mode</button></div>
+    <div class="card"><h2>RNGesus Take the Wheel</h2><p>Race, gender, class, skills, birthsign, and backstory are surrendered to the dice. Mechanical choices stay legal. The story is allowed to get strange.</p><button class="primary" data-action="show" data-target="rng">Open RNGesus</button></div>
     <div class="card"><h2>Reference</h2><p>Browse the mechanical data, names, traits, classes, starting spells, faction matches, and backstory material used by the Census.</p><button class="primary" data-action="show" data-target="reference">Open Reference</button></div>
   </div>
 </section>
@@ -99,7 +99,7 @@
       <label>Birthsign preference<select id="storyBirth"><option>Any</option></select></label>
       <label>Fate<select id="storyFate"></select></label>
     </div>
-    <p class="small muted pageNote">Everyone begins as a prisoner aboard the ship. The generator determines who you were before that ship and why the Empire had you in custody. Fate describes the character's attitude or beliefs, not a claim that the Census knows their destiny.</p>
+    <p class="small muted pageNote">Everyone begins as a prisoner aboard the ship. The generator determines who you were before that ship and why the Empire had you in custody.</p>
     <div class="actionBar"><span class="small muted">The result is written as a self-contained personal record.</span><button class="primary" data-action="generate-story">Generate Backstory</button></div>
   </div>
   <div id="storyResult" class="result" aria-live="polite"></div>
@@ -108,13 +108,13 @@
 <section id="both" class="mode hidden">
   <div class="card modeIntro">
     <h2>Character Generator</h2>
-    <p class="lead">The Census's complete character generator. It creates the build first, then writes a backstory for that exact character.</p>
+    <p class="lead">The Census's complete character generator. It creates the build first, then writes a backstory for the character.</p>
     <div class="controlGrid four">
       <label>Build Style<select id="bothBuildStyle"></select></label>
       <label>Race preference<select id="bothRace"><option>Any</option></select></label>
       <label>Gender preference<select id="bothGender"><option>Any</option><option value="male">Male</option><option value="female">Female</option></select></label>
       <label>Birthsign preference<select id="bothBirth"><option>Any</option></select></label>
-      <label>Build Focus<select id="bothBuildDir"></select></label>
+      <label>Build Direction<select id="bothBuildDir"></select></label>
       <label>Tone<select id="bothTone"></select></label>
       <label>Fate<select id="bothFate"></select></label>
     </div>
@@ -127,14 +127,14 @@
 
   <label class="check">
     <input type="checkbox" id="bothAllowTRClasses">
-    Allow TR Classes
-    <span class="small muted">Coming Soon - Include Tamriel Rebuilt class templates in the character roll.</span>
+    Allow Tamriel-Data Classes
+    <span class="small muted">Include Tamriel-Data class templates in the character roll.</span>
   </label>
 
   <label class="check">
     <input type="checkbox" id="bothAllowTRRaces">
-    Allow TR Races
-    <span class="small muted">Coming Soon - Include Tamriel Rebuilt races in the character roll.</span>
+    Allow Tamriel-Data Races
+    <span class="small muted">Work In Progress, Names Not imported yet, thank you for your patience! - Include Tamriel-Data races in the character roll.</span>
   </label>
 </div>
     <div class="actionBar"><span class="small muted">Build first. Backstory second. One complete character record. </span><button class="primary" data-action="generate-both">Generate Character</button></div>
@@ -145,7 +145,7 @@
 <section id="names" class="mode hidden">
   <div class="card modeIntro">
     <h2>Name Generator</h2>
-    <p class="lead">Choose a race and gender, then let the Census issue a fitting name from the UESP name corpus. Randomize rolls the race and gender for you.</p>
+    <p class="lead">Choose a race and gender, then let the Census issue a fitting name from the UESP name data. Randomize rolls the race and gender for you.</p>
     <div class="controlGrid">
       <label>Race<select id="nameRace"></select></label>
       <label>Gender<select id="nameSex"><option value="male">Male</option><option value="female">Female</option></select></label>
