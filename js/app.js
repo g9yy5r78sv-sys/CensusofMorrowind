@@ -445,7 +445,9 @@ function populatePreviewClasses(){
 
   const classes = previewSource === "npc"
     ? Object.keys(DATA.npcClasses)
-    : Object.keys(DATA.classes);
+    : previewSource === "tr"
+      ? Object.keys(DATA.trClasses)
+      : Object.keys(DATA.classes);
 
   customSelect("previewClass", classes);
 
@@ -456,7 +458,7 @@ function populatePreviewClasses(){
 }
 let previewSource="preset";
 function setPreviewMode(mode){
- previewSource=["preset","npc","custom"].includes(mode)?mode:"preset";
+ previewSource=["preset","npc","tr","custom"].includes(mode)?mode:"preset";
  const isCustom=previewSource==="custom";
  document.querySelectorAll("[data-preview-mode]").forEach(btn=>{
    const active=btn.dataset.previewMode===previewSource;
@@ -484,7 +486,7 @@ function initClassPreview(){
  document.getElementById("previewRace").value="Breton";document.getElementById("previewSex").value="male";document.getElementById("previewBirth").value="The Apprentice";
  document.getElementById("previewClass").addEventListener("change",()=>{
    if(previewSource!=="custom"){
-     const c=ALL_CLASSES[document.getElementById("previewClass").value]||DATA.classes[document.getElementById("previewClass").value];
+     const c=ALL_CLASSES_WITH_TR[document.getElementById("previewClass").value];
      if(c){
        document.getElementById("previewSpec").value=c.spec;
        document.getElementById("previewFav1").value=c.fav[0];
@@ -515,7 +517,7 @@ function previewCustomObject(){
 function classPreviewObject(){
  const race=document.getElementById("previewRace").value,sex=document.getElementById("previewSex").value,birth=document.getElementById("previewBirth").value,cls=document.getElementById("previewClass").value;
  if(previewSource==="custom")return previewCustomObject();
- const c=ALL_CLASSES[cls]||DATA.classes[cls];
+ const c=ALL_CLASSES_WITH_TR[cls]||DATA.classes[cls];
  return {race,sex,birth,cls,c,majors:c.maj.slice(0,5),minors:c.min.slice(0,5),primary:c.maj[0],factions:bestFactions([...c.maj.slice(0,5),...c.min.slice(0,5)]),name:fullNameFor(race,sex)};
 }
 function renderClassPreview(){
@@ -542,9 +544,14 @@ function randomizeClassPreview(){
  }
  document.getElementById("previewRace").value=pick(RACES);
  document.getElementById("previewSex").value=pick(GENDERS);
- document.getElementById("previewClass").value=pick(Object.keys(previewSource==="npc"?DATA.npcClasses:DATA.classes));
+ const classPool=previewSource==="npc"
+   ? DATA.npcClasses
+   : previewSource==="tr"
+     ? DATA.trClasses
+     : DATA.classes;
+ document.getElementById("previewClass").value=pick(Object.keys(classPool));
  document.getElementById("previewBirth").value=pick(BIRTHSIGNS);
- const c=ALL_CLASSES[document.getElementById("previewClass").value]||DATA.classes[document.getElementById("previewClass").value];
+ const c=ALL_CLASSES_WITH_TR[document.getElementById("previewClass").value];
  if(c){
    document.getElementById("previewSpec").value=c.spec;
    document.getElementById("previewFav1").value=c.fav[0];
