@@ -517,7 +517,7 @@ function previewCustomObject(){
 function classPreviewObject(){
  const race=document.getElementById("previewRace").value,sex=document.getElementById("previewSex").value,birth=document.getElementById("previewBirth").value,cls=document.getElementById("previewClass").value;
  if(previewSource==="custom")return previewCustomObject();
- const c=ALL_CLASSES_WITH_TR[cls]||DATA.classes[cls];
+ const c=ALL_CLASSES_WITH_TR[cls];
  return {race,sex,birth,cls,c,majors:c.maj.slice(0,5),minors:c.min.slice(0,5),primary:c.maj[0],factions:bestFactions([...c.maj.slice(0,5),...c.min.slice(0,5)]),name:fullNameFor(race,sex)};
 }
 function renderClassPreview(){
