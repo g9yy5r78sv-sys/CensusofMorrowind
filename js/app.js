@@ -571,6 +571,13 @@ function renderClassPreview(){
 }
 function randomizeClassPreview(){
  const custom=previewSource==="custom";
+  const racePool = document.getElementById("previewAllowTRRaces").checked
+   ? ALL_RACES_WITH_TR
+   : RACES;
+
+ document.getElementById("previewRace").value=pick(racePool);
+ document.getElementById("previewSex").value=pick(GENDERS);
+ document.getElementById("previewBirth").value=pick(BIRTHSIGNS);  
  if(custom){
    document.getElementById("previewSpec").value=pick(["Combat","Magic","Stealth"]);
    const fav=sample(CUSTOM_ATTRS,2);
@@ -581,19 +588,14 @@ function randomizeClassPreview(){
    renderClassPreview();
    return;
  }
- const racePool = document.getElementById("previewAllowTRRaces").checked
-  ? ALL_RACES_WITH_TR
-  : RACES;
 
-document.getElementById("previewRace").value = pick(racePool);
- document.getElementById("previewSex").value=pick(GENDERS);
  const classPool=previewSource==="npc"
    ? DATA.npcClasses
    : previewSource==="tr"
      ? DATA.trClasses
      : DATA.classes;
  document.getElementById("previewClass").value=pick(Object.keys(classPool));
- document.getElementById("previewBirth").value=pick(BIRTHSIGNS);
+
  const c=ALL_CLASSES_WITH_TR[document.getElementById("previewClass").value];
  if(c){
    document.getElementById("previewSpec").value=c.spec;
