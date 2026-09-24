@@ -704,7 +704,11 @@ function generateStory(){
  const genderPref=document.getElementById("storyGender").value;
  const birthPref=document.getElementById("storyBirth").value;
  let fake=null;
- if(racePref!=="Any"||genderPref!=="Any"||birthPref!=="Any") fake={race:racePref!=="Any"?racePref:pick(RACES),primary:null,majors:[],minors:[],cls:pick(Object.keys(DATA.classes)),birth:birthPref!=="Any"?birthPref:pick(BIRTHSIGNS),factions:[pick(Object.keys(DATA.factions))],sex:genderPref!=="Any"?genderPref:pick(GENDERS)};
+ if(racePref!=="Any"||genderPref!=="Any"||birthPref!=="Any") fake={race:racePref!=="Any"
+  ? racePref
+  : pick(document.getElementById("storyAllowTRRaces").checked
+      ? ALL_RACES_WITH_TR
+      : RACES),primary:null,majors:[],minors:[],cls:pick(Object.keys(DATA.classes)),birth:birthPref!=="Any"?birthPref:pick(BIRTHSIGNS),factions:[pick(Object.keys(DATA.factions))],sex:genderPref!=="Any"?genderPref:pick(GENDERS)};
  const s=storyFor(fake,document.getElementById("storyStyle").value,fate,genderPref,birthPref);
  const text=storyText(s,fake);
  const meta=`Name: ${s.name} • Race: ${s.race} • Gender: ${genderLabel(s.sex)} • Age: ${s.age} • Birthday: ${s.birthday.label} • Birthsign: ${s.birth} • Tone: ${document.getElementById("storyStyle").value} • Fate: ${fate}`;
@@ -945,7 +949,23 @@ function show(id){
   }
   window.scrollTo({top:0,behavior:"smooth"});
 }
-for(const r of RACES){document.getElementById("storyRace").insertAdjacentHTML("beforeend",`<option value="${esc(r)}">${esc(r)}</option>`)}
+function updateStoryRaceOptions(){
+  const select = document.getElementById("storyRace");
+  const current = select.value;
+  const allowTR = document.getElementById("storyAllowTRRaces").checked;
+  const races = allowTR ? ALL_RACES_WITH_TR : RACES;
+
+  select.innerHTML = `<option value="Any">Any</option>` +
+    races.map(r => `<option value="${esc(r)}">${esc(r)}</option>`).join("");
+
+  select.value = races.includes(current) || current === "Any"
+    ? current
+    : "Any";
+}
+
+updateStoryRaceOptions();
+document.getElementById("storyAllowTRRaces")
+  .addEventListener("change", updateStoryRaceOptions);
 for(const sign of BIRTHSIGNS){document.getElementById("storyBirth").insertAdjacentHTML("beforeend",`<option value="${esc(sign)}">${esc(sign)}</option>`)}
 function updateBothRaceOptions(){
   const select = document.getElementById("bothRace");
