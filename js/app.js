@@ -722,12 +722,20 @@ function generateStory(){
  const fate=document.getElementById("storyFate").value;
  const genderPref=document.getElementById("storyGender").value;
  const birthPref=document.getElementById("storyBirth").value;
- let fake=null;
- if(racePref!=="Any"||genderPref!=="Any"||birthPref!=="Any") fake={race:racePref!=="Any"
-  ? racePref
-  : pick(document.getElementById("storyAllowTRRaces").checked
-      ? ALL_RACES_WITH_TR
-      : RACES),primary:null,majors:[],minors:[],cls:pick(Object.keys(DATA.classes)),birth:birthPref!=="Any"?birthPref:pick(BIRTHSIGNS),factions:[pick(Object.keys(DATA.factions))],sex:genderPref!=="Any"?genderPref:pick(GENDERS)};
+const racePool = document.getElementById("storyAllowTRRaces").checked
+  ? ALL_RACES_WITH_TR
+  : RACES;
+
+const fake = {
+  race: racePref !== "Any" ? racePref : pick(racePool),
+  primary: null,
+  majors: [],
+  minors: [],
+  cls: pick(Object.keys(DATA.classes)),
+  birth: birthPref !== "Any" ? birthPref : pick(BIRTHSIGNS),
+  factions: [pick(Object.keys(DATA.factions))],
+  sex: genderPref !== "Any" ? genderPref : pick(GENDERS)
+};
  const s=storyFor(fake,document.getElementById("storyStyle").value,fate,genderPref,birthPref);
  const text=storyText(s,fake);
  const meta=`Name: ${s.name} • Race: ${s.race} • Gender: ${genderLabel(s.sex)} • Age: ${s.age} • Birthday: ${s.birthday.label} • Birthsign: ${s.birth} • Tone: ${document.getElementById("storyStyle").value} • Fate: ${fate}`;
