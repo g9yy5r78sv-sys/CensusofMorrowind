@@ -607,7 +607,7 @@ function randomizeClassPreview(){
 }
 function rngClassName(){return pick(DATA.rngClassNames)}
 function makeRNGesus(){
- const race=pick(RACES),sex=pick(GENDERS),birth=pick(BIRTHSIGNS);
+ const race=pick(ALL_RACES_WITH_TR),sex=pick(GENDERS),birth=pick(BIRTHSIGNS);
  const presetKeys=Object.keys(DATA.classes),npcKeys=Object.keys(DATA.npcClasses),classRoll=Math.random();
  let cls,c,majors,minors;
  if(classRoll<RULES.rngesus.presetClassChance){
