@@ -732,14 +732,7 @@ document.getElementById("storyResult").innerHTML=`
 
   <p>${text.replace(/\n\n/g,"</p><p>")}</p>
 
-  <div class="storyFactionMatches">
-  <h3>Faction Matches</h3>
-  <div class="factionMatchList">
-    ${s.factions.map(f=>`<div class="factionMatch">${esc(f)}</div>`).join("")}
-  </div>
-</div>
-
-  <button type="button" data-action="copy" data-copy="${esc(meta+"\n\n"+text+"\n\nFaction Matches: "+s.factions.join(", "))}">Copy Story</button>
+  <button type="button" data-action="copy" data-copy="${esc(meta+"\n\n"+text)}">Copy Story</button>
 </div>`;}
 
 function generateBoth(){
