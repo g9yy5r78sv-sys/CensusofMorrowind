@@ -809,7 +809,7 @@
             "An ordinary errand becomes complicated when two different people give you contradictory instructions.",
             "You receive an invitation to return to a place you have never knowingly visited.",
             "A stranger asks whether you still remember an old promise, then walks away before explaining it."
-      ]
+      ],
          
       "toneHooks": {
            "Lore-friendly": [
