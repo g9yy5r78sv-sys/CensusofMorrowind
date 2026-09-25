@@ -794,9 +794,10 @@ function storyText(s,b){
    `In time, you worked as ${article}${s.occupation.name}, learning much of what you know from ${s.mentor}. ` +
    `${s.event} ${skillLine}`;
 
- const troubleParagraph =
-   `Eventually, trouble found you. You were charged with ${s.crime.charge||s.crime.name.toLowerCase()}. ` +
-   `${s.detail} ${s.arrest} ${s.attitude}`;
+const troubleParagraph =
+  `The trouble began when ${s.detail.charAt(0).toLowerCase()+s.detail.slice(1)} ` +
+  `This led to you being charged with ${s.crime.charge||s.crime.name.toLowerCase()}. ` +
+  `${s.arrest} ${s.attitude}`;
 
  const prisonParagraph =
    `Your sentence became an unwanted chapter of your life. ` +
