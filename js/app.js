@@ -245,24 +245,54 @@ function starterSpells(b,st=buildStartingStats(b)){
 }
 
 function makeBuild(style="Coherent",dir="Any",allowNpc=false,racePreference="Any",genderPreference="Any",birthPreference="Any",allowTRClasses=false,allowTRRaces=false,classPreference="Any"){
- const pool=dir==="Any"?allSkills:(BUILD_DIRECTIONS[dir]||allSkills);
-const primary=pick(pool);
-let race;
-const racePool=allowTRRaces?ALL_RACES_WITH_TR:RACES;
-if(racePreference && racePreference!=="Any") race=racePreference;
-else if(style==="Coherent"||style==="Unusual") {
- const eligible=racePool.filter(r=>(DATA.races[r]||DATA.trRaces[r])?.bonuses?.[primary]);
- race=pick(eligible.length?eligible:racePool);
-} else race=pick(racePool);
- const classes=compatibleClasses(primary,style,allowNpc,allowTRClasses),classData=classPool(allowNpc,allowTRClasses);
- const cls = classPreference && classPreference !== "Any" && classes.includes(classPreference)
+ const classData=classPool(allowNpc,allowTRClasses);
+ const selectedClass=classPreference && classPreference!=="Any" && classData[classPreference]
   ? classPreference
-  : pick(classes);
+  : null;
+
+ let primary=null;
+ if(!selectedClass){
+  const pool=dir==="Any"?allSkills:(BUILD_DIRECTIONS[dir]||allSkills);
+  primary=pick(pool);
+ }
+
+ let race;
+ const racePool=allowTRRaces?ALL_RACES_WITH_TR:RACES;
+ if(racePreference && racePreference!=="Any") race=racePreference;
+ else if(primary && (style==="Coherent"||style==="Unusual")){
+  const eligible=racePool.filter(r=>(DATA.races[r]||DATA.trRaces[r])?.bonuses?.[primary]);
+  race=pick(eligible.length?eligible:racePool);
+ } else {
+  race=pick(racePool);
+ }
+
+ let cls;
+ if(selectedClass){
+  cls=selectedClass;
+ } else {
+  const classes=compatibleClasses(primary,style,allowNpc,allowTRClasses);
+  cls=pick(classes);
+ }
+
  const c=classData[cls];
  const birth=(birthPreference && birthPreference!=="Any")?birthPreference:pick(BIRTHSIGNS);
  const majors=sortSkillsByCanon(sample(c.maj,5));
  const minors=sortSkillsByCanon(sample(c.min,5));
- const sex=genderPreference && genderPreference!=="Any" ? genderPreference : pick(GENDERS),name=fullNameFor(race,sex);return prepareBuild({primary,race,cls,birth,c,majors,minors,factions:selectFactions([...majors,...minors],style),sex,name});
+ const sex=genderPreference && genderPreference!=="Any" ? genderPreference : pick(GENDERS);
+ const name=fullNameFor(race,sex);
+
+ return prepareBuild({
+  primary,
+  race,
+  cls,
+  birth,
+  c,
+  majors,
+  minors,
+  factions:selectFactions([...majors,...minors],style),
+  sex,
+  name
+ });
 }
 /* --------------------------------------------------------------------------
    RENDERING HELPERS
@@ -443,7 +473,7 @@ function buildCard(b,title="Census Record",showIdentity=true){
 
  <p><button type="button" data-action="copy" data-copy="${esc(formatBuild(b))}">Copy Build</button></p></div>`;
 }
-function formatBuild(b){return `The Census of Morrowind\\nRace: ${b.race}\\nClass: ${b.cls}\\nSpecialization: ${b.c.spec}\\nBirthsign: ${b.birth}\\nFavored Attributes: ${b.c.fav.join(", ")}\\nMajor Skills: ${b.majors.join(", ")}\\nMinor Skills: ${b.minors.join(", ")}\\nPrimary Skill: ${b.primary}\\nFaction Matches: ${b.factions.join(", ")}`}
+function formatBuild(b){return `The Census of Morrowind\\nRace: ${b.race}\\nClass: ${b.cls}\\nSpecialization: ${b.c.spec}\\nBirthsign: ${b.birth}\\nFavored Attributes: ${b.c.fav.join(", ")}\\nMajor Skills: ${b.majors.join(", ")}\\nMinor Skills: ${b.minors.join(", ")}\\nFaction Matches: ${b.factions.join(", ")}`}
 
 
 const CUSTOM_ATTRS=["Strength","Intelligence","Willpower","Agility","Speed","Endurance","Personality","Luck"];
