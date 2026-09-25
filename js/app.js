@@ -29,7 +29,10 @@ const TONES = ORDER.tones;
 const FATES = ORDER.fates;
 const BUILD_STYLES = ORDER.buildStyles;
 function orderedRaceEntries(obj){return RACES.filter(r=>Object.prototype.hasOwnProperty.call(obj,r)).map(r=>[r,obj[r]])}
-const SPEC_SKILLS={Combat:["Armorer","Axe","Block","Blunt Weapon","Heavy Armor","Long Blade","Medium Armor","Spear","Athletics"],Magic:["Alchemy","Alteration","Conjuration","Destruction","Enchant","Illusion","Mysticism","Restoration","Unarmored"],Stealth:["Acrobatics","Hand-to-hand","Light Armor","Marksman","Mercantile","Security","Short Blade","Sneak","Speechcraft"]};
+const SPEC_SKILLS={
+   Combat:["Armorer","Axe","Block","Blunt Weapon","Heavy Armor","Long Blade","Medium Armor","Spear","Athletics"],
+   Magic:["Alchemy","Alteration","Conjuration","Destruction","Enchant","Illusion","Mysticism","Restoration","Unarmored"],
+   Stealth:["Acrobatics","Hand-to-hand","Light Armor","Marksman","Mercantile","Security","Short Blade","Sneak","Speechcraft"]};
 const BUILD_FOCUS_SPECS = {Combat: "Combat",Magic: "Magic",Stealth: "Stealth"};
 const MAGICKA_RACE_BONUS={Breton:.5,"High Elf":1.5},MAGICKA_BIRTH_BONUS={"The Apprentice":1.5,"The Mage":.5,"The Atronach":2};
 
