@@ -16,154 +16,244 @@ const DATA = {
          "male":[40,40,30,50,50,30,30,40],
          "female":[40,50,40,40,40,30,30,40],
          "bonuses":{"Alchemy":5,"Athletics":15,"Illusion":5,"Medium Armor":5,"Mysticism":5,"Spear":5,"Unarmored":5},
-         "traits":{"abilities":["Resist Poison 100%","Resist Common Disease 75%"],"powers":[],"spells":["Water Breathing for 120 seconds"]}},
+         "traits":{
+            "abilities":["Resist Poison 100%","Resist Common Disease 75%"],
+            "powers":[],
+            "spells":["Water Breathing for 120 seconds"]}},
       "Breton":{
          "male":[40,50,50,30,30,30,40,40],
          "female":[30,50,50,30,40,30,40,40],
          "bonuses":{"Alchemy":5,"Alteration":5,"Conjuration":10,"Illusion":5,"Mysticism":10,"Restoration":10},
-         "traits":{"abilities":["Resist Magicka 50%","Maximum Magicka +0.5× Intelligence"],"powers":["Dragon Skin: Shield 50 pts for 60 seconds on Self"],"spells":[]}},
+         "traits":{
+            "abilities":["Resist Magicka 50%","Maximum Magicka +0.5× Intelligence"],
+            "powers":["Dragon Skin: Shield 50 pts for 60 seconds on Self"],
+            "spells":[]}},
       "Dark Elf":{
          "male":[40,40,30,40,50,40,30,40],
          "female":[40,40,30,40,50,30,40,40],
          "bonuses":{"Athletics":5,"Destruction":5,"Light Armor":5,"Long Blade":5,"Marksman":5,"Mysticism":5,"Short Blade":5},
-         "traits":{"abilities":["Resist Fire 75%"],"powers":["Ancestor Guardian: Sanctuary 50 pts for 60 seconds on Self"],"spells":[]}},
+         "traits":{
+            "abilities":["Resist Fire 75%"],
+            "powers":["Ancestor Guardian: Sanctuary 50 pts for 60 seconds on Self"],
+            "spells":[]}},
       "High Elf":{
          "male":[30,50,40,40,30,40,40,40],
          "female":[30,50,50,40,40,30,40,40],
          "bonuses":{"Alchemy":10,"Alteration":5,"Conjuration":5,"Destruction":10,"Enchant":10,"Illusion":5},
-         "traits":{"abilities":["Resist Common Disease 75%","Weakness to Fire 50%","Weakness to Frost 25%","Weakness to Shock 25%","Weakness to Magicka 50%","Maximum Magicka +1.5× Intelligence"],"powers":[],"spells":[]}},
+         "traits":{
+            "abilities":["Resist Common Disease 75%","Weakness to Fire 50%","Weakness to Frost 25%","Weakness to Shock 25%","Weakness to Magicka 50%","Maximum Magicka +1.5× Intelligence"],
+            "powers":[],
+            "spells":[]}},
       "Imperial":{
          "male":[40,40,30,30,40,40,50,40],
          "female":[40,40,40,30,30,40,50,40],
          "bonuses":{"Blunt Weapon":5,"Hand-to-hand":5,"Light Armor":5,"Long Blade":10,"Mercantile":10,"Speechcraft":10},
-         "traits":{"abilities":[],"powers":["Star of the West: Absorb Fatigue 200 pts on Touch","Voice of the Emperor: Charm 25–50 pts for 15 seconds on Target"],"spells":[]}},
+         "traits":{
+            "abilities":[],
+            "powers":["Star of the West: Absorb Fatigue 200 pts on Touch","Voice of the Emperor: Charm 25–50 pts for 15 seconds on Target"],
+            "spells":[]}},
       "Khajiit":{
          "male":[40,40,30,50,40,30,40,40],
          "female":[30,40,30,50,40,40,40,40],
          "bonuses":{"Acrobatics":15,"Athletics":5,"Hand-to-hand":5,"Light Armor":5,"Security":5,"Short Blade":5,"Sneak":5},
-         "traits":{"abilities":[],"powers":["Eye of Fear: Demoralize Humanoid 100 pts for 30 seconds on Target"],"spells":["Eye of Night: Night Eye 50 pts for 30 seconds on Self"]}},
+         "traits":{
+            "abilities":[],
+            "powers":["Eye of Fear: Demoralize Humanoid 100 pts for 30 seconds on Target"],
+            "spells":["Eye of Night: Night Eye 50 pts for 30 seconds on Self"]}},
       "Nord":{
          "male":[50,30,40,30,40,50,30,40],
          "female":[50,30,50,30,40,40,30,40],
          "bonuses":{"Axe":10,"Blunt Weapon":10,"Heavy Armor":5,"Long Blade":5,"Medium Armor":10,"Spear":5},
-         "traits":{"abilities":["Resist Shock 50%","Resist Frost 100%"],"powers":["Thunder Fist: Frost Damage 25 pts on Touch","Woad: Shield 30 pts for 60 seconds on Self"],"spells":[]}},
+         "traits":{
+            "abilities":["Resist Shock 50%","Resist Frost 100%"],
+            "powers":["Thunder Fist: Frost Damage 25 pts on Touch","Woad: Shield 30 pts for 60 seconds on Self"],
+            "spells":[]}},
       "Orc":{
          "male":[45,30,50,35,30,50,30,40],
          "female":[45,40,45,35,30,50,25,40],
          "bonuses":{"Armorer":10,"Axe":5,"Block":10,"Heavy Armor":10,"Medium Armor":10},
-         "traits":{"abilities":["Resist Magicka 25%"],"powers":["Berserk: Fortify Health 20 pts for 60 seconds on Self; Fortify Fatigue 200 pts for 60 seconds on Self; Fortify Attack 100 pts for 60 seconds on Self; Drain Agility 100 pts for 60 seconds on Self"],"spells":[]}},
+         "traits":{
+            "abilities":["Resist Magicka 25%"],
+            "powers":["Berserk: Fortify Health 20 pts for 60 seconds on Self; Fortify Fatigue 200 pts for 60 seconds on Self; Fortify Attack 100 pts for 60 seconds on Self; Drain Agility 100 pts for 60 seconds on Self"],
+            "spells":[]}},
       "Redguard":{
          "male":[50,30,30,40,40,50,30,40],
          "female":[40,30,30,40,40,50,40,40],
          "bonuses":{"Athletics":5,"Axe":5,"Blunt Weapon":5,"Heavy Armor":5,"Long Blade":15,"Medium Armor":5,"Short Blade":5},
-         "traits":{"abilities":["Resist Common Disease 75%","Resist Poison 75%"],"powers":["Adrenaline Rush: Fortify Agility 50 pts, Strength 50 pts, Speed 50 pts, Endurance 50 pts, and Health 25 pts for 60 seconds on Self"],"spells":[]}},
+         "traits":{
+            "abilities":["Resist Common Disease 75%","Resist Poison 75%"],
+            "powers":["Adrenaline Rush: Fortify Agility 50 pts, Strength 50 pts, Speed 50 pts, Endurance 50 pts, and Health 25 pts for 60 seconds on Self"],
+            "spells":[]}},
       "Wood Elf":{
          "male":[30,40,30,50,50,30,40,40],
          "female":[30,40,30,50,50,30,40,40],
          "bonuses":{"Acrobatics":5,"Alchemy":5,"Light Armor":10,"Marksman":15,"Sneak":10},
-         "traits":{"abilities":["Resist Common Disease 75%"],"powers":["Beast Tongue: Command Creature 5 levels for 600 seconds on Target"],"spells":[]}}},
+         "traits":{
+            "abilities":["Resist Common Disease 75%"],
+            "powers":["Beast Tongue: Command Creature 5 levels for 600 seconds on Target"],
+            "spells":[]}}},
 
    "trRaces":{
       "Ayleid":{
          "male":[30,60,40,40,40,30,40,30],
          "female":[30,60,40,40,40,30,40,30],
          "bonuses":{"Enchant":15,"Alteration":10,"Illusion":10,"Conjuration":5,"Mysticism":5},
-         "traits":{"abilities":["Resist Shock: Resist Shock 50 pts on Self","Magicka Bonus: Fortify Maximum Magicka 1.0× Intelligence pts on Self"],"powers":["Light of Auri-El: Light 25 pts for 30 seconds on Self; Spell Absorption 10 pts for 30 seconds on Self; Restore Health 2 pts for 30 seconds on Self; Restore Magicka 5 pts for 30 seconds on Self"],"spells":["Light: Light 20 pts in 30ft for 30 seconds on Target"]}},
+         "traits":{
+            "abilities":["Resist Shock: Resist Shock 50 pts on Self","Magicka Bonus: Fortify Maximum Magicka 1.0× Intelligence pts on Self"],
+            "powers":["Light of Auri-El: Light 25 pts for 30 seconds on Self; Spell Absorption 10 pts for 30 seconds on Self; Restore Health 2 pts for 30 seconds on Self; Restore Magicka 5 pts for 30 seconds on Self"],
+            "spells":["Light: Light 20 pts in 30ft for 30 seconds on Target"]}},
       "Cathay":{
          "male":[45,40,30,40,35,50,30,40],
          "female":[40,40,30,45,35,50,30,40],
          "bonuses":{"Athletics":10,"Short Blade":5,"Long Blade":5,"Light Armor":5,"Security":10,"Sneak":5,"Spear":5},
-         "traits":{"abilities":["Vitality of Cathay: Fortify Attack 5 pts on Self; Fortify Health 10 pts on Self"],"powers":["Eye of Fear: Demoralize Humanoid 100 pts for 30 seconds on Target"],"spells":["Eye of Night: Night Eye 50 pts for 30 seconds on Self"]}},
+         "traits":{
+            "abilities":["Vitality of Cathay: Fortify Attack 5 pts on Self; Fortify Health 10 pts on Self"],
+            "powers":["Eye of Fear: Demoralize Humanoid 100 pts for 30 seconds on Target"],
+            "spells":["Eye of Night: Night Eye 50 pts for 30 seconds on Self"]}},
       "Cathay-raht":{
          "male":[45,40,30,40,35,50,30,40],
          "female":[40,40,30,45,35,50,30,40],
          "bonuses":{"Athletics":15,"Long Blade":10,"Light Armor":10,"Short Blade":5,"Sneak":5},
-         "traits":{"abilities":["Blood of Cathay-raht: Fortify Attack 5 pts on Self; Fortify Endurance 10 pts on Self; Fortify Strength 10 pts on Self"],"powers":["Eye of Fear: Demoralize Humanoid 100 pts for 30 seconds on Target"],"spells":["Eye of Night: Night Eye 50 pts for 30 seconds on Self"]}},
+         "traits":{
+            "abilities":["Blood of Cathay-raht: Fortify Attack 5 pts on Self; Fortify Endurance 10 pts on Self; Fortify Strength 10 pts on Self"],
+            "powers":["Eye of Fear: Demoralize Humanoid 100 pts for 30 seconds on Target"],
+            "spells":["Eye of Night: Night Eye 50 pts for 30 seconds on Self"]}},
       "Chimeri-Quey":{
          "male":[45,40,35,30,30,40,50,40],
          "female":[40,40,35,30,30,40,55,40],
          "bonuses":{"Mercantile":10,"Speechcraft":10,"Mysticism":10,"Conjuration":5,"Acrobatics":5,"Axe":5},
-         "traits":{"abilities":["Weakness to Blight Disease 25 pts on Self","Resist Magicka 15 pts on Self","Resist Shock 50 pts on Self"],"powers":["Sprit of Quey: Absorb Personality 25 pts for 30 seconds on Touch; Calm Humanoid 30 pts for 30 seconds on Touch","Ancestor Warden: Summon Ancestral Ghost for 60 seconds on Self"],"spells":[]}},
+         "traits":{
+            "abilities":["Weakness to Blight Disease 25 pts on Self","Resist Magicka 15 pts on Self","Resist Shock 50 pts on Self"],
+            "powers":["Sprit of Quey: Absorb Personality 25 pts for 30 seconds on Touch; Calm Humanoid 30 pts for 30 seconds on Touch","Ancestor Warden: Summon Ancestral Ghost for 60 seconds on Self"],
+            "spells":[]}},
       "Dagi-raht":{
          "male":[30,40,50,50,50,25,25,40],
          "female":[25,40,50,50,50,25,30,40],
          "bonuses":{"Acrobatics":15,"Athletics":5,"Destruction":5,"Hand-to-hand":5,"Illusion":5,"Sneak":10},
-         "traits":{"abilities":["Magicka Bonus: Fortify Maximum Magicka 0.5× Intelligence"],"powers":["Shadow Paw of Dagi-raht: Fortify Acrobatics 30 pts for 60 seconds on Self; Fortify Hand-to-hand 30 pts for 60 seconds on Self; Fortify Sneak 30 pts for 60 seconds on Self; Chameleon 30 pts for 60 seconds on Self"],"spells":["Tree-Dweller's Landing: Slowfall 15 pts for 10 seconds on Self","Eye of Night: Night Eye 50 pts for 30 seconds on Self"]}},
+         "traits":{
+            "abilities":["Magicka Bonus: Fortify Maximum Magicka 0.5× Intelligence"],
+            "powers":["Shadow Paw of Dagi-raht: Fortify Acrobatics 30 pts for 60 seconds on Self; Fortify Hand-to-hand 30 pts for 60 seconds on Self; Fortify Sneak 30 pts for 60 seconds on Self; Chameleon 30 pts for 60 seconds on Self"],
+            "spells":["Tree-Dweller's Landing: Slowfall 15 pts for 10 seconds on Self","Eye of Night: Night Eye 50 pts for 30 seconds on Self"]}},
       "Duadri":{
          "male":[30,35,40,45,30,40,50,40],
          "female":[40,35,40,45,30,40,40,40],
          "bonuses":{"Acrobatics":10,"Athletics":5,"Light Armor":5,"Mercantile":5,"Mysticism":10,"Spear":5,"Unarmored":5},
-         "traits":{"abilities":["Weakness to Shock 50 pts on Self"],"powers":["Cardinal Aptitude: Feather 50 pts for 60 seconds on Self; Sanctuary 30 pts for 60 seconds on Self; Fortify Luck 10 pts for 60 seconds on Self"],"spells":["Tava's Gale: Slowfall 20 pts for 10 seconds on Self"]}},
+         "traits":{
+            "abilities":["Weakness to Shock 50 pts on Self"],
+            "powers":["Cardinal Aptitude: Feather 50 pts for 60 seconds on Self; Sanctuary 30 pts for 60 seconds on Self; Fortify Luck 10 pts for 60 seconds on Self"],
+            "spells":["Tava's Gale: Slowfall 20 pts for 10 seconds on Self"]}},
       "Hill Giant":{
          "male":[100,20,20,10,5,100,5,50],
          "female":[100,20,20,10,5,100,5,50],
          "bonuses":{"Blunt Weapon":25,"Hand-to-hand":15,"Unarmored":5},
-         "traits":{"abilities":["Atmoran Blood: Restore Health 5 pts on Self; Restore Fatigue 10 pts on Self","Colossal Frame: Damage Speed 75 pts on Self; Fortify Endurance 250 pts on Self; Fortify Strength 250 pts on Self","Skin of Stone: Fortify Unarmored 100 pts on Self; Resist Frost 100 pts on Self; Resist Normal Weapons 100 pts on Self; Reflect 50 pts on Self"],"powers":[],"spells":[]}},
+         "traits":{
+            "abilities":["Atmoran Blood: Restore Health 5 pts on Self; Restore Fatigue 10 pts on Self","Colossal Frame: Damage Speed 75 pts on Self; Fortify Endurance 250 pts on Self; Fortify Strength 250 pts on Self","Skin of Stone: Fortify Unarmored 100 pts on Self; Resist Frost 100 pts on Self; Resist Normal Weapons 100 pts on Self; Reflect 50 pts on Self"],
+            "powers":[],
+            "spells":[]}},
       "Imga":{
          "male":[55,40,35,40,30,30,40,40],
          "female":[55,40,35,40,30,30,40,40],
          "bonuses":{"Speechcraft":15,"Mysticism":10,"Hand-to-hand":10,"Acrobatics":5,"Mercantile":5},
-         "traits":{"abilities":["Weakness to Poison 50 pts on Self","Resist Paralysis 50 pts on Self","Soul Branch: Detect Animal 60-80 pts on Self"],"powers":["Prophet's Denial: Sound 50 pts for 30 seconds on Target; Demoralize Humanoid 30 pts for 30 seconds on Target"],"spells":[]}},
+         "traits":{
+            "abilities":["Weakness to Poison 50 pts on Self","Resist Paralysis 50 pts on Self","Soul Branch: Detect Animal 60-80 pts on Self"],
+            "powers":["Prophet's Denial: Sound 50 pts for 30 seconds on Target; Demoralize Humanoid 30 pts for 30 seconds on Target"],
+            "spells":[]}},
       "Keptu-Quey":{
          "male":[45,35,40,30,30,50,40,40],
          "female":[40,35,40,30,35,45,45,40],
          "bonuses":{"Armorer":5,"Block":10,"Blunt Weapon":15,"Hand-to-hand":5,"Heavy Armor":5,"Unarmored":5},
-         "traits":{"abilities":["Weakness to Blight Disease 25 pts on Self"],"powers":["Sprit of Quey: Absorb Personality 25 pts for 30 seconds on Touch; Calm Humanoid 30 pts for 30 seconds on Touch","Unbreakable: Fortify Block 100 pts for 60 seconds on Self; Resist Normal Weapons 50 pts for 60 seconds on Self; Drain Speed 50 pts for 60 seconds on Self"],"spells":[]}},
+         "traits":{
+            "abilities":["Weakness to Blight Disease 25 pts on Self"],
+            "powers":["Sprit of Quey: Absorb Personality 25 pts for 30 seconds on Touch; Calm Humanoid 30 pts for 30 seconds on Touch","Unbreakable: Fortify Block 100 pts for 60 seconds on Self; Resist Normal Weapons 50 pts for 60 seconds on Self; Drain Speed 50 pts for 60 seconds on Self"],
+            "spells":[]}},
       "Malahk Orc":{
          "male":[55,25,45,40,25,60,20,40],
          "female":[50,30,45,40,25,60,20,40],
          "bonuses":{"Unarmored":5,"Axe":10,"Blunt Weapon":5,"Heavy Armor":10,"Medium Armor":10,"Hand-to-hand":5},
-         "traits":{"abilities":["True Blood of Malahk: Fortify Attack 20 pts on Self; Resist Magicka 25 pts on Self; Resist Frost 50 pts on Self; Resist Paralysis 50 pts on Self"],"powers":["Berserk: Fortify Health 50 pts for 60 seconds on Self; Fortify Fatigue 100 pts for 60 seconds on Self; Fortify Attack 100 pts for 60 seconds on Self; Fortify Speed 50 pts for 60 seconds on Self; Drain Agility 100 pts for 60 seconds on Self"],"spells":[]}},
+         "traits":{
+            "abilities":["True Blood of Malahk: Fortify Attack 20 pts on Self; Resist Magicka 25 pts on Self; Resist Frost 50 pts on Self; Resist Paralysis 50 pts on Self"],
+            "powers":["Berserk: Fortify Health 50 pts for 60 seconds on Self; Fortify Fatigue 100 pts for 60 seconds on Self; Fortify Attack 100 pts for 60 seconds on Self; Fortify Speed 50 pts for 60 seconds on Self; Drain Agility 100 pts for 60 seconds on Self"],
+            "spells":[]}},
       "Naga":{
          "male":[45,40,30,40,40,45,30,40],
          "female":[45,40,30,40,40,45,30,40],
          "bonuses":{"Unarmored":15,"Blunt Weapon":5,"Alteration":5,"Hand-to-hand":5,"Athletics":5,"Sneak":5,"Restoration":5},
-         "traits":{"abilities":["Swift Swim: Swift Swim 20 pts on Self"],"powers":["Stalker's Shroud: Chameleon 50 pts for 60 seconds on Target; Detect Animal 100 pts for 60 seconds on Self"],"spells":["Water Breathing: Water Breathing for 2 minutes on Self, Cost: 5"]}},
+         "traits":{
+            "abilities":["Swift Swim: Swift Swim 20 pts on Self"],
+            "powers":["Stalker's Shroud: Chameleon 50 pts for 60 seconds on Target; Detect Animal 100 pts for 60 seconds on Self"],
+            "spells":["Water Breathing: Water Breathing for 2 minutes on Self, Cost: 5"]}},
       "Ogre":{
          "male":[60,20,25,35,50,65,15,40],
          "female":[55,25,25,35,50,65,15,40],
          "bonuses":{"Hand-to-hand":10,"Axe":5,"Blunt Weapon":10,"Unarmored":15,"Spear":5},
-         "traits":{"abilities":["Enduring Physique: Fortify Attack 10 pts on Self","Resist Normal Weapons 4-40 pts on Self"],"powers":["Savage Roar: Demoralize Creature 20 pts in 10ft for 15 seconds on Target; Demoralize Humanoid 20 pts in 10ft for 15 seconds on Target","Mouloch's Protection: Resist Magicka 50 pts for 30 seconds on Self; Sanctuary 50 pts for 30 seconds on Self"],"spells":[]}},
+         "traits":{
+            "abilities":["Enduring Physique: Fortify Attack 10 pts on Self","Resist Normal Weapons 4-40 pts on Self"],
+            "powers":["Savage Roar: Demoralize Creature 20 pts in 10ft for 15 seconds on Target; Demoralize Humanoid 20 pts in 10ft for 15 seconds on Target","Mouloch's Protection: Resist Magicka 50 pts for 30 seconds on Self; Sanctuary 50 pts for 30 seconds on Self"],
+            "spells":[]}},
       "Ohmes":{
          "male":[35,40,30,50,40,30,45,40],
          "female":[30,40,30,50,40,35,45,40],
          "bonuses":{"Acrobatics":10,"Mercantile":5,"Speechcraft":10,"Light Armor":5,"Security":5,"Short Blade":5,"Sneak":5},
-         "traits":{"abilities":["Tenacity of Ohmes: Resist Common Disease 25 pts on Self"],"powers":["Eye of Fear: Demoralize Humanoid 100 pts for 30 seconds on Target"],"spells":["Eye of Night: Night Eye 50 pts for 30 seconds on Self, Cost: 0"]}},
+         "traits":{
+            "abilities":["Tenacity of Ohmes: Resist Common Disease 25 pts on Self"],
+            "powers":["Eye of Fear: Demoralize Humanoid 100 pts for 30 seconds on Target"],
+            "spells":["Eye of Night: Night Eye 50 pts for 30 seconds on Self, Cost: 0"]}},
       "Ohmes-raht":{
          "male":[30,45,30,50,40,30,45,40],
          "female":[30,45,30,50,40,30,45,40],
          "bonuses":{"Acrobatics":15,"Illusion":5,"Speechcraft":5,"Light Armor":5,"Security":5,"Sneak":10},
-         "traits":{"abilities":["Temerity: Resist Paralysis 25 pts on Self"],"powers":["Perfect Balance: Feather 50 pts for 5 minutes on Self; Fortify Personality 10 pts for 5 minutes on Self; Slowfall 30 pts for 5 minutes on Self"],"spells":["Eye of Night: Night Eye 50 pts for 30 seconds on Self, Cost: 0"]}},
+         "traits":{
+            "abilities":["Temerity: Resist Paralysis 25 pts on Self"],
+            "powers":["Perfect Balance: Feather 50 pts for 5 minutes on Self; Fortify Personality 10 pts for 5 minutes on Self; Slowfall 30 pts for 5 minutes on Self"],
+            "spells":["Eye of Night: Night Eye 50 pts for 30 seconds on Self, Cost: 0"]}},
       "Reachman":{
          "male":[40,45,50,40,35,35,25,40],
          "female":[35,50,50,40,40,30,25,40],
          "bonuses":{"Conjuration":10,"Destruction":10,"Alteration":5,"Alchemy":10,"Blunt Weapon":5,"Athletics":5},
-         "traits":{"abilities":["Magicka Bonus: Fortify Maximum Magicka 0.5× Intelligence (50% more Magicka)","Resist Magicka: Resist Magicka 25 pts on Self"],"powers":["Witch Eye: Disintegrate Armor 50 pts on Target; Blind 50 pts for 10 seconds on Target; Absorb Magicka 10 pts on Target","Blood Chant: Fortify Attack 100 pts for 60 seconds on Self; Fortify Fatigue 150 pts for 60 seconds on Self; Drain Agility 40 pts for 60 seconds on Self"],"spells":[]}},
+         "traits":{
+            "abilities":["Magicka Bonus: Fortify Maximum Magicka 0.5× Intelligence (50% more Magicka)","Resist Magicka: Resist Magicka 25 pts on Self"],
+            "powers":["Witch Eye: Disintegrate Armor 50 pts on Target; Blind 50 pts for 10 seconds on Target; Absorb Magicka 10 pts on Target","Blood Chant: Fortify Attack 100 pts for 60 seconds on Self; Fortify Fatigue 150 pts for 60 seconds on Self; Drain Agility 40 pts for 60 seconds on Self"],
+            "spells":[]}},
       "Riverfolk":{
          "male":[40,40,30,50,30,40,40,40],
          "female":[40,40,30,50,30,40,40,40],
          "bonuses":{"Block":15,"Hand-to-hand":5,"Long Blade":5,"Mercantile":5,"Athletics":10,"Marksman":5},
-         "traits":{"abilities":["Resist Shock 50 pts on Self"],"powers":["Mirror: Fortify Fatigue 150 pts for 60 seconds on Self; Reflect 25 pts for 60 seconds on Self"],"spells":[]}},
+         "traits":{
+            "abilities":["Resist Shock 50 pts on Self"],
+            "powers":["Mirror: Fortify Fatigue 150 pts for 60 seconds on Self; Reflect 25 pts for 60 seconds on Self"],
+            "spells":[]}},
       "Sea Elf":{
          "male":[40,40,50,40,30,40,30,40],
          "female":[40,40,50,40,30,40,30,40],
          "bonuses":{"Athletics":5,"Alteration":10,"Destruction":10,"Illusion":5,"Spear":5,"Sneak":5,"Unarmored":5},
-         "traits":{"abilities":["Blessing of the Veil: Sanctuary 10 pts on Self","Blessing of Serpent God: Fortify Maximum Magicka 0.5× INT pts on Self; Resist Poison 20 pts on Self"],"powers":["Mist Shroud: Chameleon 50 pts for 30 seconds on Self"],"spells":[]}},
+         "traits":{
+            "abilities":["Blessing of the Veil: Sanctuary 10 pts on Self","Blessing of Serpent God: Fortify Maximum Magicka 0.5× INT pts on Self; Resist Poison 20 pts on Self"],
+            "powers":["Mist Shroud: Chameleon 50 pts for 30 seconds on Self"],
+            "spells":[]}},
       "Suthay":{
          "male":[40,40,30,55,35,30,40,40],
          "female":[30,40,30,55,35,40,40,40],
          "bonuses":{"Acrobatics":15,"Hand-to-hand":5,"Light Armor":5,"Security":5,"Short Blade":5,"Sneak":10},
-         "traits":{"abilities":[],"powers":["Grace of Suthay Khajiit: Fortify Agility 10 pts for 30 seconds on Self; Fortify Agility 10 pts for 30 seconds on Self","Eye of Fear: Demoralize Humanoid 100 pts for 30 seconds on Target"],"spells":["Eye of Night: Night Eye 50 pts for 30 seconds on Self, Cost: 0"]}},
+         "traits":{
+            "abilities":[],
+            "powers":["Grace of Suthay Khajiit: Fortify Agility 10 pts for 30 seconds on Self; Fortify Agility 10 pts for 30 seconds on Self","Eye of Fear: Demoralize Humanoid 100 pts for 30 seconds on Target"],
+            "spells":["Eye of Night: Night Eye 50 pts for 30 seconds on Self, Cost: 0"]}},
       "Tojay":{
          "male":[40,35,50,30,40,45,30,40],
          "female":[40,35,50,30,40,45,30,40],
          "bonuses":{"Restoration":15,"Mysticism":10,"Blunt Weapon":10,"Unarmored":5,"Alchemy":5},
-         "traits":{"abilities":["Careful Step: Fortify Acrobatics 5 pts on Self; Detect Enchantment 10 pts on Self"],"powers":["Mountain Fastness: Fortify Health 30 pts for 3 minutes on Self; Resist Shock 20 pts for 3 minutes on Self; Resist Frost 20 pts for 3 minutes on Self"],"spells":["Eye of Night: Night Eye 50 pts for 30 seconds on Self, Cost: 0","Wild Open: Open 1-100 pts on Touch, Cost: 15","Vigor: Fortify Fatigue 5-20 pts for 30 seconds on Self, Cost: 9"]}},
+         "traits":{
+            "abilities":["Careful Step: Fortify Acrobatics 5 pts on Self; Detect Enchantment 10 pts on Self"],
+            "powers":["Mountain Fastness: Fortify Health 30 pts for 3 minutes on Self; Resist Shock 20 pts for 3 minutes on Self; Resist Frost 20 pts for 3 minutes on Self"],
+            "spells":["Eye of Night: Night Eye 50 pts for 30 seconds on Self, Cost: 0","Wild Open: Open 1-100 pts on Touch, Cost: 15","Vigor: Fortify Fatigue 5-20 pts for 30 seconds on Self, Cost: 9"]}},
       "Tsaesci":{
          "male":[30,40,45,50,40,30,35,40],
          "female":[30,40,45,50,40,30,35,40],
          "bonuses":{"Long Blade":10,"Medium Armor":5,"Athletics":10,"Unarmored":15,"Speechcraft":5},
-         "traits":{"abilities":["Immortal Endurance: Restore Health 0-1 pts on Self"],"powers":[],"spells":["Immortal Endurance: Restore Health 0-1 pts for 50 seconds on Self, Cost: 5","Immortal Restoration: Restore Agility 10-20 pts on Self; Restore Endurance 10-20 pts on Self; Restore Intelligence 10-20 pts on Self; Restore Luck 10-20 pts on Self; Restore Personality 10-20 pts on Self; Restore Speed 10-20 pts on Self; Restore Strength 10-20 pts on Self; Restore Willpower 10-20 pts on Self, Cost: 5"]}}},
+         "traits":{
+            "abilities":["Immortal Endurance: Restore Health 0-1 pts on Self"],
+            "powers":[],
+            "spells":["Immortal Endurance: Restore Health 0-1 pts for 50 seconds on Self, Cost: 5","Immortal Restoration: Restore Agility 10-20 pts on Self; Restore Endurance 10-20 pts on Self; Restore Intelligence 10-20 pts on Self; Restore Luck 10-20 pts on Self; Restore Personality 10-20 pts on Self; Restore Speed 10-20 pts on Self; Restore Strength 10-20 pts on Self; Restore Willpower 10-20 pts on Self, Cost: 5"]}}},
 
    "classes":{
       "Acrobat":{"spec":"Stealth","maj":["Acrobatics","Athletics","Marksman","Sneak","Unarmored"],"min":["Speechcraft","Light Armor","Hand-to-hand","Alteration","Spear"],"fav":["Agility","Endurance"]},
@@ -257,8 +347,20 @@ const DATA = {
    
 
    "birthsigns":{
-      "The Apprentice":{"description":"Maximum Magicka 1.5× Intelligence; Weakness to Magicka 50.","traits":{"abilities":["Elfborn: Maximum Magicka +1.5× Intelligence","Weakness to Magicka 50%"],"powers":[],"spells":[]},"month":"Sun's Height"},
-      "The Atronach":{"description":"Maximum Magicka 2.0× Intelligence; Spell Absorption 50; Stunted Magicka.","traits":{"abilities":["Wombburn: Maximum Magicka +2× Intelligence","Spell Absorption 50%","Stunted Magicka"],"powers":[],"spells":[]},"month":"Sun's Dusk"},
+      "The Apprentice":{
+         "description":"Maximum Magicka 1.5× Intelligence; Weakness to Magicka 50.",
+         "traits":{
+            "abilities":["Elfborn: Maximum Magicka +1.5× Intelligence","Weakness to Magicka 50%"],
+            "powers":[],
+            "spells":[]},
+         "month":"Sun's Height"},
+      "The Atronach":{
+         "description":"Maximum Magicka 2.0× Intelligence; Spell Absorption 50; Stunted Magicka.",
+         "traits":{
+            "abilities":["Wombburn: Maximum Magicka +2× Intelligence","Spell Absorption 50%","Stunted Magicka"],
+            "powers":[],
+            "spells":[]},
+         "month":"Sun's Dusk"},
       "The Lady":{"description":"Fortify Personality 25; Fortify Endurance 25.","traits":{"abilities":["Lady's Favor: Personality +25","Lady's Grace: Endurance +25"],"powers":[],"spells":[]},"month":"Hearthfire"},
       "The Lord":{"description":"Weakness to Fire 100; Blood of the North.","traits":{"abilities":["Trollkin: Weakness to Fire 100%"],"powers":[],"spells":["Blood of the North: Restore Health 2 pts for 30 seconds on Self"]},"month":"First Seed"},
       "The Lover":{"description":"Fortify Agility 25; Lover's Kiss.","traits":{"abilities":["Mooncalf: Agility +25"],"powers":["Lover's Kiss: Paralyze for 60 seconds on Target; Damage Fatigue 200 pts on Self"],"spells":[]},"month":"Sun's Dawn"},
