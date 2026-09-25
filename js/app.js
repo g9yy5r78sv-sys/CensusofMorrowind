@@ -244,7 +244,7 @@ function starterSpells(b,st=buildStartingStats(b)){
  return out;
 }
 
-function makeBuild(style="Coherent",dir="Any",allowNpc=false,racePreference="Any",genderPreference="Any",birthPreference="Any",allowTRClasses=false,allowTRRaces=false){
+function makeBuild(style="Coherent",dir="Any",allowNpc=false,racePreference="Any",genderPreference="Any",birthPreference="Any",allowTRClasses=false,allowTRRaces=false,classPreference="Any"){
  const pool=dir==="Any"?allSkills:(BUILD_DIRECTIONS[dir]||allSkills);
 const primary=pick(pool);
 let race;
@@ -255,7 +255,9 @@ else if(style==="Coherent"||style==="Unusual") {
  race=pick(eligible.length?eligible:racePool);
 } else race=pick(racePool);
  const classes=compatibleClasses(primary,style,allowNpc,allowTRClasses),classData=classPool(allowNpc,allowTRClasses);
- const cls=pick(classes);
+ const cls = classPreference && classPreference !== "Any" && classes.includes(classPreference)
+  ? classPreference
+  : pick(classes);
  const c=classData[cls];
  const birth=(birthPreference && birthPreference!=="Any")?birthPreference:pick(BIRTHSIGNS);
  const majors=sortSkillsByCanon(sample(c.maj,5));
@@ -801,8 +803,8 @@ function generateBoth(){
  const racePref=document.getElementById("bothRace").value;
  const genderPref=document.getElementById("bothGender").value;
  const birthPref=document.getElementById("bothBirth").value;
-
- const b=makeBuild(buildStyle,dir,allowNpc,racePref,genderPref,birthPref,allowTRClasses,allowTRRaces);
+ const classPref=document.getElementById("bothClassPreference").value;
+ const b=makeBuild(buildStyle,dir,allowNpc,racePref,genderPref,birthPref,allowTRClasses,allowTRRaces,classPref);
  const s=storyFor(b,tone,fate);
  const meta=storyMeta(s);
  const text=storyText(s,b);
@@ -1035,6 +1037,28 @@ function updateBothRaceOptions(){
 updateBothRaceOptions();
 document.getElementById("bothAllowTRRaces")
   .addEventListener("change", updateBothRaceOptions);
+
+function updateBothClassOptions(){
+  const select = document.getElementById("bothClassPreference");
+  const current = select.value;
+  const allowNpc = document.getElementById("bothAllowNpcClasses").checked;
+  const allowTR = document.getElementById("bothAllowTRClasses").checked;
+  const classes = Object.keys(classPool(allowNpc, allowTR));
+
+  select.innerHTML = `<option value="Any">Any</option>` +
+    classes.map(c => `<option value="${esc(c)}">${esc(c)}</option>`).join("");
+
+  select.value = classes.includes(current) || current === "Any"
+    ? current
+    : "Any";
+}
+
+updateBothClassOptions();
+document.getElementById("bothAllowNpcClasses")
+  .addEventListener("change", updateBothClassOptions);
+document.getElementById("bothAllowTRClasses")
+  .addEventListener("change", updateBothClassOptions);
+   
 for(const sign of BIRTHSIGNS){document.getElementById("bothBirth").insertAdjacentHTML("beforeend",`<option value="${esc(sign)}">${esc(sign)}</option>`)}
 
 /*document.getElementById("appVersion").textContent=APP_VERSION;*/
