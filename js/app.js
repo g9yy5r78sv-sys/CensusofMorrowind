@@ -775,23 +775,48 @@ function storyFor(b,tone,fate,genderPreference="Any",birthPreference="Any"){
  return {race,sex,name,homeland,occupation,family,mentor,event,crime,detail,arrest,attitude,prison,change,relationship,future,skill,faction,factions,birth,birthday,age,fateText,toneHook,wildCard,tone};
 }
 function storyMeta(s){return `Name: ${s.name} • Race: ${s.race} • Gender: ${genderLabel(s.sex)} • Age: ${s.age} • Birthday: ${s.birthday.label} • Birthsign: ${s.birth}`}
+   
 function storyText(s,b){
- const skillLine=b?.primary?`You developed a particular knack for ${b.primary}, while your work gave you practical reasons to keep improving.`:`You developed a practical knack for ${s.skill} through the work you did.`;
- const styleLine=s.toneHook?`${s.toneHook}`:"";
- const futureLine=s.future.mode==="simple"?`Your main concern became simple: ${s.future.text}.`:`You hoped to eventually ${s.future.text}.`;
- const fateLine=s.fateText?` ${s.fateText}`:"";
- return `${s.homeland.text} ${s.family}
+ const skillLine=b?.primary
+   ? `You developed a particular knack for ${b.primary}, while your work gave you practical reasons to keep improving.`
+   : `You developed a practical knack for ${s.skill} through the work you did.`;
 
-${styleLine} You worked as ${(/^[aeiou]/i.test(s.occupation.name)?"an ":"a ")+s.occupation.name}, learning much of what you know from ${s.mentor}. ${s.event} ${skillLine}
+ const styleLine=s.toneHook || "";
+ const article=/^[aeiou]/i.test(s.occupation.name) ? "an " : "a ";
 
-Trouble came when you were charged with ${s.crime.charge||s.crime.name.toLowerCase()}. ${s.detail} ${s.arrest} ${s.attitude}
+ const futureLine=s.future.mode==="simple"
+   ? `Your main concern became simple: ${s.future.text}.`
+   : `You hoped to eventually ${s.future.text}.`;
 
-Your sentence became an unwanted chapter of your life. ${s.prison} ${s.change} ${s.relationship} ${futureLine}
+ const fateLine=s.fateText || "";
 
-${s.wildCard?`${s.wildCard}`:""}${fateLine}
+ const workParagraph =
+   `In time, you worked as ${article}${s.occupation.name}, learning much of what you know from ${s.mentor}. ` +
+   `${s.event} ${skillLine}`;
 
-Eventually, you were taken from prison and placed aboard an Imperial transport bound for Vvardenfell.`;
+ const troubleParagraph =
+   `Eventually, trouble found you. You were charged with ${s.crime.charge||s.crime.name.toLowerCase()}. ` +
+   `${s.detail} ${s.arrest} ${s.attitude}`;
+
+ const prisonParagraph =
+   `Your sentence became an unwanted chapter of your life. ` +
+   `${s.prison} ${s.change} ${s.relationship} ${futureLine}`;
+
+ const reflectionParagraph=[s.wildCard,fateLine]
+   .filter(Boolean)
+   .join(" ");
+
+ return [
+   `${s.homeland.text} ${s.family}`,
+   styleLine,
+   workParagraph,
+   troubleParagraph,
+   prisonParagraph,
+   reflectionParagraph,
+   `Eventually, you were taken from prison and placed aboard an Imperial transport bound for Vvardenfell.`
+ ].filter(p=>p && p.trim()).join("\n\n");
 }
+   
 function generateStory(){
  const racePref=document.getElementById("storyRace").value;
  const fate=document.getElementById("storyFate").value;
