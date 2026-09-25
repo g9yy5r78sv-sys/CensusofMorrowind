@@ -11,7 +11,7 @@ const ORDER = Object.freeze({
   tones: ["Lore-friendly", "Grounded", "Adventurous", "Dark", "Comedic"],
   fates: ["Open-ended", "Destined", "Prophetic", "Accidental", "Ordinary", "Dangerous"],
   buildStyles: ["Coherent", "Random", "Unusual", "Chaos"],
-  buildFocuses: ["Any", "Martial", "Magical", "Stealth"]
+  buildFocuses: ["Any", "Combat", "Magic", "Stealth"]
 });
 
 const ATTR=DATA.attributes;
@@ -30,7 +30,7 @@ const FATES = ORDER.fates;
 const BUILD_STYLES = ORDER.buildStyles;
 function orderedRaceEntries(obj){return RACES.filter(r=>Object.prototype.hasOwnProperty.call(obj,r)).map(r=>[r,obj[r]])}
 const SPEC_SKILLS={Combat:["Armorer","Axe","Block","Blunt Weapon","Heavy Armor","Long Blade","Medium Armor","Spear","Athletics"],Magic:["Alchemy","Alteration","Conjuration","Destruction","Enchant","Illusion","Mysticism","Restoration","Unarmored"],Stealth:["Acrobatics","Hand-to-hand","Light Armor","Marksman","Mercantile","Security","Short Blade","Sneak","Speechcraft"]};
-const BUILD_FOCUS_SPECS = {Martial: "Combat",Magical: "Magic",Stealth: "Stealth"};
+const BUILD_FOCUS_SPECS = {Combat: "Combat",Magic: "Magic",Stealth: "Stealth"};
 const MAGICKA_RACE_BONUS={Breton:.5,"High Elf":1.5},MAGICKA_BIRTH_BONUS={"The Apprentice":1.5,"The Mage":.5,"The Atronach":2};
 
 /* --------------------------------------------------------------------------
@@ -1024,8 +1024,8 @@ h+=refSection(`Races (${Object.keys(DATA.races).length})`,
   "Build focus",
   `<div class="refItem">${refRows([
     ["Any", "Classes from all enabled specializations."],
-    ["Martial", "Classes with the Combat specialization."],
-    ["Magical", "Classes with the Magic specialization."],
+    ["Combat", "Classes with the Combat specialization."],
+    ["Magic", "Classes with the Magic specialization."],
     ["Stealth", "Classes with the Stealth specialization."]
   ])}</div>`,
   false,
