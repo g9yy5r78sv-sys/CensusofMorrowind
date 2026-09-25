@@ -11,7 +11,7 @@ const ORDER = Object.freeze({
   tones: ["Lore-friendly", "Grounded", "Adventurous", "Dark", "Comedic"],
   fates: ["Open-ended", "Destined", "Prophetic", "Accidental", "Ordinary", "Dangerous"],
   buildStyles: ["Coherent", "Random", "Unusual", "Chaos"],
-  buildDirections: ["Any", "Martial", "Magical", "Stealth", "Social", "Crafting"]
+  buildFocuses: ["Any", "Martial", "Magical", "Stealth"]
 });
 
 const ATTR=DATA.attributes;
@@ -30,7 +30,7 @@ const FATES = ORDER.fates;
 const BUILD_STYLES = ORDER.buildStyles;
 function orderedRaceEntries(obj){return RACES.filter(r=>Object.prototype.hasOwnProperty.call(obj,r)).map(r=>[r,obj[r]])}
 const SPEC_SKILLS={Combat:["Armorer","Axe","Block","Blunt Weapon","Heavy Armor","Long Blade","Medium Armor","Spear","Athletics"],Magic:["Alchemy","Alteration","Conjuration","Destruction","Enchant","Illusion","Mysticism","Restoration","Unarmored"],Stealth:["Acrobatics","Hand-to-hand","Light Armor","Marksman","Mercantile","Security","Short Blade","Sneak","Speechcraft"]};
-const BUILD_DIRECTIONS={Martial:[...SPEC_SKILLS.Combat],Magical:[...SPEC_SKILLS.Magic],Stealth:[...SPEC_SKILLS.Stealth],Social:["Mercantile","Speechcraft","Illusion"],Crafting:["Alchemy","Enchant","Armorer"]};
+const BUILD_FOCUS_SPECS = {Martial: "Combat",Magical: "Magic",Stealth: "Stealth"};
 const MAGICKA_RACE_BONUS={Breton:.5,"High Elf":1.5},MAGICKA_BIRTH_BONUS={"The Apprentice":1.5,"The Mage":.5,"The Atronach":2};
 
 /* --------------------------------------------------------------------------
@@ -83,11 +83,22 @@ function rankedClasses(skill,style,allowNpc=false,allowTR=false){
  for(const name of Object.keys(pool)){const score=scoreClass(pool[name],skill,style);if(!groups.has(score))groups.set(score,[]);groups.get(score).push(name)}
  return [...groups.keys()].sort((a,b)=>b-a).flatMap(score=>sample(groups.get(score),groups.get(score).length));
 }
-function compatibleClasses(skill,style,allowNpc=false,allowTR=false){
- const names=rankedClasses(skill,style,allowNpc,allowTR);
- if(style==="Chaos")return names;
- const limit=allowNpc?RULES.classSelection.npcLimit:RULES.classSelection.playerLimit;
- return names.slice(0,Math.min(limit,names.length));
+function compatibleClasses(skill, style, allowNpc = false, allowTR = false, buildFocus = "Any") {
+  let names = rankedClasses(skill, style, allowNpc, allowTR);
+
+  const requiredSpec = BUILD_FOCUS_SPECS[buildFocus];
+  if (requiredSpec) {
+    const pool = classPool(allowNpc, allowTR);
+    names = names.filter(name => pool[name]?.spec === requiredSpec);
+  }
+
+  if (style === "Chaos") return names;
+
+  const limit = allowNpc
+    ? RULES.classSelection.npcLimit
+    : RULES.classSelection.playerLimit;
+
+  return names.slice(0, Math.min(limit, names.length));
 }
 const GREAT_HOUSES=["House Hlaalu","House Redoran","House Telvanni"];
 
@@ -250,11 +261,10 @@ function makeBuild(style="Coherent",dir="Any",allowNpc=false,racePreference="Any
   ? classPreference
   : null;
 
- let primary=null;
- if(!selectedClass){
-  const pool=dir==="Any"?allSkills:(BUILD_DIRECTIONS[dir]||allSkills);
-  primary=pick(pool);
- }
+   let primary = null;
+   if (!selectedClass) {
+     primary = pick(allSkills);
+   }
 
  let race;
  const racePool=allowTRRaces?ALL_RACES_WITH_TR:RACES;
@@ -270,7 +280,13 @@ function makeBuild(style="Coherent",dir="Any",allowNpc=false,racePreference="Any
  if(selectedClass){
   cls=selectedClass;
  } else {
-  const classes=compatibleClasses(primary,style,allowNpc,allowTRClasses);
+  const classes = compatibleClasses(
+  primary,
+  style,
+  allowNpc,
+  allowTRClasses,
+  dir
+   );
   cls=pick(classes);
  }
 
@@ -906,7 +922,7 @@ function runConsistencyChecks(){
     checkOrder("Birthsigns",DATA.birthsigns,ORDER.birthsigns),
     checkOrder("Tones",DATA.backstory.toneHooks,ORDER.tones),
     checkOrder("Fates",DATA.backstory.fate,ORDER.fates),
-    checkList("Build directions",["Any",...Object.keys(BUILD_DIRECTIONS)],ORDER.buildDirections),
+    checkList("Build focuses", ORDER.buildFocuses, ORDER.buildFocuses),
     checkList("Build styles",BUILD_STYLES,ORDER.buildStyles)
   ];
   const passed=checks.filter(Boolean).length;
@@ -1004,7 +1020,17 @@ h+=refSection(`Races (${Object.keys(DATA.races).length})`,
     refSection("Specialization skill groups",Object.entries(SPEC_SKILLS).map(([name,skills])=>`<div class="refItem"><h4>${esc(name)}</h4><div class="pillRow">${skills.map(sk=>`<span class="pill">${esc(sk)}</span>`).join("")}</div></div>`).join(""),false,2)+
     refSection("Starting spell auto-grant",`<div class="refItem"><p>During character creation, a stored PC-start spell is eligible when its governing skill is a major or minor skill and <b>2 × skill + Willpower / 5 + Luck / 10</b> meets or exceeds the spell's listed threshold. Three PC-start spells are flagged by UESP as impossible to receive during normal character creation: Exhausting Touch, Tap Energy, and Feet of Notorgo.</p></div>`,false,2)+
     refSection("Build styles",`<div class="refItem">${refRows([["Coherent","Primary skill influences race selection and compatible class selection; birthsign is independently randomized unless a preference is selected."],["Random","Race and birthsign are random; class is still drawn from the top compatible class pool for the primary skill."],["Unusual","Prefers classes that place the primary skill in a minor slot, then major slot, while still allowing unrelated classes at the bottom of the ranking."],["Chaos","Class selection ignores the normal top-four restriction and can draw from the full enabled class pool."]])}</div>`,false,2)+
-    refSection("Build directions",`<div class="refItem">${refRows(Object.entries({Any:allSkills,...BUILD_DIRECTIONS}).map(([name,skills])=>[name,skills.join(", ")]))}</div>`,false,2)+
+    refSection(
+  "Build focus",
+  `<div class="refItem">${refRows([
+    ["Any", "Classes from all enabled specializations."],
+    ["Martial", "Classes with the Combat specialization."],
+    ["Magical", "Classes with the Magic specialization."],
+    ["Stealth", "Classes with the Stealth specialization."]
+  ])}</div>`,
+  false,
+  2
+)+
     refSection("Backstory rules",`<div class="refItem">${refRows([["Age","18–45 inclusive."],["Wildcard chance","Comedic ${RULES.backstory.wildcardChance.Comedic*100}%; Adventurous ${RULES.backstory.wildcardChance.Adventurous*100}%; all other tones ${RULES.backstory.wildcardChance.Default*100}%."],["Birthday","Fixed birthsigns use their associated TES3 month length. Morning Star uses a 30-day fallback; the Serpent has no fixed month and receives a random valid calendar month and day."]])}</div>`,false,2),false,1,"ref-rules");
 document.getElementById("refContent").innerHTML=h;
 }
@@ -1121,7 +1147,7 @@ initNameGenerator();
 customSelect("storyStyle",TONES);
 customSelect("storyFate",FATES);
 customSelect("bothBuildStyle",BUILD_STYLES);
-customSelect("bothBuildDir",ORDER.buildDirections);
+customSelect("bothBuildDir", ORDER.buildFocuses);
 customSelect("bothTone",TONES);
 customSelect("bothFate",FATES);
  runConsistencyChecks();
