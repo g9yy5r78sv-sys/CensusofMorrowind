@@ -10,7 +10,129 @@ const DATA = {
       "Speed":["Athletics","Hand-to-hand","Short Blade","Unarmored"],
       "Endurance":["Heavy Armor","Medium Armor","Spear"],
       "Personality":["Illusion","Mercantile","Speechcraft"]},
+   
+   "skills":["Block","Armorer","Medium Armor","Heavy Armor","Blunt Weapon","Long Blade","Axe","Spear","Athletics","Enchant","Destruction","Alteration","Illusion","Conjuration","Mysticism","Restoration","Alchemy","Unarmored","Security","Sneak","Acrobatics","Light Armor","Short Blade","Marksman","Mercantile","Speechcraft","Hand-to-hand"],   
+   
+   "starterSpells":[
+      {"name":"Sanctuary","skill":"Illusion","cost":15,"desc":"Sanctuary 10 pts for 30 seconds on Self","threshold":65},
+      {"name":"Chameleon","skill":"Illusion","cost":15,"desc":"Chameleon 10 pts for 30 seconds on Self","threshold":65},
+      {"name":"Bound Dagger","skill":"Conjuration","cost":6,"desc":"Bound Dagger for 60 seconds on Self","threshold":56},
+      {"name":"Summon Ancestral Ghost","skill":"Conjuration","cost":21,"desc":"Summon Ancestral Ghost for 60 seconds on Self","threshold":71},
+      {"name":"Water Walking","skill":"Alteration","cost":9,"desc":"Water Walking for 60 seconds on Self","threshold":59},
+      {"name":"Shield","skill":"Alteration","cost":15,"desc":"Shield 5 pts for 30 seconds on Self","threshold":65},
+      {"name":"Fire Bite","skill":"Destruction","cost":6,"desc":"Fire Damage 15-30 pts for 1 second on Touch","threshold":56},
+      {"name":"Exhausting Touch","skill":"Destruction","cost":75,"desc":"Drain Fatigue 5-20 pts for 60 seconds on Touch","threshold":125,"unobtainable":true},
+      {"name":"Detect Creature","skill":"Mysticism","cost":19,"desc":"Detect Animal 50-150 pts for 5 seconds on Self","threshold":69},
+      {"name":"Tap Energy","skill":"Mysticism","cost":180,"desc":"Absorb Fatigue 20 pts for 30 seconds on Target","threshold":230,"unobtainable":true},
+      {"name":"Hearth Heal","skill":"Restoration","cost":13,"desc":"Restore Health 20-80 pts on Self","threshold":63},
+      {"name":"Feet of Notorgo","skill":"Restoration","cost":45,"desc":"Fortify Speed 10 pts for 90 seconds on Self","threshold":95,"unobtainable":true}],
+   
+   "factions":{
+      "Fighters Guild":["Armorer","Axe","Block","Blunt Weapon","Heavy Armor","Long Blade"],
+      "Mages Guild":["Alchemy","Alteration","Destruction","Enchant","Illusion","Mysticism"],
+      "Thieves Guild":["Acrobatics","Light Armor","Marksman","Security","Short Blade","Sneak"],
+      "Imperial Legion":["Athletics","Spear","Long Blade","Blunt Weapon","Heavy Armor","Block"],
+      "Tribunal Temple":["Alchemy","Blunt Weapon","Conjuration","Mysticism","Restoration","Unarmored"],
+      "Morag Tong":["Acrobatics","Illusion","Marksman","Light Armor","Short Blade","Sneak"],
+      "House Hlaalu":["Light Armor","Marksman","Mercantile","Security","Short Blade","Speechcraft"],
+      "House Redoran":["Armorer","Athletics","Heavy Armor","Long Blade","Medium Armor","Spear"],
+      "House Telvanni":["Alteration","Conjuration","Destruction","Enchant","Illusion","Mysticism"],
+      "Imperial Cult":["Speechcraft","Unarmored","Restoration","Mysticism","Conjuration","Enchant","Blunt Weapon"]},
+   
+   "calendar":{"monthDays":{"Morning Star":30,"Sun's Dawn":28,"First Seed":31,"Rain's Hand":30,"Second Seed":31,"Mid Year":30,"Sun's Height":31,"Last Seed":31,"Hearthfire":30,"Frostfall":30,"Sun's Dusk":31,"Evening Star":31}},
 
+   "birthsigns":{
+      "The Apprentice":{
+         "description":"Maximum Magicka 1.5× Intelligence; Weakness to Magicka 50.",
+         "traits":{
+            "abilities":["Elfborn: Maximum Magicka +1.5× Intelligence","Weakness to Magicka 50%"],
+            "powers":[],
+            "spells":[]},
+         "month":"Sun's Height"},
+      "The Atronach":{
+         "description":"Maximum Magicka 2.0× Intelligence; Spell Absorption 50; Stunted Magicka.",
+         "traits":{
+            "abilities":["Wombburn: Maximum Magicka +2× Intelligence","Spell Absorption 50%","Stunted Magicka"],
+            "powers":[],
+            "spells":[]},
+         "month":"Sun's Dusk"},
+      "The Lady":{
+         "description":"Fortify Personality 25; Fortify Endurance 25.",
+         "traits":{
+            "abilities":["Lady's Favor: Personality +25","Lady's Grace: Endurance +25"],
+            "powers":[],
+            "spells":[]},
+         "month":"Hearthfire"},
+      "The Lord":{
+         "description":"Weakness to Fire 100; Blood of the North.",
+         "traits":{
+            "abilities":["Trollkin: Weakness to Fire 100%"],
+            "powers":[],
+            "spells":["Blood of the North: Restore Health 2 pts for 30 seconds on Self"]},
+         "month":"First Seed"},
+      "The Lover":{
+         "description":"Fortify Agility 25; Lover's Kiss.",
+         "traits":{
+            "abilities":["Mooncalf: Agility +25"],
+            "powers":["Lover's Kiss: Paralyze for 60 seconds on Target; Damage Fatigue 200 pts on Self"],
+            "spells":[]},
+         "month":"Sun's Dawn"},
+      "The Mage":{
+         "description":"Maximum Magicka 0.5× Intelligence.",
+         "traits":{
+            "abilities":["Fay: Maximum Magicka +0.5× Intelligence"],
+            "powers":[],
+            "spells":[]},
+         "month":"Rain's Hand"},
+      "The Ritual":{
+         "description":"Mara's Gift; Blessed Word; Blessed Touch.",
+         "traits":{
+            "abilities":[],
+            "powers":["Mara's Gift: Restore Health 100 pts on Self"],
+            "spells":["Blessed Word: Turn Undead 100 pts for 30 seconds on Target","Blessed Touch: Turn Undead 100 pts for 30 seconds on Touch"]},
+         "month":"Morning Star"},
+      "The Serpent":{
+         "description":"Star-Curse.",
+         "traits":{
+            "abilities":[],
+            "powers":[],
+            "spells":["Star-Curse: Poison 3 pts for 30 seconds on Touch; Damage Health 1 pt for 30 seconds on Self"]}},
+      "The Shadow":{
+         "description":"Moonshadow.",
+         "traits":{
+            "abilities":[],
+            "powers":["Moonshadow: Invisibility for 60 seconds on Self"],
+            "spells":[]},
+         "month":"Second Seed"},
+      "The Steed":{
+         "description":"Fortify Speed 25.",
+         "traits":{
+            "abilities":["Charioteer: Speed +25"],
+            "powers":[],
+            "spells":[]},
+         "month":"Mid Year"},
+      "The Thief":{
+         "description":"Sanctuary 10.",
+         "traits":{
+            "abilities":["Akaviri Danger-sense: Sanctuary 10 pts"],
+            "powers":[],
+            "spells":[]},
+         "month":"Evening Star"},
+      "The Tower":{
+         "description":"Tower Key; Beggar's Nose.",
+         "traits":{
+            "abilities":[],
+            "powers":["Tower Key: Open 50 pts on Touch"],
+            "spells":["Beggar's Nose: Detect Animal, Enchantment and Key within 200 ft for 60 seconds"]},
+         "month":"Frostfall"},
+      "The Warrior":{
+         "description":"Fortify Attack 10.",
+         "traits":{
+            "abilities":["Warwyrd: Fortify Attack 10 pts"],
+            "powers":[],
+            "spells":[]},
+         "month":"Last Seed"}},
+   
    "races":{
       "Argonian":{
          "male":[40,40,30,50,50,30,30,40],
@@ -255,28 +377,114 @@ const DATA = {
             "powers":[],
             "spells":["Immortal Endurance: Restore Health 0-1 pts for 50 seconds on Self, Cost: 5","Immortal Restoration: Restore Agility 10-20 pts on Self; Restore Endurance 10-20 pts on Self; Restore Intelligence 10-20 pts on Self; Restore Luck 10-20 pts on Self; Restore Personality 10-20 pts on Self; Restore Speed 10-20 pts on Self; Restore Strength 10-20 pts on Self; Restore Willpower 10-20 pts on Self, Cost: 5"]}}},
 
+   "rngClassNames":["Custom Class","Wanderer","Freelance Battlemage","Road Scholar","Odd Job Specialist","Independent Adventurer","Unlicensed Professional"],  
+   
    "classes":{
-      "Acrobat":{"spec":"Stealth","maj":["Acrobatics","Athletics","Marksman","Sneak","Unarmored"],"min":["Speechcraft","Light Armor","Hand-to-hand","Alteration","Spear"],"fav":["Agility","Endurance"]},
-      "Agent":{"spec":"Stealth","maj":["Speechcraft","Sneak","Acrobatics","Light Armor","Short Blade"],"min":["Mercantile","Illusion","Unarmored","Conjuration","Block"],"fav":["Personality","Agility"]},
-      "Archer":{"spec":"Combat","maj":["Marksman","Long Blade","Block","Athletics","Light Armor"],"min":["Unarmored","Medium Armor","Sneak","Spear","Restoration"],"fav":["Agility","Strength"]},
-      "Assassin":{"spec":"Stealth","maj":["Sneak","Marksman","Light Armor","Short Blade","Acrobatics"],"min":["Security","Athletics","Block","Long Blade","Alchemy"],"fav":["Speed","Intelligence"]},
-      "Barbarian":{"spec":"Combat","maj":["Axe","Medium Armor","Blunt Weapon","Athletics","Block"],"min":["Acrobatics","Unarmored","Marksman","Light Armor","Armorer"],"fav":["Strength","Speed"]},
-      "Bard":{"spec":"Stealth","maj":["Speechcraft","Alchemy","Acrobatics","Long Blade","Block"],"min":["Mercantile","Security","Enchant","Illusion","Medium Armor"],"fav":["Personality","Intelligence"]},
-      "Battlemage":{"spec":"Magic","maj":["Alteration","Destruction","Conjuration","Axe","Heavy Armor"],"min":["Mysticism","Alchemy","Enchant","Long Blade","Marksman"],"fav":["Intelligence","Strength"]},
-      "Crusader":{"spec":"Combat","maj":["Blunt Weapon","Long Blade","Destruction","Heavy Armor","Block"],"min":["Restoration","Alchemy","Medium Armor","Armorer","Hand-to-hand"],"fav":["Agility","Strength"]},
-      "Healer":{"spec":"Magic","maj":["Restoration","Mysticism","Alteration","Hand-to-hand","Speechcraft"],"min":["Illusion","Blunt Weapon","Light Armor","Alchemy","Unarmored"],"fav":["Willpower","Personality"]},
-      "Knight":{"spec":"Combat","maj":["Long Blade","Axe","Speechcraft","Heavy Armor","Block"],"min":["Restoration","Armorer","Enchant","Mercantile","Medium Armor"],"fav":["Strength","Personality"]},
-      "Mage":{"spec":"Magic","maj":["Mysticism","Destruction","Alteration","Illusion","Restoration"],"min":["Enchant","Conjuration","Short Blade","Alchemy","Unarmored"],"fav":["Intelligence","Willpower"]},
-      "Monk":{"spec":"Stealth","maj":["Hand-to-hand","Unarmored","Athletics","Acrobatics","Sneak"],"min":["Block","Blunt Weapon","Restoration","Marksman","Light Armor"],"fav":["Agility","Willpower"]},
-      "Nightblade":{"spec":"Magic","maj":["Mysticism","Illusion","Alteration","Sneak","Short Blade"],"min":["Light Armor","Security","Marksman","Unarmored","Destruction"],"fav":["Willpower","Speed"]},
-      "Pilgrim":{"spec":"Stealth","maj":["Speechcraft","Mercantile","Marksman","Restoration","Medium Armor"],"min":["Illusion","Alchemy","Block","Hand-to-hand","Short Blade"],"fav":["Personality","Endurance"]},
-      "Rogue":{"spec":"Combat","maj":["Short Blade","Mercantile","Axe","Light Armor","Hand-to-hand"],"min":["Block","Long Blade","Athletics","Medium Armor","Speechcraft"],"fav":["Speed","Personality"]},
-      "Scout":{"spec":"Combat","maj":["Sneak","Long Blade","Medium Armor","Athletics","Block"],"min":["Marksman","Unarmored","Light Armor","Alchemy","Alteration"],"fav":["Speed","Endurance"]},
-      "Sorcerer":{"spec":"Magic","maj":["Enchant","Conjuration","Mysticism","Destruction","Alteration"],"min":["Illusion","Short Blade","Marksman","Medium Armor","Heavy Armor"],"fav":["Intelligence","Endurance"]},
-      "Spellsword":{"spec":"Magic","maj":["Block","Restoration","Long Blade","Destruction","Alteration"],"min":["Blunt Weapon","Axe","Medium Armor","Enchant","Alchemy"],"fav":["Willpower","Endurance"]},
-      "Thief":{"spec":"Stealth","maj":["Security","Sneak","Acrobatics","Light Armor","Short Blade"],"min":["Marksman","Athletics","Mercantile","Speechcraft","Hand-to-hand"],"fav":["Speed","Agility"]},
-      "Warrior":{"spec":"Combat","maj":["Long Blade","Medium Armor","Heavy Armor","Athletics","Block"],"min":["Armorer","Blunt Weapon","Axe","Spear","Marksman"],"fav":["Strength","Endurance"]},
-      "Witchhunter":{"spec":"Magic","maj":["Conjuration","Enchant","Alchemy","Light Armor","Marksman"],"min":["Unarmored","Mysticism","Sneak","Block","Blunt Weapon"],"fav":["Intelligence","Agility"]}},
+      "Acrobat":{
+         "spec":"Stealth",
+         "maj":["Acrobatics","Athletics","Marksman","Sneak","Unarmored"],
+         "min":["Speechcraft","Light Armor","Hand-to-hand","Alteration","Spear"],
+         "fav":["Agility","Endurance"]},
+      "Agent":{
+         "spec":"Stealth",
+         "maj":["Speechcraft","Sneak","Acrobatics","Light Armor","Short Blade"],
+         "min":["Mercantile","Illusion","Unarmored","Conjuration","Block"],
+         "fav":["Personality","Agility"]},
+      "Archer":{
+         "spec":"Combat",
+         "maj":["Marksman","Long Blade","Block","Athletics","Light Armor"],
+         "min":["Unarmored","Medium Armor","Sneak","Spear","Restoration"],
+         "fav":["Agility","Strength"]},
+      "Assassin":{
+         "spec":"Stealth",
+         "maj":["Sneak","Marksman","Light Armor","Short Blade","Acrobatics"],
+         "min":["Security","Athletics","Block","Long Blade","Alchemy"],
+         "fav":["Speed","Intelligence"]},
+      "Barbarian":{
+         "spec":"Combat",
+         "maj":["Axe","Medium Armor","Blunt Weapon","Athletics","Block"],
+         "min":["Acrobatics","Unarmored","Marksman","Light Armor","Armorer"],
+         "fav":["Strength","Speed"]},
+      "Bard":{
+         "spec":"Stealth",
+         "maj":["Speechcraft","Alchemy","Acrobatics","Long Blade","Block"],
+         "min":["Mercantile","Security","Enchant","Illusion","Medium Armor"],
+         "fav":["Personality","Intelligence"]},
+      "Battlemage":{
+         "spec":"Magic",
+         "maj":["Alteration","Destruction","Conjuration","Axe","Heavy Armor"],
+         "min":["Mysticism","Alchemy","Enchant","Long Blade","Marksman"],
+         "fav":["Intelligence","Strength"]},
+      "Crusader":{
+         "spec":"Combat",
+         "maj":["Blunt Weapon","Long Blade","Destruction","Heavy Armor","Block"],
+         "min":["Restoration","Alchemy","Medium Armor","Armorer","Hand-to-hand"],
+         "fav":["Agility","Strength"]},
+      "Healer":{
+         "spec":"Magic",
+         "maj":["Restoration","Mysticism","Alteration","Hand-to-hand","Speechcraft"],
+         "min":["Illusion","Blunt Weapon","Light Armor","Alchemy","Unarmored"],
+         "fav":["Willpower","Personality"]},
+      "Knight":{
+         "spec":"Combat",
+         "maj":["Long Blade","Axe","Speechcraft","Heavy Armor","Block"],
+         "min":["Restoration","Armorer","Enchant","Mercantile","Medium Armor"],
+         "fav":["Strength","Personality"]},
+      "Mage":{
+         "spec":"Magic",
+         "maj":["Mysticism","Destruction","Alteration","Illusion","Restoration"],
+         "min":["Enchant","Conjuration","Short Blade","Alchemy","Unarmored"],
+         "fav":["Intelligence","Willpower"]},
+      "Monk":{
+         "spec":"Stealth",
+         "maj":["Hand-to-hand","Unarmored","Athletics","Acrobatics","Sneak"],
+         "min":["Block","Blunt Weapon","Restoration","Marksman","Light Armor"],
+         "fav":["Agility","Willpower"]},
+      "Nightblade":{
+         "spec":"Magic",
+         "maj":["Mysticism","Illusion","Alteration","Sneak","Short Blade"],
+         "min":["Light Armor","Security","Marksman","Unarmored","Destruction"],
+         "fav":["Willpower","Speed"]},
+      "Pilgrim":{
+         "spec":"Stealth",
+         "maj":["Speechcraft","Mercantile","Marksman","Restoration","Medium Armor"],
+         "min":["Illusion","Alchemy","Block","Hand-to-hand","Short Blade"],
+         "fav":["Personality","Endurance"]},
+      "Rogue":{
+         "spec":"Combat",
+         "maj":["Short Blade","Mercantile","Axe","Light Armor","Hand-to-hand"],
+         "min":["Block","Long Blade","Athletics","Medium Armor","Speechcraft"],
+         "fav":["Speed","Personality"]},
+      "Scout":{
+         "spec":"Combat",
+         "maj":["Sneak","Long Blade","Medium Armor","Athletics","Block"],
+         "min":["Marksman","Unarmored","Light Armor","Alchemy","Alteration"],
+         "fav":["Speed","Endurance"]},
+      "Sorcerer":{
+         "spec":"Magic",
+         "maj":["Enchant","Conjuration","Mysticism","Destruction","Alteration"],
+         "min":["Illusion","Short Blade","Marksman","Medium Armor","Heavy Armor"],
+         "fav":["Intelligence","Endurance"]},
+      "Spellsword":{
+         "spec":"Magic",
+         "maj":["Block","Restoration","Long Blade","Destruction","Alteration"],
+         "min":["Blunt Weapon","Axe","Medium Armor","Enchant","Alchemy"],
+         "fav":["Willpower","Endurance"]},
+      "Thief":{
+         "spec":"Stealth",
+         "maj":["Security","Sneak","Acrobatics","Light Armor","Short Blade"],
+         "min":["Marksman","Athletics","Mercantile","Speechcraft","Hand-to-hand"],
+         "fav":["Speed","Agility"]},
+      "Warrior":{
+         "spec":"Combat",
+         "maj":["Long Blade","Medium Armor","Heavy Armor","Athletics","Block"],
+         "min":["Armorer","Blunt Weapon","Axe","Spear","Marksman"],
+         "fav":["Strength","Endurance"]},
+      "Witchhunter":{
+         "spec":"Magic",
+         "maj":["Conjuration","Enchant","Alchemy","Light Armor","Marksman"],
+         "min":["Unarmored","Mysticism","Sneak","Block","Blunt Weapon"],
+         "fav":["Intelligence","Agility"]}},
    
    "npcClasses":{
       "Alchemist":{"spec":"Magic","maj":["Alchemy","Alteration","Conjuration","Enchant","Mysticism"],"min":["Unarmored","Speechcraft","Block","Blunt Weapon","Hand-to-hand"],"fav":["Intelligence","Luck"]},
@@ -343,63 +551,5 @@ const DATA = {
       "Scribe":{"spec":"Stealth","maj":["Speechcraft","Unarmored","Alchemy","Mercantile","Restoration"],"min":["Security","Axe","Spear","Athletics","Enchant"],"fav":["Intelligence","Endurance"]},
       "Cat-catcher":{"spec":"Stealth","maj":["Blunt Weapon","Hand-to-hand","Athletics","Speechcraft","Sneak"],"min":["Security","Acrobatics","Light Armor","Marksman","Restoration"],"fav":["Agility","Personality"]},
       "Therionaut":{"spec":"Stealth","maj":["Acrobatics","Athletics","Mercantile","Security","Speechcraft"],"min":["Block","Light Armor","Unarmored","Hand-to-hand","Blunt Weapon"],"fav":["Intelligence","Personality"]},
-      "Clever-Man":{"spec":"Magic","maj":["Destruction","Restoration","Alteration","Illusion","Conjuration"],"min":["Axe","Heavy Armor","Enchant","Mysticism","Block"],"fav":["Willpower","Intelligence"]}},
-   
-
-   "birthsigns":{
-      "The Apprentice":{
-         "description":"Maximum Magicka 1.5× Intelligence; Weakness to Magicka 50.",
-         "traits":{
-            "abilities":["Elfborn: Maximum Magicka +1.5× Intelligence","Weakness to Magicka 50%"],
-            "powers":[],
-            "spells":[]},
-         "month":"Sun's Height"},
-      "The Atronach":{
-         "description":"Maximum Magicka 2.0× Intelligence; Spell Absorption 50; Stunted Magicka.",
-         "traits":{
-            "abilities":["Wombburn: Maximum Magicka +2× Intelligence","Spell Absorption 50%","Stunted Magicka"],
-            "powers":[],
-            "spells":[]},
-         "month":"Sun's Dusk"},
-      "The Lady":{"description":"Fortify Personality 25; Fortify Endurance 25.","traits":{"abilities":["Lady's Favor: Personality +25","Lady's Grace: Endurance +25"],"powers":[],"spells":[]},"month":"Hearthfire"},
-      "The Lord":{"description":"Weakness to Fire 100; Blood of the North.","traits":{"abilities":["Trollkin: Weakness to Fire 100%"],"powers":[],"spells":["Blood of the North: Restore Health 2 pts for 30 seconds on Self"]},"month":"First Seed"},
-      "The Lover":{"description":"Fortify Agility 25; Lover's Kiss.","traits":{"abilities":["Mooncalf: Agility +25"],"powers":["Lover's Kiss: Paralyze for 60 seconds on Target; Damage Fatigue 200 pts on Self"],"spells":[]},"month":"Sun's Dawn"},
-      "The Mage":{"description":"Maximum Magicka 0.5× Intelligence.","traits":{"abilities":["Fay: Maximum Magicka +0.5× Intelligence"],"powers":[],"spells":[]},"month":"Rain's Hand"},
-      "The Ritual":{"description":"Mara's Gift; Blessed Word; Blessed Touch.","traits":{"abilities":[],"powers":["Mara's Gift: Restore Health 100 pts on Self"],"spells":["Blessed Word: Turn Undead 100 pts for 30 seconds on Target","Blessed Touch: Turn Undead 100 pts for 30 seconds on Touch"]},"month":"Morning Star"},
-      "The Serpent":{"description":"Star-Curse.","traits":{"abilities":[],"powers":[],"spells":["Star-Curse: Poison 3 pts for 30 seconds on Touch; Damage Health 1 pt for 30 seconds on Self"]}},
-      "The Shadow":{"description":"Moonshadow.","traits":{"abilities":[],"powers":["Moonshadow: Invisibility for 60 seconds on Self"],"spells":[]},"month":"Second Seed"},
-      "The Steed":{"description":"Fortify Speed 25.","traits":{"abilities":["Charioteer: Speed +25"],"powers":[],"spells":[]},"month":"Mid Year"},
-      "The Thief":{"description":"Sanctuary 10.","traits":{"abilities":["Akaviri Danger-sense: Sanctuary 10 pts"],"powers":[],"spells":[]},"month":"Evening Star"},
-      "The Tower":{"description":"Tower Key; Beggar's Nose.","traits":{"abilities":[],"powers":["Tower Key: Open 50 pts on Touch"],"spells":["Beggar's Nose: Detect Animal, Enchantment and Key within 200 ft for 60 seconds"]},"month":"Frostfall"},
-      "The Warrior":{"description":"Fortify Attack 10.","traits":{"abilities":["Warwyrd: Fortify Attack 10 pts"],"powers":[],"spells":[]},"month":"Last Seed"}},
-   
-   "starterSpells":[
-      {"name":"Sanctuary","skill":"Illusion","cost":15,"desc":"Sanctuary 10 pts for 30 seconds on Self","threshold":65},
-      {"name":"Chameleon","skill":"Illusion","cost":15,"desc":"Chameleon 10 pts for 30 seconds on Self","threshold":65},
-      {"name":"Bound Dagger","skill":"Conjuration","cost":6,"desc":"Bound Dagger for 60 seconds on Self","threshold":56},
-      {"name":"Summon Ancestral Ghost","skill":"Conjuration","cost":21,"desc":"Summon Ancestral Ghost for 60 seconds on Self","threshold":71},
-      {"name":"Water Walking","skill":"Alteration","cost":9,"desc":"Water Walking for 60 seconds on Self","threshold":59},
-      {"name":"Shield","skill":"Alteration","cost":15,"desc":"Shield 5 pts for 30 seconds on Self","threshold":65},
-      {"name":"Fire Bite","skill":"Destruction","cost":6,"desc":"Fire Damage 15-30 pts for 1 second on Touch","threshold":56},
-      {"name":"Exhausting Touch","skill":"Destruction","cost":75,"desc":"Drain Fatigue 5-20 pts for 60 seconds on Touch","threshold":125,"unobtainable":true},
-      {"name":"Detect Creature","skill":"Mysticism","cost":19,"desc":"Detect Animal 50-150 pts for 5 seconds on Self","threshold":69},
-      {"name":"Tap Energy","skill":"Mysticism","cost":180,"desc":"Absorb Fatigue 20 pts for 30 seconds on Target","threshold":230,"unobtainable":true},
-      {"name":"Hearth Heal","skill":"Restoration","cost":13,"desc":"Restore Health 20-80 pts on Self","threshold":63},
-      {"name":"Feet of Notorgo","skill":"Restoration","cost":45,"desc":"Fortify Speed 10 pts for 90 seconds on Self","threshold":95,"unobtainable":true}],
-   
-   "factions":{
-      "Fighters Guild":["Armorer","Axe","Block","Blunt Weapon","Heavy Armor","Long Blade"],
-      "Mages Guild":["Alchemy","Alteration","Destruction","Enchant","Illusion","Mysticism"],
-      "Thieves Guild":["Acrobatics","Light Armor","Marksman","Security","Short Blade","Sneak"],
-      "Imperial Legion":["Athletics","Spear","Long Blade","Blunt Weapon","Heavy Armor","Block"],
-      "Tribunal Temple":["Alchemy","Blunt Weapon","Conjuration","Mysticism","Restoration","Unarmored"],
-      "Morag Tong":["Acrobatics","Illusion","Marksman","Light Armor","Short Blade","Sneak"],
-      "House Hlaalu":["Light Armor","Marksman","Mercantile","Security","Short Blade","Speechcraft"],
-      "House Redoran":["Armorer","Athletics","Heavy Armor","Long Blade","Medium Armor","Spear"],
-      "House Telvanni":["Alteration","Conjuration","Destruction","Enchant","Illusion","Mysticism"],
-      "Imperial Cult":["Speechcraft","Unarmored","Restoration","Mysticism","Conjuration","Enchant","Blunt Weapon"]},
-   
-   "rngClassNames":["Custom Class","Wanderer","Freelance Battlemage","Road Scholar","Odd Job Specialist","Independent Adventurer","Unlicensed Professional"],   
-   "skills":["Block","Armorer","Medium Armor","Heavy Armor","Blunt Weapon","Long Blade","Axe","Spear","Athletics","Enchant","Destruction","Alteration","Illusion","Conjuration","Mysticism","Restoration","Alchemy","Unarmored","Security","Sneak","Acrobatics","Light Armor","Short Blade","Marksman","Mercantile","Speechcraft","Hand-to-hand"],
-   "calendar":{"monthDays":{"Morning Star":30,"Sun's Dawn":28,"First Seed":31,"Rain's Hand":30,"Second Seed":31,"Mid Year":30,"Sun's Height":31,"Last Seed":31,"Hearthfire":30,"Frostfall":30,"Sun's Dusk":31,"Evening Star":31}}
+      "Clever-Man":{"spec":"Magic","maj":["Destruction","Restoration","Alteration","Illusion","Conjuration"],"min":["Axe","Heavy Armor","Enchant","Mysticism","Block"],"fav":["Willpower","Intelligence"]}}
 };
