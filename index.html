@@ -1,16 +1,20 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-<link rel="icon" href="/favicon.ico">
-<link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>The Census of Morrowind - Character, Build, and Name Generators</title>
-<link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>The Census of Morrowind - Character, Build, and Name Generators</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
+  
 <div class="wrap">
+  
 <header>
   <div class="eyebrow">Census and Excise Office • Seyda Neen</div>
   <h1>The Census of Morrowind</h1>
@@ -20,9 +24,9 @@
 <nav>
   <button class="tab active" data-mode="home">Home</button>
   <button class="tab" data-mode="both">Character Generator</button>
-  <button class="tab" data-mode="story">Backstory Generator</button>
-  <button class="tab" data-mode="names">Name Generator</button>
   <button class="tab" data-mode="custom">Build Preview</button>
+  <button class="tab" data-mode="names">Name Generator</button>
+  <button class="tab" data-mode="story">Backstory Generator</button>
   <button class="tab" data-mode="rng">RNGesus</button>
   <button class="tab" data-mode="reference">Reference</button>
 </nav>
@@ -35,14 +39,51 @@
   </div>
   <div class="homeTools">
     <div class="card"><h2>Character Generator</h2><p>Create a complete character in one pass. The build comes first, then the backstory is written for that exact person.</p><button class="primary" data-action="show" data-target="both">Open Character Generator</button></div>
-    <div class="card"><h2>Backstory Generator</h2><p>Build the person who existed before the prison ship: upbringing, work, trouble, arrest, imprisonment, and the life they leave behind.</p><button class="primary" data-action="show" data-target="story">Open Backstory Generator</button></div>
+    <div class="card"><h2>Build Preview</h2><p>Choose a race, class, birthsign, and gender, then inspect the character you would actually start with. Player, NPC, Tamriel-Data, and custom classes are available too.</p><button class="primary" data-action="show" data-target="custom">Open Build Preview</button></div>
     <div class="card"><h2>Name Generator</h2><p>Generate a race-appropriate name from the Census's UESP-derived name corpus.</p><button class="primary" data-action="show" data-target="names">Open Name Generator</button></div>
-    <div class="card"><h2>Build Preview</h2><p>Choose a race, class, birthsign, and gender, then inspect the character you would actually start with. Player, NPC, and custom classes are available too.</p><button class="primary" data-action="show" data-target="custom">Open Build Preview</button></div>
+    <div class="card"><h2>Backstory Generator</h2><p>Build the person who existed before the prison ship: upbringing, work, trouble, arrest, imprisonment, and the life they leave behind.</p><button class="primary" data-action="show" data-target="story">Open Backstory Generator</button></div>
     <div class="card"><h2>RNGesus Take the Wheel</h2><p>Race, gender, class, skills, birthsign, and backstory are surrendered to the dice. Mechanical choices stay legal. The story is allowed to get strange.</p><button class="primary" data-action="show" data-target="rng">Open RNGesus</button></div>
     <div class="card"><h2>Reference</h2><p>Browse the mechanical data, names, traits, classes, starting spells, faction matches, and backstory material used by the Census.</p><button class="primary" data-action="show" data-target="reference">Open Reference</button></div>
   </div>
 </section>
 
+<section id="both" class="mode hidden">
+  <div class="card modeIntro">
+    <h2>Character Generator</h2>
+    <p class="lead">The Census's complete character generator. It creates the build first, then writes a backstory for the character.</p>
+    <div class="controlGrid four">
+      <label>Race preference<select id="bothRace"><option>Any</option></select></label>
+      <label>Gender preference<select id="bothGender"><option>Any</option><option value="male">Male</option><option value="female">Female</option></select></label>
+      <label>Birthsign preference<select id="bothBirth"><option>Any</option></select></label>
+      <label>Build Style<select id="bothBuildStyle"></select></label>
+      <label>Build Direction<select id="bothBuildDir"></select></label>
+      <label>Tone<select id="bothTone"></select></label>
+      <label>Fate<select id="bothFate"></select></label>
+    </div>
+    <div class="checkRow">
+  <label class="check">
+    <input type="checkbox" id="bothAllowNpcClasses">
+    Allow NPC Classes
+    <span class="small muted">Include NPC class templates in the character roll.</span>
+  </label>
+
+  <label class="check">
+    <input type="checkbox" id="bothAllowTRClasses">
+    Allow Tamriel-Data Classes
+    <span class="small muted">Include Tamriel-Data class templates in the character roll.</span>
+  </label>
+
+  <label class="check">
+    <input type="checkbox" id="bothAllowTRRaces">
+    Allow Tamriel-Data Races
+    <span class="small muted">Work In Progress, Names Not imported yet, thank you for your patience! - Include Tamriel-Data races in the generator race list.</span>
+  </label>
+</div>
+    <div class="actionBar"><span class="small muted">Build first. Backstory second. One complete character record. </span><button class="primary" data-action="generate-both">Generate Character</button></div>
+  </div>
+  <div id="bothResult" class="result" aria-live="polite"></div>
+</section>
+  
 <section id="custom" class="mode hidden">
   <div class="card modeIntro">
     <h2>Build Preview</h2>
@@ -86,14 +127,24 @@
   <div id="customResult" class="result" aria-live="polite"></div>
 </section>
 
-<section id="rng" class="mode hidden">
+<section id="names" class="mode hidden">
   <div class="card modeIntro">
-    <h2>RNGesus Take the Wheel</h2>
-    <p class="lead">No steering. No sensible little guardrails. The Census rolls the whole character record, including preset classes, NPC classes, custom classes, and the stranger corners of the backstory.</p>
-    <div class="notice pageNote">Anything mechanically legal is fair game. The occasional bizarre result is intentional. Vvardenfell has floating wizards, sentient trees, and people who think the moon is a god. A questionable career choice is not where we draw the line. RNGesus also ignores ordinary naming conventions: the name may combine a documented given name from any race or gender with a documented family name or title from any race.</div>
-    <div class="actionBar"><span class="small muted">One roll creates the complete record.</span><button class="primary" data-action="generate-rng">Roll the whole census</button></div>
+    <h2>Name Generator</h2>
+    <p class="lead">Choose a race and gender, then let the Census issue a fitting name from the UESP name data. Randomize rolls the race and gender for you.</p>
+    <div class="controlGrid">
+      <label>Race<select id="nameRace"></select></label>
+      <label>Gender<select id="nameSex"><option value="male">Male</option><option value="female">Female</option></select></label>
+    </div>
+    <div class="checkRow">
+      <label class="check">
+      <input type="checkbox" id="nameAllowTRRaces">
+      Allow Tamriel-Data Races
+      <span class="small muted">Work In Progress, Names Not imported yet, thank you for your patience! - Include Tamriel-Data races in the generator race list.</span>
+      </label>
+    </div>
+    <div class="actionBar"><span class="small muted">Generate keeps your selected race and gender. Randomize rolls both.</span><div><button data-action="randomize-name">Randomize</button> <button class="primary" data-action="generate-name">Generate Name</button></div></div>
   </div>
-  <div id="rngResult" class="result" aria-live="polite"></div>
+  <div id="nameResult" class="result" aria-live="polite"></div>
 </section>
 
 <section id="story" class="mode hidden">
@@ -119,62 +170,15 @@
   </div>
   <div id="storyResult" class="result" aria-live="polite"></div>
 </section>
-
-<section id="both" class="mode hidden">
+  
+<section id="rng" class="mode hidden">
   <div class="card modeIntro">
-    <h2>Character Generator</h2>
-    <p class="lead">The Census's complete character generator. It creates the build first, then writes a backstory for the character.</p>
-    <div class="controlGrid four">
-      <label>Race preference<select id="bothRace"><option>Any</option></select></label>
-      <label>Gender preference<select id="bothGender"><option>Any</option><option value="male">Male</option><option value="female">Female</option></select></label>
-      <label>Birthsign preference<select id="bothBirth"><option>Any</option></select></label>
-      <label>Build Style<select id="bothBuildStyle"></select></label>
-      <label>Build Direction<select id="bothBuildDir"></select></label>
-      <label>Tone<select id="bothTone"></select></label>
-      <label>Fate<select id="bothFate"></select></label>
-    </div>
-    <div class="checkRow">
-  <label class="check">
-    <input type="checkbox" id="bothAllowNpcClasses">
-    Allow NPC Classes
-    <span class="small muted">Include NPC class templates in the character roll.</span>
-  </label>
-
-  <label class="check">
-    <input type="checkbox" id="bothAllowTRClasses">
-    Allow Tamriel-Data Classes
-    <span class="small muted">Include Tamriel-Data class templates in the character roll.</span>
-  </label>
-
-  <label class="check">
-    <input type="checkbox" id="bothAllowTRRaces">
-    Allow Tamriel-Data Races
-    <span class="small muted">Work In Progress, Names Not imported yet, thank you for your patience! - Include Tamriel-Data races in the generator race list.</span>
-  </label>
-</div>
-    <div class="actionBar"><span class="small muted">Build first. Backstory second. One complete character record. </span><button class="primary" data-action="generate-both">Generate Character</button></div>
+    <h2>RNGesus Take the Wheel</h2>
+    <p class="lead">No steering. No sensible little guardrails. The Census rolls the whole character record, including preset classes, NPC classes, custom classes, and the stranger corners of the backstory.</p>
+    <div class="notice pageNote">Anything mechanically legal is fair game. The occasional bizarre result is intentional. Vvardenfell has floating wizards, sentient trees, and people who think the moon is a god. A questionable career choice is not where we draw the line. RNGesus also ignores ordinary naming conventions: the name may combine a documented given name from any race or gender with a documented family name or title from any race.</div>
+    <div class="actionBar"><span class="small muted">One roll creates the complete record.</span><button class="primary" data-action="generate-rng">Roll the whole census</button></div>
   </div>
-  <div id="bothResult" class="result" aria-live="polite"></div>
-</section>
-
-<section id="names" class="mode hidden">
-  <div class="card modeIntro">
-    <h2>Name Generator</h2>
-    <p class="lead">Choose a race and gender, then let the Census issue a fitting name from the UESP name data. Randomize rolls the race and gender for you.</p>
-    <div class="controlGrid">
-      <label>Race<select id="nameRace"></select></label>
-      <label>Gender<select id="nameSex"><option value="male">Male</option><option value="female">Female</option></select></label>
-    </div>
-    <div class="checkRow">
-      <label class="check">
-      <input type="checkbox" id="nameAllowTRRaces">
-      Allow Tamriel-Data Races
-      <span class="small muted">Work In Progress, Names Not imported yet, thank you for your patience! - Include Tamriel-Data races in the generator race list.</span>
-      </label>
-    </div>
-    <div class="actionBar"><span class="small muted">Generate keeps your selected race and gender. Randomize rolls both.</span><div><button data-action="randomize-name">Randomize</button> <button class="primary" data-action="generate-name">Generate Name</button></div></div>
-  </div>
-  <div id="nameResult" class="result" aria-live="polite"></div>
+  <div id="rngResult" class="result" aria-live="polite"></div>
 </section>
 
 <section id="reference" class="mode hidden">
@@ -184,7 +188,9 @@
   </div>
   <div class="card"><div id="refContent"></div></div>
 </section>
+  
 </div>
+  
 <footer class="site-disclaimer">
   <p>
     <strong>Sources &amp; Disclaimer</strong><br>
@@ -196,9 +202,12 @@
     UESP, Bethesda Softworks, or ZeniMax Media.
   </p>
 </footer>
+  
 <script src="js/data.js"></script>
 <script src="js/names.js"></script>
 <script src="js/story.js"></script>
 <script src="js/app.js"></script>
+  
 </body>
+  
 </html>
