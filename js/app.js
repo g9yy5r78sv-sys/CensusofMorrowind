@@ -691,7 +691,7 @@ function generateRNGesus(){
   const meta=storyMeta(s);
   const text=storyText(s,b);
 
-  document.getElementById("rngResult").innerHTML=
+  document.getElementById("bothResult").innerHTML=
     buildCard(b,"Character Record")+`
     <div class="card">
       <h2>Backstory</h2>
