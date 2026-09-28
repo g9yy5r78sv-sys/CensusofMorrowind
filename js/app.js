@@ -360,18 +360,6 @@ function buildCard(b,title="Census Record",showIdentity=true){
 
 <div class="characterStatsGrid">
 
-  <div class="startingAttributes">
-    <h3>Starting Attributes</h3>
-    <div class="statList">
-      ${Object.entries(b.starting.stats).map(([k,v])=>`
-        <div class="statItem">
-          <span>${esc(k)}</span>
-          <span>${v}</span>
-        </div>
-      `).join("")}
-    </div>
-  </div>
-
   <div class="characterSummary">
 
     <div class="buildTop">
@@ -415,6 +403,20 @@ function buildCard(b,title="Census Record",showIdentity=true){
     </div>
 
   </div>
+
+  <div class="startingAttributes">
+    <h3>Starting Attributes</h3>
+    <div class="statList">
+      ${Object.entries(b.starting.stats).map(([k,v])=>`
+        <div class="statItem">
+          <span>${esc(k)}</span>
+          <span>${v}</span>
+        </div>
+      `).join("")}
+    </div>
+  </div>
+
+
 
 </div>
 
