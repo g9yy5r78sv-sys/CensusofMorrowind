@@ -99,6 +99,7 @@ function compatibleClasses(skill, style, allowNpc = false, allowTR = false, buil
 
   return names.slice(0, Math.min(limit, names.length));
 }
+   
 const GREAT_HOUSES=["House Hlaalu","House Redoran","House Telvanni"];
 
 function bestFactions(skills){
@@ -766,6 +767,11 @@ function storyFor(b,style,genderPreference="Any",birthPreference="Any"){
  const wildCard=Math.random()<wildcardChance?pick(DATA.backstory.wildCards):"";
   return {race,sex,name,homeland,occupation,family,mentor,event,crime,detail,arrest,attitude,prison,change,relationship,future,skill,faction,factions,birth,birthday,age,wildCard,style};
 }
+
+function resolveBackstoryStyle(style) {
+  return style === "Any" ? pick(BACKSTORY_STYLES) : style;
+}
+   
 function storyMeta(s){return `Name: ${s.name} • Race: ${s.race} • Gender: ${genderLabel(s.sex)} • Age: ${s.age} • Birthday: ${s.birthday.label} • Birthsign: ${s.birth} • Backstory Style: ${s.style}`}
    
 function storyText(s,b){
@@ -872,10 +878,12 @@ const fake = {
   factions: [pick(Object.keys(DATA.factions))],
   sex: genderPref !== "Any" ? genderPref : pick(GENDERS)
 };
- const style=document.getElementById("storyBackstoryStyle").value;
+ const style = resolveBackstoryStyle(
+  document.getElementById("storyBackstoryStyle").value
+);
  const s=storyFor(fake,style,genderPref,birthPref);
  const text=storyText(s,fake);
- const meta=`Name: ${s.name} • Race: ${s.race} • Gender: ${genderLabel(s.sex)} • Age: ${s.age} • Birthday: ${s.birthday.label} • Birthsign: ${s.birth} • Backstory Style: ${style}`;
+ const meta = `Name: ${s.name} • Race: ${s.race} • Gender: ${genderLabel(s.sex)} • Age: ${s.age} • Birthday: ${s.birthday.label} • Birthsign: ${s.birth} • Backstory Style: ${s.style}`;
 document.getElementById("storyResult").innerHTML=`
 <div class="card">
   <h2>Census Record</h2>
@@ -904,7 +912,9 @@ document.getElementById("storyResult").innerHTML=`
 
 function generateBoth(){
  const dir=document.getElementById("bothBuildDir").value;
- const style=document.getElementById("bothBackstoryStyle").value;
+ const style = resolveBackstoryStyle(
+  document.getElementById("bothBackstoryStyle").value
+ );
  const allowNpc=document.getElementById("bothAllowNpcClasses")?.checked||false;
  const allowTRClasses=document.getElementById("bothAllowTRClasses")?.checked||false;
  const allowTRRaces=document.getElementById("bothAllowTRRaces")?.checked||false;  
@@ -1185,7 +1195,6 @@ document.getElementById("bothAllowTRClasses")
    
 for(const sign of BIRTHSIGNS){document.getElementById("bothBirth").insertAdjacentHTML("beforeend",`<option value="${esc(sign)}">${esc(sign)}</option>`)}
 
-/*document.getElementById("appVersion").textContent=APP_VERSION;*/
 document.querySelectorAll(".tab").forEach(tab=>tab.addEventListener("click",()=>show(tab.dataset.mode)));
 document.addEventListener("click",event=>{
   const button=event.target.closest("[data-action]");
@@ -1204,8 +1213,8 @@ document.addEventListener("click",event=>{
 initClassPreview();
 initNameGenerator();
 customSelect("bothBuildDir", ORDER.buildFocuses);
-customSelect("bothBackstoryStyle", ORDER.backstoryStyles);
-customSelect("storyBackstoryStyle", ORDER.backstoryStyles);
+customSelect("bothBackstoryStyle", ["Any", ...ORDER.backstoryStyles]);
+customSelect("storyBackstoryStyle", ["Any", ...ORDER.backstoryStyles]);
  runConsistencyChecks();
 
 })();
