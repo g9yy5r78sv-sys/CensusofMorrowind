@@ -551,23 +551,32 @@ function setPreviewMode(mode){
 function updatePreviewRaceOptions(){
   const select = document.getElementById("previewRace");
   const current = select.value;
-  const races = document.getElementById("previewAllowTRRaces").checked
-    ? ALL_RACES_WITH_TR
+  const source = document.querySelector("[data-preview-race-source].active")
+    ?.dataset.previewRaceSource || "default";
+
+  const races = source === "tr"
+    ? ALL_RACES_WITH_TR.filter(race => !RACES.includes(race))
     : RACES;
 
   customSelect("previewRace", races);
-  select.value = races.includes(current) ? current : "Breton";
+  select.value = races.includes(current) ? current : races[0];
 }
    
 function initClassPreview(){
  document.querySelectorAll("[data-preview-mode]").forEach(btn=>btn.addEventListener("click",()=>setPreviewMode(btn.dataset.previewMode)));
  updatePreviewRaceOptions();
 
-document.getElementById("previewAllowTRRaces")
-  .addEventListener("change", () => {
+document.querySelectorAll("[data-preview-race-source]").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.querySelectorAll("[data-preview-race-source]").forEach(other=>{
+      const active = other === btn;
+      other.classList.toggle("active", active);
+      other.setAttribute("aria-pressed", String(active));
+    });
     updatePreviewRaceOptions();
     renderClassPreview();
   });
+});
  customSelect("previewBirth",BIRTHSIGNS);
  customSelect("previewFav1",CUSTOM_ATTRS);customSelect("previewFav2",CUSTOM_ATTRS);
  document.getElementById("previewFav1").value="Strength";document.getElementById("previewFav2").value="Endurance";
@@ -620,9 +629,12 @@ function renderClassPreview(){
 }
 function randomizeClassPreview(){
  const custom=previewSource==="custom";
-  const racePool = document.getElementById("previewAllowTRRaces").checked
-   ? ALL_RACES_WITH_TR
-   : RACES;
+ const raceSource = document.querySelector("[data-preview-race-source].active")
+  ?.dataset.previewRaceSource || "default";
+
+const racePool = raceSource === "tr"
+  ? ALL_RACES_WITH_TR.filter(race => !RACES.includes(race))
+  : RACES;
 
  document.getElementById("previewRace").value=pick(racePool);
  document.getElementById("previewSex").value=pick(GENDERS);
