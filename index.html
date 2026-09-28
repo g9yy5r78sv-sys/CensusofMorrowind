@@ -87,12 +87,15 @@
           <label>Class<select id="previewClass"></select></label>
           <label>Birthsign<select id="previewBirth"></select></label>
         </div>
-        <div class="checkRow">
-          <label class="check">
-            <input type="checkbox" id="previewAllowTRRaces">
-            Allow Tamriel-Data Races
-            <span class="small muted">Work In Progress, Names Not imported yet, thank you for your patience! - Include Tamriel-Data races in the generator race list.</span>
-          </label>
+        <div class="previewModes" role="group" aria-label="Race source">
+            <button type="button" class="previewMode active"
+              data-preview-race-source="default" aria-pressed="true">
+              Default Races
+            </button>
+            <button type="button" class="previewMode"
+              data-preview-race-source="tr" aria-pressed="false">
+              Tamriel-Data Races
+            </button>
         </div>
         <div class="previewModes" role="group" aria-label="Class source">
           <button type="button" class="previewMode active" data-preview-mode="preset" aria-pressed="true">Player Classes</button>
