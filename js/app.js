@@ -1208,12 +1208,10 @@ document.addEventListener("click",event=>{
 
 initClassPreview();
 initNameGenerator();
-customSelect("storyStyle",TONES);
-customSelect("storyFate",FATES);
-customSelect("bothBuildStyle",BUILD_STYLES);
+customSelect("bothBuildStyle", ORDER.buildStyles);
 customSelect("bothBuildDir", ORDER.buildFocuses);
-customSelect("bothTone",TONES);
-customSelect("bothFate",FATES);
+customSelect("bothBackstoryStyle", ORDER.backstoryStyles);
+customSelect("storyBackstoryStyle", ORDER.backstoryStyles);
  runConsistencyChecks();
 
 })();
