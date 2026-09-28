@@ -1209,7 +1209,6 @@ document.addEventListener("click",event=>{
 });
 
 initClassPreview();
-initNameGenerator();
  runConsistencyChecks();
 
 })();
