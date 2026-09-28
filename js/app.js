@@ -1156,12 +1156,6 @@ updateBothRaceOptions();
 document.getElementById("bothAllowTRRaces")
   .addEventListener("change", updateBothRaceOptions);
 
-function updateBothBuildDirectionState(){
-  const classPreference = document.getElementById("bothClassPreference").value;
-  const buildDirection = document.getElementById("bothBuildDir");
-  buildDirection.disabled = classPreference !== "Any";
-}
-   
 function updateBothClassOptions(){
   const select = document.getElementById("bothClassPreference");
   const current = select.value;
@@ -1175,11 +1169,8 @@ function updateBothClassOptions(){
   select.value = classes.includes(current) || current === "Any"
     ? current
     : "Any";
-   updateBothBuildDirectionState();
 }
    
-document.getElementById("bothClassPreference")
-  .addEventListener("change", updateBothBuildDirectionState);
 updateBothClassOptions();
 document.getElementById("bothAllowNpcClasses")
   .addEventListener("change", updateBothClassOptions);
