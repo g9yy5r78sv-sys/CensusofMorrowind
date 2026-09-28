@@ -1,5 +1,4 @@
 (() => {
-const APP_VERSION = "102";
 /* --------------------------------------------------------------------------
    CANONICAL ORDER
    One source for display order. Data validation below checks that source keys
