@@ -772,7 +772,9 @@ function resolveBackstoryStyle(style) {
   return style === "Any" ? pick(BACKSTORY_STYLES) : style;
 }
    
-function storyMeta(s){return `Name: ${s.name} • Race: ${s.race} • Gender: ${genderLabel(s.sex)} • Age: ${s.age} • Birthday: ${s.birthday.label} • Birthsign: ${s.birth} • Backstory Style: ${s.style}`}
+function storyMeta(s){
+  return `Name: ${s.name} • Race: ${s.race} • Gender: ${genderLabel(s.sex)} • Age: ${s.age} • Birthday: ${s.birthday.label} • Birthsign: ${s.birth}`;
+}
    
 function storyText(s,b){
  const skillLine=b?.primary
@@ -878,12 +880,10 @@ const fake = {
   factions: [pick(Object.keys(DATA.factions))],
   sex: genderPref !== "Any" ? genderPref : pick(GENDERS)
 };
- const style = resolveBackstoryStyle(
-  document.getElementById("storyBackstoryStyle").value
-);
+ const style = resolveBackstoryStyle("Any");
  const s=storyFor(fake,style,genderPref,birthPref);
  const text=storyText(s,fake);
- const meta = `Name: ${s.name} • Race: ${s.race} • Gender: ${genderLabel(s.sex)} • Age: ${s.age} • Birthday: ${s.birthday.label} • Birthsign: ${s.birth} • Backstory Style: ${s.style}`;
+ const meta = `Name: ${s.name} • Race: ${s.race} • Gender: ${genderLabel(s.sex)} • Age: ${s.age} • Birthday: ${s.birthday.label} • Birthsign: ${s.birth}`;
 document.getElementById("storyResult").innerHTML=`
 <div class="card">
   <h2>Census Record</h2>
@@ -901,20 +901,14 @@ document.getElementById("storyResult").innerHTML=`
     <b>Birthday:</b> ${esc(s.birthday.label)}
   </p>
 
-   <p class="muted">
-     <b>Backstory Style:</b> ${esc(s.style)}
-   </p>
-
   <p>${text.replace(/\n\n/g,"</p><p>")}</p>
 
   <button type="button" data-action="copy" data-copy="${esc(meta+"\n\n"+text)}">Copy Story</button>
 </div>`;}
 
 function generateBoth(){
- const dir=document.getElementById("bothBuildDir").value;
- const style = resolveBackstoryStyle(
-  document.getElementById("bothBackstoryStyle").value
- );
+
+ const style = resolveBackstoryStyle("Any");
  const allowNpc=document.getElementById("bothAllowNpcClasses")?.checked||false;
  const allowTRClasses=document.getElementById("bothAllowTRClasses")?.checked||false;
  const allowTRRaces=document.getElementById("bothAllowTRRaces")?.checked||false;  
@@ -922,7 +916,7 @@ function generateBoth(){
  const genderPref=document.getElementById("bothGender").value;
  const birthPref=document.getElementById("bothBirth").value;
  const classPref=document.getElementById("bothClassPreference").value;
- const b=makeBuild("Coherent",dir,allowNpc,racePref,genderPref,birthPref,allowTRClasses,allowTRRaces,classPref);
+ const b=makeBuild("Coherent","Any",allowNpc,racePref,genderPref,birthPref,allowTRClasses,allowTRRaces,classPref);
  const s=storyFor(b,style);
  const meta=storyMeta(s);
  const text=storyText(s,b);
@@ -1212,9 +1206,6 @@ document.addEventListener("click",event=>{
 
 initClassPreview();
 initNameGenerator();
-customSelect("bothBuildDir", ORDER.buildFocuses);
-customSelect("bothBackstoryStyle", ["Any", ...ORDER.backstoryStyles]);
-customSelect("storyBackstoryStyle", ["Any", ...ORDER.backstoryStyles]);
  runConsistencyChecks();
 
 })();
