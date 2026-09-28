@@ -378,7 +378,25 @@ hr {
   color: #e2c98e;
 }
 
+.characterActions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
 
+.characterActions > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+}
+
+@media (max-width: 520px) {
+  .characterActions > div {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}
 /* ==========================================================================
    BUILD CARD
    ========================================================================== */
