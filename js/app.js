@@ -8,8 +8,7 @@ const APP_VERSION = "102";
 const ORDER = Object.freeze({
   races: ["Argonian", "Breton", "Dark Elf", "High Elf", "Imperial", "Khajiit", "Nord", "Orc", "Redguard", "Wood Elf"],
   birthsigns: ["The Apprentice", "The Atronach", "The Lady", "The Lord", "The Lover", "The Mage", "The Ritual", "The Serpent", "The Shadow", "The Steed", "The Thief", "The Tower", "The Warrior"],
-  tones: ["Lore-friendly", "Grounded", "Adventurous", "Dark", "Comedic"],
-  fates: ["Open-ended", "Destined", "Prophetic", "Accidental", "Ordinary", "Dangerous"],
+  backstoryStyles: ["Lore-friendly", "Grounded", "Adventurous", "Dark", "Comedic"],
   buildStyles: ["Coherent", "Random", "Unusual", "Chaos"],
   buildFocuses: ["Any", "Combat", "Magic", "Stealth"]
 });
@@ -25,8 +24,7 @@ const RACES = ORDER.races;
 const TR_RACES=Object.keys(DATA.trRaces);
 const ALL_RACES_WITH_TR=[...RACES,...TR_RACES];
 const BIRTHSIGNS = ORDER.birthsigns;
-const TONES = ORDER.tones;
-const FATES = ORDER.fates;
+const BACKSTORY_STYLES = ORDER.backstoryStyles;
 const BUILD_STYLES = ORDER.buildStyles;
 function orderedRaceEntries(obj){return RACES.filter(r=>Object.prototype.hasOwnProperty.call(obj,r)).map(r=>[r,obj[r]])}
 const SPEC_SKILLS={
@@ -676,10 +674,8 @@ function generateRNGesus(){
   const b=makeRNGesus();
   b.name=unrestrictedName(b.sex);
 
-  const fate=pick(FATES);
-  const tone=pick(TONES);
-
-  const s=storyFor(b,tone,fate);
+   const style=pick(BACKSTORY_STYLES);
+   const s=storyFor(b,style);
   const meta=storyMeta(s);
   const text=storyText(s,b);
 
@@ -745,7 +741,7 @@ function birthDetails(sign){
 /* --------------------------------------------------------------------------
    BACKSTORY GENERATION
    -------------------------------------------------------------------------- */
-function storyFor(b,tone,fate,genderPreference="Any",birthPreference="Any"){
+function storyFor(b,style,genderPreference="Any",birthPreference="Any"){
  const race=b?b.race:pick(RACES);
  const sex=b?b.sex:(genderPreference && genderPreference!=="Any" ? genderPreference : pick(GENDERS));
  const name=b?.name||fullNameFor(race,sex);
@@ -768,62 +764,103 @@ function storyFor(b,tone,fate,genderPreference="Any",birthPreference="Any"){
  const birth=b?b.birth:(birthPreference && birthPreference!=="Any" ? birthPreference : pick(BIRTHSIGNS));
  const age=RULES.backstory.minAge+Math.floor(Math.random()*RULES.backstory.ageSpan);
  const birthday=birthDetails(birth);
- const fateText=pick(DATA.backstory.fate[fate||"Open-ended"]||[]);
- const toneHook=pick(DATA.backstory.toneHooks[tone]||[]);
- const wildcardChance=RULES.backstory.wildcardChance[tone]??RULES.backstory.wildcardChance.Default;
+ const wildcardChance=RULES.backstory.wildcardChance[style]??RULES.backstory.wildcardChance.Default;
  const wildCard=Math.random()<wildcardChance?pick(DATA.backstory.wildCards):"";
- return {race,sex,name,homeland,occupation,family,mentor,event,crime,detail,arrest,attitude,prison,change,relationship,future,skill,faction,factions,birth,birthday,age,fateText,toneHook,wildCard,tone};
+  return {race,sex,name,homeland,occupation,family,mentor,event,crime,detail,arrest,attitude,prison,change,relationship,future,skill,faction,factions,birth,birthday,age,wildCard,style};
 }
-function storyMeta(s){return `Name: ${s.name} • Race: ${s.race} • Gender: ${genderLabel(s.sex)} • Age: ${s.age} • Birthday: ${s.birthday.label} • Birthsign: ${s.birth}`}
+function storyMeta(s){return `Name: ${s.name} • Race: ${s.race} • Gender: ${genderLabel(s.sex)} • Age: ${s.age} • Birthday: ${s.birthday.label} • Birthsign: ${s.birth} • Backstory Style: ${s.style}`}
    
 function storyText(s,b){
  const skillLine=b?.primary
    ? `You developed a particular knack for ${b.primary}, while your work gave you practical reasons to keep improving.`
    : `You developed a practical knack for ${s.skill} through the work you did.`;
 
- const styleLine=s.toneHook || "";
  const article=/^[aeiou]/i.test(s.occupation.name) ? "an " : "a ";
 
  const futureLine=s.future.mode==="simple"
    ? `Your main concern became simple: ${s.future.text}.`
    : `You hoped to eventually ${s.future.text}.`;
 
- const fateLine=s.fateText || "";
-
  const workParagraph =
    `In time, you worked as ${article}${s.occupation.name}, learning much of what you know from ${s.mentor}. ` +
    `${s.event} ${skillLine}`;
 
-const troubleParagraph =
-  `The trouble began when ${s.detail.charAt(0).toLowerCase()+s.detail.slice(1)} ` +
-  `This led to you being charged with ${s.crime.charge||s.crime.name.toLowerCase()}. ` +
-  `${s.arrest} ${s.attitude}`;
+ const troubleParagraph =
+   `The trouble began when ${s.detail.charAt(0).toLowerCase()+s.detail.slice(1)} ` +
+   `This led to you being charged with ${s.crime.charge||s.crime.name.toLowerCase()}. ` +
+   `${s.arrest} ${s.attitude}`;
 
  const prisonParagraph =
    `Your sentence became an unwanted chapter of your life. ` +
    `${s.prison} ${s.change} ${s.relationship} ${futureLine}`;
 
- const reflectionParagraph=[s.wildCard,fateLine]
-   .filter(Boolean)
-   .join(" ");
+ const transportLine =
+   `Eventually, you were taken from prison and placed aboard an Imperial transport bound for Vvardenfell.`;
 
- return [
-   `${s.homeland.text} ${s.family}`,
-   styleLine,
-   workParagraph,
-   troubleParagraph,
-   prisonParagraph,
-   reflectionParagraph,
-   `Eventually, you were taken from prison and placed aboard an Imperial transport bound for Vvardenfell.`
- ].filter(p=>p && p.trim()).join("\n\n");
+ const opening = `${s.homeland.text} ${s.family}`;
+ const style = s.style || "Lore-friendly";
+
+ switch(style){
+   case "Grounded":
+     return [
+       opening,
+       `For a time, life was mostly a matter of getting by. ${workParagraph}`,
+       `Then a series of ordinary choices brought you into trouble. ${troubleParagraph}`,
+       `Prison disrupted the routine you had built. ${s.prison} ${s.change}`,
+       `${s.relationship} ${futureLine}`,
+       transportLine
+     ].filter(p=>p && p.trim()).join("\n\n");
+
+   case "Adventurous":
+     return [
+       `${s.homeland.text} Your life was rarely still. ${s.family}`,
+       `You found work as ${article}${s.occupation.name}, and learned from ${s.mentor}. ${s.event} ${skillLine}`,
+       `One turn of events led to another, until ${s.detail.charAt(0).toLowerCase()+s.detail.slice(1)} ` +
+         `You were charged with ${s.crime.charge||s.crime.name.toLowerCase()}. ${s.arrest} ${s.attitude}`,
+       `Even imprisonment could not entirely quiet your plans. ${s.prison} ${s.change} ${s.relationship} ${futureLine}`,
+       transportLine
+     ].filter(p=>p && p.trim()).join("\n\n");
+
+   case "Dark":
+     return [
+       opening,
+       `The life you built offered little protection from hardship. ${workParagraph}`,
+       `Things took a darker turn when ${s.detail.charAt(0).toLowerCase()+s.detail.slice(1)} ` +
+         `You were charged with ${s.crime.charge||s.crime.name.toLowerCase()}. ${s.arrest} ${s.attitude}`,
+       `Prison left its mark. ${s.prison} ${s.change} ${s.relationship}`,
+       `You held on to one thought: ${s.future.text}.`,
+       transportLine
+     ].filter(p=>p && p.trim()).join("\n\n");
+
+   case "Comedic":
+     return [
+       opening,
+       `Things were going reasonably well—or at least well enough—when you found yourself working as ${article}${s.occupation.name}. ` +
+         `You learned from ${s.mentor}. ${s.event} ${skillLine}`,
+       `Naturally, trouble followed. ${s.detail.charAt(0).toLowerCase()+s.detail.slice(1)} ` +
+         `Before long, you were charged with ${s.crime.charge||s.crime.name.toLowerCase()}. ${s.arrest} ${s.attitude}`,
+       `Prison was not quite the change of scenery you wanted. ${s.prison} ${s.change} ${s.relationship}`,
+       `Still, you had plans. ${futureLine}`,
+       transportLine
+     ].filter(p=>p && p.trim()).join("\n\n");
+
+   case "Lore-friendly":
+   default:
+     return [
+       opening,
+       workParagraph,
+       troubleParagraph,
+       prisonParagraph,
+       transportLine
+     ].filter(p=>p && p.trim()).join("\n\n");
+ }
 }
    
 function generateStory(){
  const racePref=document.getElementById("storyRace").value;
- const fate=document.getElementById("storyFate").value;
  const genderPref=document.getElementById("storyGender").value;
  const birthPref=document.getElementById("storyBirth").value;
-const racePool = document.getElementById("storyAllowTRRaces").checked
+ const racePool = document.getElementById("storyAllowTRRaces").checked
   ? ALL_RACES_WITH_TR
   : RACES;
 
@@ -837,9 +874,10 @@ const fake = {
   factions: [pick(Object.keys(DATA.factions))],
   sex: genderPref !== "Any" ? genderPref : pick(GENDERS)
 };
- const s=storyFor(fake,document.getElementById("storyStyle").value,fate,genderPref,birthPref);
+ const style=document.getElementById("storyBackstoryStyle").value;
+ const s=storyFor(fake,style,genderPref,birthPref);
  const text=storyText(s,fake);
- const meta=`Name: ${s.name} • Race: ${s.race} • Gender: ${genderLabel(s.sex)} • Age: ${s.age} • Birthday: ${s.birthday.label} • Birthsign: ${s.birth} • Tone: ${document.getElementById("storyStyle").value} • Fate: ${fate}`;
+ const meta=`Name: ${s.name} • Race: ${s.race} • Gender: ${genderLabel(s.sex)} • Age: ${s.age} • Birthday: ${s.birthday.label} • Birthsign: ${s.birth} • Backstory Style: ${style}`;
 document.getElementById("storyResult").innerHTML=`
 <div class="card">
   <h2>Census Record</h2>
@@ -857,10 +895,9 @@ document.getElementById("storyResult").innerHTML=`
     <b>Birthday:</b> ${esc(s.birthday.label)}
   </p>
 
-  <p class="muted">
-    <b>Tone:</b> ${esc(s.tone)} •
-    <b>Fate:</b> ${esc(fate)}
-  </p>
+   <p class="muted">
+     <b>Backstory Style:</b> ${esc(s.style)}
+   </p>
 
   <p>${text.replace(/\n\n/g,"</p><p>")}</p>
 
@@ -870,8 +907,7 @@ document.getElementById("storyResult").innerHTML=`
 function generateBoth(){
  const buildStyle=document.getElementById("bothBuildStyle").value;
  const dir=document.getElementById("bothBuildDir").value;
- const tone=document.getElementById("bothTone").value;
- const fate=document.getElementById("bothFate").value;
+ const style=document.getElementById("bothBackstoryStyle").value;
  const allowNpc=document.getElementById("bothAllowNpcClasses")?.checked||false;
  const allowTRClasses=document.getElementById("bothAllowTRClasses")?.checked||false;
  const allowTRRaces=document.getElementById("bothAllowTRRaces")?.checked||false;  
@@ -880,7 +916,7 @@ function generateBoth(){
  const birthPref=document.getElementById("bothBirth").value;
  const classPref=document.getElementById("bothClassPreference").value;
  const b=makeBuild(buildStyle,dir,allowNpc,racePref,genderPref,birthPref,allowTRClasses,allowTRRaces,classPref);
- const s=storyFor(b,tone,fate);
+ const s=storyFor(b,style);
  const meta=storyMeta(s);
  const text=storyText(s,b);
 
@@ -949,8 +985,7 @@ function runConsistencyChecks(){
     checkOrder("Family names",DATA.nameFamilies,ORDER.races),
     checkOrder("Race-specific family pools",DATA.backstory.familyByRace,ORDER.races),
     checkOrder("Birthsigns",DATA.birthsigns,ORDER.birthsigns),
-    checkOrder("Tones",DATA.backstory.toneHooks,ORDER.tones),
-    checkOrder("Fates",DATA.backstory.fate,ORDER.fates),
+    checkList("Backstory styles",BACKSTORY_STYLES,ORDER.backstoryStyles),
     checkList("Build focuses", ORDER.buildFocuses, ORDER.buildFocuses),
     checkList("Build styles",BUILD_STYLES,ORDER.buildStyles)
   ];
