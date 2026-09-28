@@ -18,12 +18,9 @@
     </header>
     
     <nav>
-      <button class="tab active" data-mode="home">Home</button>
-      <button class="tab" data-mode="both">Character Generator</button>
+      <button class="tab active" data-mode="both">Character Generator</button>
       <button class="tab" data-mode="custom">Build Previewer</button>
-      <button class="tab" data-mode="names">Name Generator</button>
-      <button class="tab" data-mode="story">Backstory Generator</button>
-      <button class="tab" data-mode="rng">RNGesus</button>
+      <button class="tab" data-mode="story">Character Background</button>
       <button class="tab" data-mode="reference">Reference</button>
     </nav>
     
@@ -43,7 +40,7 @@
       </div>
     </section>
     
-    <section id="both" class="mode hidden">
+    <section id="both" class="mode">
       <div class="card modeIntro">
         <h2>Character Generator</h2>
         <p class="lead">The Census and Excitse Office complete character generator.</p>
@@ -72,7 +69,16 @@
             <span class="small muted">Work In Progress, Names Not imported yet, thank you for your patience! - Include Tamriel-Data races in the generator race list.</span>
           </label>
         </div>
-        <div class="actionBar"><span class="small muted">Generate a build and backstory.</span><button class="primary" data-action="generate-both">Generate Character</button></div>
+        <div class="actionBar characterActions">
+          <div>
+            <span class="small muted">Generate uses your selected preferences and race-appropriate naming.</span>
+            <button class="primary" data-action="generate-both">Generate Character</button>
+          </div>
+          <div>
+            <span class="small muted">Random: any pool data is fair game. RNGesus takes the wheel.</span>
+            <button type="button" data-action="generate-rng">Random Character</button>
+          </div>
+        </div>
       </div>
       <div id="bothResult" class="result" aria-live="polite"></div>
     </section>
