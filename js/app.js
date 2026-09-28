@@ -9,7 +9,6 @@ const ORDER = Object.freeze({
   races: ["Argonian", "Breton", "Dark Elf", "High Elf", "Imperial", "Khajiit", "Nord", "Orc", "Redguard", "Wood Elf"],
   birthsigns: ["The Apprentice", "The Atronach", "The Lady", "The Lord", "The Lover", "The Mage", "The Ritual", "The Serpent", "The Shadow", "The Steed", "The Thief", "The Tower", "The Warrior"],
   backstoryStyles: ["Lore-friendly", "Grounded", "Adventurous", "Dark", "Comedic"],
-  buildStyles: ["Coherent", "Random", "Unusual", "Chaos"],
   buildFocuses: ["Any", "Combat", "Magic", "Stealth"]
 });
 
@@ -25,7 +24,6 @@ const TR_RACES=Object.keys(DATA.trRaces);
 const ALL_RACES_WITH_TR=[...RACES,...TR_RACES];
 const BIRTHSIGNS = ORDER.birthsigns;
 const BACKSTORY_STYLES = ORDER.backstoryStyles;
-const BUILD_STYLES = ORDER.buildStyles;
 function orderedRaceEntries(obj){return RACES.filter(r=>Object.prototype.hasOwnProperty.call(obj,r)).map(r=>[r,obj[r]])}
 const SPEC_SKILLS={
    Combat:["Armorer","Axe","Block","Blunt Weapon","Heavy Armor","Long Blade","Medium Armor","Spear","Athletics"],
@@ -905,7 +903,6 @@ document.getElementById("storyResult").innerHTML=`
 </div>`;}
 
 function generateBoth(){
- const buildStyle=document.getElementById("bothBuildStyle").value;
  const dir=document.getElementById("bothBuildDir").value;
  const style=document.getElementById("bothBackstoryStyle").value;
  const allowNpc=document.getElementById("bothAllowNpcClasses")?.checked||false;
@@ -915,7 +912,7 @@ function generateBoth(){
  const genderPref=document.getElementById("bothGender").value;
  const birthPref=document.getElementById("bothBirth").value;
  const classPref=document.getElementById("bothClassPreference").value;
- const b=makeBuild(buildStyle,dir,allowNpc,racePref,genderPref,birthPref,allowTRClasses,allowTRRaces,classPref);
+ const b=makeBuild("Coherent",dir,allowNpc,racePref,genderPref,birthPref,allowTRClasses,allowTRRaces,classPref);
  const s=storyFor(b,style);
  const meta=storyMeta(s);
  const text=storyText(s,b);
@@ -987,7 +984,6 @@ function runConsistencyChecks(){
     checkOrder("Birthsigns",DATA.birthsigns,ORDER.birthsigns),
     checkList("Backstory styles",BACKSTORY_STYLES,ORDER.backstoryStyles),
     checkList("Build focuses", ORDER.buildFocuses, ORDER.buildFocuses),
-    checkList("Build styles",BUILD_STYLES,ORDER.buildStyles)
   ];
   const passed=checks.filter(Boolean).length;
   const total=checks.length;
@@ -1083,7 +1079,6 @@ h+=refSection(`Races (${Object.keys(DATA.races).length})`,
  h+=refSection(`Generation & Selection Rules`,
     refSection("Specialization skill groups",Object.entries(SPEC_SKILLS).map(([name,skills])=>`<div class="refItem"><h4>${esc(name)}</h4><div class="pillRow">${skills.map(sk=>`<span class="pill">${esc(sk)}</span>`).join("")}</div></div>`).join(""),false,2)+
     refSection("Starting spell auto-grant",`<div class="refItem"><p>During character creation, a stored PC-start spell is eligible when its governing skill is a major or minor skill and <b>2 × skill + Willpower / 5 + Luck / 10</b> meets or exceeds the spell's listed threshold. Three PC-start spells are flagged by UESP as impossible to receive during normal character creation: Exhausting Touch, Tap Energy, and Feet of Notorgo.</p></div>`,false,2)+
-    refSection("Build styles",`<div class="refItem">${refRows([["Coherent","Primary skill influences race selection and compatible class selection; birthsign is independently randomized unless a preference is selected."],["Random","Race and birthsign are random; class is still drawn from the top compatible class pool for the primary skill."],["Unusual","Prefers classes that place the primary skill in a minor slot, then major slot, while still allowing unrelated classes at the bottom of the ranking."],["Chaos","Class selection ignores the normal top-four restriction and can draw from the full enabled class pool."]])}</div>`,false,2)+
     refSection(
   "Build focus",
   `<div class="refItem">${refRows([
@@ -1208,7 +1203,6 @@ document.addEventListener("click",event=>{
 
 initClassPreview();
 initNameGenerator();
-customSelect("bothBuildStyle", ORDER.buildStyles);
 customSelect("bothBuildDir", ORDER.buildFocuses);
 customSelect("bothBackstoryStyle", ORDER.backstoryStyles);
 customSelect("storyBackstoryStyle", ORDER.backstoryStyles);
