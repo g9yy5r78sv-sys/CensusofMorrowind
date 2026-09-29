@@ -8,7 +8,6 @@ const ORDER = Object.freeze({
   races: ["Argonian", "Breton", "Dark Elf", "High Elf", "Imperial", "Khajiit", "Nord", "Orc", "Redguard", "Wood Elf"],
   birthsigns: ["The Apprentice", "The Atronach", "The Lady", "The Lord", "The Lover", "The Mage", "The Ritual", "The Serpent", "The Shadow", "The Steed", "The Thief", "The Tower", "The Warrior"],
   backstoryStyles: ["Lore-friendly", "Grounded", "Adventurous", "Dark", "Comedic"],
-  buildFocuses: ["Any", "Combat", "Magic", "Stealth"]
 });
 
 const allSkills = DATA.skills;
