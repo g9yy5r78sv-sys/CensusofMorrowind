@@ -881,6 +881,7 @@
             `${s.arrest} ${s.attitude}`;
         const prisonParagraph = `Your sentence became an unwanted chapter of your life. ` +
             `${s.prison} ${s.change} ${s.relationship} ${futureLine}`;
+        const wildcardParagraph = s.wildCard || "";
         const transportLine = `Eventually, you were taken from prison and placed aboard an Imperial transport bound for Vvardenfell.`;
         const opening = `${s.homeland.text} ${s.family}`;
         const style = s.style || "Lore-friendly";
@@ -889,6 +890,7 @@
                 return [
                     opening,
                     `For a time, life was mostly a matter of getting by. ${workParagraph}`,
+                    wildcardParagraph,
                     `Then a series of ordinary choices brought you into trouble. ${troubleParagraph}`,
                     `Prison disrupted the routine you had built. ${s.prison} ${s.change}`,
                     `${s.relationship} ${futureLine}`,
@@ -898,6 +900,7 @@
                 return [
                     `${s.homeland.text} Your life was rarely still. ${s.family}`,
                     `You found work as ${article}${s.occupation.name}, and learned from ${s.mentor}. ${s.event} ${skillLine}`,
+                    wildcardParagraph,
                     `One turn of events led to another, until ${s.detail.charAt(0).toLowerCase() + s.detail.slice(1)} ` +
                         `You were charged with ${s.crime.charge || s.crime.name.toLowerCase()}. ${s.arrest} ${s.attitude}`,
                     `Even imprisonment could not entirely quiet your plans. ${s.prison} ${s.change} ${s.relationship} ${futureLine}`,
@@ -907,6 +910,7 @@
                 return [
                     opening,
                     `The life you built offered little protection from hardship. ${workParagraph}`,
+                    wildcardParagraph,
                     `Things took a darker turn when ${s.detail.charAt(0).toLowerCase() + s.detail.slice(1)} ` +
                         `You were charged with ${s.crime.charge || s.crime.name.toLowerCase()}. ${s.arrest} ${s.attitude}`,
                     `Prison left its mark. ${s.prison} ${s.change} ${s.relationship}`,
@@ -918,6 +922,7 @@
                     opening,
                     `Things were going reasonably well—or at least well enough—when you found yourself working as ${article}${s.occupation.name}. ` +
                         `You learned from ${s.mentor}. ${s.event} ${skillLine}`,
+                    wildcardParagraph,
                     `Naturally, trouble followed. ${s.detail.charAt(0).toLowerCase() + s.detail.slice(1)} ` +
                         `Before long, you were charged with ${s.crime.charge || s.crime.name.toLowerCase()}. ${s.arrest} ${s.attitude}`,
                     `Prison was not quite the change of scenery you wanted. ${s.prison} ${s.change} ${s.relationship}`,
@@ -929,6 +934,7 @@
                 return [
                     opening,
                     workParagraph,
+                    wildcardParagraph,
                     troubleParagraph,
                     prisonParagraph,
                     transportLine
