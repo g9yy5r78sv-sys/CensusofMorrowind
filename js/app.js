@@ -699,10 +699,12 @@ function chooseFamily(race){
 }
 function chooseOccupation(b){
  let pool=DATA.backstory.occupations;
- if(b){
-   const matching=pool.filter(o=>o.skills.some(sk=>b.majors?.includes(sk)||b.minors?.includes(sk)||sk===b.primary));
-   if(matching.length) pool=matching;
- }
+ const matching=pool.filter(o=>o.skills.some(sk=>
+   b.majors?.includes(sk) ||
+   b.minors?.includes(sk) ||
+   sk===b.primary
+ ));
+ if(matching.length) pool=matching;
  return pick(pool);
 }
 function ordinal(n){return n+(n%100>=11&&n%100<=13?"th":n%10===1?"st":n%10===2?"nd":n%10===3?"rd":"th")}
@@ -716,9 +718,9 @@ function birthDetails(sign){
    BACKSTORY GENERATION
    -------------------------------------------------------------------------- */
 function storyFor(b,style){
- const race=b?b.race:pick(RACES);
- const sex=b?b.sex:(genderPreference && genderPreference!=="Any" ? genderPreference : pick(GENDERS));
- const name=b?.name||fullNameFor(race,sex);
+ const race=b.race;
+ const sex=b.sex;
+ const name=b.name;
  const homeland=chooseHomeland(race);
  const occupation=chooseOccupation(b);
  const family=chooseFamily(race);
@@ -732,10 +734,10 @@ function storyFor(b,style){
  const change=pick(DATA.backstory.prisonChanges);
  const relationship=pick(DATA.backstory.relationships);
  const future=pick(DATA.backstory.futureIntentions);
- const skill=b&&b.primary?b.primary:pick(occupation.skills.length?occupation.skills:allSkills);
- const factions=b?b.factions:bestFactions([skill]);
+ const skill=b.primary;
+ const factions=b.factions;
  const faction=pick(factions);
- const birth=b?b.birth:(birthPreference && birthPreference!=="Any" ? birthPreference : pick(BIRTHSIGNS));
+ const birth=b.birth;
  const age=RULES.backstory.minAge+Math.floor(Math.random()*RULES.backstory.ageSpan);
  const birthday=birthDetails(birth);
  const wildcardChance=RULES.backstory.wildcardChance[style]??RULES.backstory.wildcardChance.Default;
