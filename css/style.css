@@ -670,35 +670,6 @@ hr {
   margin-top: 14px;
 }
 
-.homeTools {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-}
-
-.homeTools .card {
-  display: flex;
-  flex-direction: column;
-}
-
-.homeTools .card p {
-  flex: 1;
-}
-
-.homeIntro {
-  margin-bottom: 18px;
-  text-align: center;
-}
-
-.homeIntro .lead {
-  max-width: 720px;
-  margin: 0 auto;
-}
-
-.homeIntro .eyebrow {
-  margin-bottom: 5px;
-}
-
 .checkRow {
   display: flex;
   align-items: center;
@@ -831,11 +802,9 @@ hr {
   }
 
   .controlGrid.three,
-  .controlGrid.four,
-  .homeTools {
-    grid-template-columns: 1fr 1fr;
+  .controlGrid.four {
+     grid-template-columns: 1fr 1fr;
   }
-}
 
 /* Tablet */
 @media (max-width: 700px) {
@@ -892,8 +861,7 @@ hr {
 
   .controlGrid,
   .controlGrid.three,
-  .controlGrid.four,
-  .homeTools {
+  .controlGrid.four {
     grid-template-columns: 1fr;
   }
 
