@@ -715,7 +715,7 @@ function birthDetails(sign){
 /* --------------------------------------------------------------------------
    BACKSTORY GENERATION
    -------------------------------------------------------------------------- */
-function storyFor(b,style,genderPreference="Any",birthPreference="Any"){
+function storyFor(b,style){
  const race=b?b.race:pick(RACES);
  const sex=b?b.sex:(genderPreference && genderPreference!=="Any" ? genderPreference : pick(GENDERS));
  const name=b?.name||fullNameFor(race,sex);
