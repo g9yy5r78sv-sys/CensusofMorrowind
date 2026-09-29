@@ -1183,5 +1183,5 @@
             copyText(button.dataset.copy || "");
     });
     initClassPreview();
-    runConsistencyChecks();
+    //runConsistencyChecks();
 })();
