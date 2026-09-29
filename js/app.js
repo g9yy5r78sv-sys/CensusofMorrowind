@@ -1,4 +1,9 @@
 (() => {
+    /*
+     * READING GUIDE: This file is the browser-side application controller. It reads
+     * the data tables from data.js, defines generation and rendering helpers, then
+     * wires the page controls near the end. Comments explain intent; calculations
+     */
 
 /* ==========================================================================
    CANONICAL DATA, DISPLAY ORDER, AND GENERATION RULES
@@ -13,6 +18,8 @@
         birthsigns: ["The Apprentice", "The Atronach", "The Lady", "The Lord", "The Lover", "The Mage", "The Ritual", "The Serpent", "The Shadow", "The Steed", "The Thief", "The Tower", "The Warrior"],
         backstoryStyles: ["Lore-friendly", "Grounded", "Adventurous", "Dark", "Comedic"],
     });
+    // DATA is supplied by data.js. These aliases keep the rest of the app readable
+    // and centralize the lists used for ordering, filtering, and validation.
     const allSkills = DATA.skills;
     /** Return a copy of the supplied skills in the canonical game display order. */
     function sortSkillsByCanon(skills) {
@@ -25,13 +32,16 @@
     const ALL_RACES_WITH_TR = [...RACES, ...TR_RACES];
     const BIRTHSIGNS = ORDER.birthsigns;
     const BACKSTORY_STYLES = ORDER.backstoryStyles;
+    // Skills grouped by specialization; used to filter classes when a build focus is chosen.
     const SPEC_SKILLS = {
         Combat: ["Armorer", "Axe", "Block", "Blunt Weapon", "Heavy Armor", "Long Blade", "Medium Armor", "Spear", "Athletics"],
         Magic: ["Alchemy", "Alteration", "Conjuration", "Destruction", "Enchant", "Illusion", "Mysticism", "Restoration", "Unarmored"],
         Stealth: ["Acrobatics", "Hand-to-hand", "Light Armor", "Marksman", "Mercantile", "Security", "Short Blade", "Sneak", "Speechcraft"]
     };
     const BUILD_FOCUS_SPECS = { Combat: "Combat", Magic: "Magic", Stealth: "Stealth" };
-    const MAGICKA_RACE_BONUS = { Breton: .5, "High Elf": 1.5 }, MAGICKA_BIRTH_BONUS = { "The Apprentice": 1.5, "The Mage": .5, "The Atronach": 2 };
+    // Multipliers for the magicka calculation; values are sourced from this project’s rules/data.
+    const MAGICKA_RACE_BONUS = { Breton: .5, "High Elf": 1.5 }; 
+    const MAGICKA_BIRTH_BONUS = { "The Apprentice": 1.5, "The Mage": .5, "The Atronach": 2 };
     /* --------------------------------------------------------------------------
        GENERATION RULES
        Keep tunable probabilities and selection limits together so the generator
@@ -60,6 +70,7 @@
         }),
         rngesus: Object.freeze({ presetClassChance: .33, npcClassChance: .33 })
     });
+    // Merged class dictionaries let callers select allowed sources without duplicating loops.
     const ALL_CLASSES = { ...DATA.classes, ...DATA.npcClasses };
     const ALL_TR_CLASSES = { ...DATA.classes, ...DATA.trClasses };
     const ALL_CLASSES_WITH_TR = { ...DATA.classes, ...DATA.npcClasses, ...DATA.trClasses };
@@ -112,6 +123,7 @@
             : RULES.classSelection.playerLimit;
         return names.slice(0, Math.min(limit, names.length));
     }
+    // Faction matching starts here; only the three Great Houses are listed as this shortcut.
     const GREAT_HOUSES = ["House Hlaalu", "House Redoran", "House Telvanni"];
     /** Rank factions by how many of their skills match the character’s skills. */
     function bestFactions(skills) {
@@ -154,20 +166,30 @@
             ? allowed.slice(0, 4)
             : allowed.slice(0, 3);
     }
+    /**
+     * Create the base attribute values used before racial, class, or other bonuses are applied.
+     */
     function baseStartingAttributes(b) {
         const raceData = DATA.races[b.race] || DATA.trRaces[b.race];
         const base = raceData[b.sex], stats = {};
         ATTRIBUTE_NAMES.forEach((n, i) => stats[n] = base[i] + (b.c.fav.includes(n) ? 10 : 0));
         return stats;
     }
+    /**
+     * Attach calculated starting stats and starter spells to the build object, then return that same object.
+     */
     function prepareBuild(b) { b.starting = buildStartingStats(b); b.spells = starterSpells(b, b.starting); return b; }
     /* --------------------------------------------------------------------------
        NAME GENERATION
        -------------------------------------------------------------------------- */
+    /**
+     * Select a race- and gender-appropriate name using the name data and naming rules.
+     */
     function generateName(race, sex) {
         const pool = DATA.names[race]?.[sex] || DATA.names[race]?.male || [];
         return pick(pool);
     }
+    // Name indexes are assembled from DATA once, so generation does not rebuild them each click.
     const ALL_GIVEN_NAMES = { male: [], female: [], any: [] };
     for (const race of RACES) {
         for (const sex of GENDERS)
@@ -181,6 +203,9 @@
         for (const name of (DATA.nameFamilies[race] || []))
             if (!ALL_FAMILY_NAMES.includes(name))
                 ALL_FAMILY_NAMES.push(name);
+    /**
+     * Choose a name without restricting it to a specific race; used for the fully random mode.
+     */
     function unrestrictedName(sex) {
         const useAnyGender = Math.random() < RULES.naming.unrestrictedAnyGenderChance;
         const givenPool = useAnyGender ? ALL_GIVEN_NAMES.any : ALL_GIVEN_NAMES[sex];
@@ -192,6 +217,9 @@
             return `${first} ${pick(HIGH_ELF_TITLES)}`;
         return first;
     }
+    /**
+     * Assemble a complete name from the given-name and surname/title options for the character’s race and sex.
+     */
     function fullNameFor(race, sex) {
         const first = generateName(race, sex);
         if (race === "Dark Elf" || race === "Imperial" || race === "Breton")
@@ -221,6 +249,9 @@
     /* --------------------------------------------------------------------------
        BUILD GENERATION
        -------------------------------------------------------------------------- */
+    /**
+     * Calculate the character’s starting attributes, health, magicka, fatigue, and skill values from the build choices.
+     */
     function buildStartingStats(b) {
         const race = DATA.races[b.race] || DATA.trRaces[b.race], stats = baseStartingAttributes(b);
         if (b.birth === "The Lady") {
@@ -242,6 +273,9 @@
         const health = Math.floor((stats.Strength + stats.Endurance) / 2), fatigue = stats.Strength + stats.Willpower + stats.Agility + stats.Endurance;
         return { stats, skills, mag, health, fatigue };
     }
+    /**
+     * Determine which spells the character starts with, using the calculated attributes and the project’s spell rules.
+     */
     function starterSpells(b, st = buildStartingStats(b)) {
         const baseAttrs = baseStartingAttributes(b), out = [];
         for (const sp of DATA.starterSpells) {
@@ -257,6 +291,12 @@
         }
         return out;
     }
+    /**
+     * Main character-build pipeline: resolve preferences, choose race/sex/birthsign/class, assign skills, then calculate derived values.
+     */
+    // -------------------------------------------------------------------------
+    // BUILD GENERATION: the main pipeline called by the character generator.
+    // -------------------------------------------------------------------------
     function makeBuild(style = "Coherent", dir = "Any", allowNpc = false, racePreference = "Any", genderPreference = "Any", birthPreference = "Any", allowTRClasses = false, allowTRRaces = false, classPreference = "Any") {
         const classData = classPool(allowNpc, allowTRClasses);
         const selectedClass = classPreference && classPreference !== "Any" && classData[classPreference]
@@ -307,6 +347,9 @@
     /* --------------------------------------------------------------------------
        RENDERING HELPERS
        -------------------------------------------------------------------------- */
+    /**
+     * Format the internal sex value for display with an initial capital.
+     */
     function genderLabel(sex) { return sex ? sex.charAt(0).toUpperCase() + sex.slice(1) : ""; }
     function renderTraits(t) {
         if (!t)
@@ -328,10 +371,19 @@
         const output = sections.join("");
         return output || '<p class="muted">None recorded.</p>';
     }
+    /**
+     * Create the birthsign display fragment, including its associated details.
+     */
     function renderBirthsign(birth) {
         const data = DATA.birthsigns[birth];
         return `<div class="birthsignName">${esc(birth)}</div>${renderTraits(data.traits)}`;
     }
+    /**
+     * Render a complete character record card. showIdentity controls whether the identity row is included (for example, previews hide it).
+     */
+    // -------------------------------------------------------------------------
+    // HTML RENDERING: convert build/story objects into the visible page cards.
+    // -------------------------------------------------------------------------
     function buildCard(b, title = "Census Record", showIdentity = true) {
         const miscSkills = allSkills.filter(sk => !b.majors.includes(sk) &&
             !b.minors.includes(sk));
@@ -477,7 +529,10 @@
 
  <p><button type="button" data-action="copy" data-copy="${esc(formatBuild(b))}">Copy Build</button></p></div>`;
     }
-    function formatBuild(b) { return `The Census of Morrowind\\nRace: ${b.race}\\nClass: ${b.cls}\\nSpecialization: ${b.c.spec}\\nBirthsign: ${b.birth}\\nFavored Attributes: ${b.c.fav.join(", ")}\\nMajor Skills: ${b.majors.join(", ")}\\nMinor Skills: ${b.minors.join(", ")}\\nFaction Matches: ${b.factions.join(", ")}`; }
+    /**
+     * Convert a build into plain text for copying or sharing; this is a text export, not the on-screen card renderer.
+     */
+    function formatBuild(b) { return `The Elder Scrolls - Character Creator\\nRace: ${b.race}\\nClass: ${b.cls}\\nSpecialization: ${b.c.spec}\\nBirthsign: ${b.birth}\\nFavored Attributes: ${b.c.fav.join(", ")}\\nMajor Skills: ${b.majors.join(", ")}\\nMinor Skills: ${b.minors.join(", ")}\\nFaction Matches: ${b.factions.join(", ")}`; }
     function customSelect(id, options) { const el = document.getElementById(id); el.innerHTML = options.map(x => `<option value="${esc(x)}">${esc(x)}</option>`).join(""); }
     function previewSkillSelects(overrideMajors = null, overrideMinors = null) {
         const majors = overrideMajors || [...document.querySelectorAll("#previewMajors select")].map(x => x.value).filter(Boolean);
@@ -503,6 +558,9 @@
         renderGroup("previewMajors", majors, minors);
         renderGroup("previewMinors", minors, majors);
     }
+    /**
+     * Fill the preview class dropdown using only the currently selected source bucket.
+     */
     function populatePreviewClasses() {
         const select = document.getElementById("previewClass");
         const current = select.value;
@@ -518,6 +576,9 @@
             : available[0] || "";
     }
     let previewSource = "preset";
+    /**
+     * Switch the class-preview source (preset, NPC, TR, or custom) and refresh dependent controls.
+     */
     function setPreviewMode(mode) {
         previewSource = ["preset", "npc", "tr", "custom"].includes(mode) ? mode : "preset";
         const isCustom = previewSource === "custom";
@@ -541,6 +602,9 @@
         }
         renderClassPreview();
     }
+    /**
+     * Refresh the race dropdown in the preview to reflect whether TR races are enabled.
+     */
     function updatePreviewRaceOptions() {
         const select = document.getElementById("previewRace");
         const current = select.value;
@@ -552,6 +616,9 @@
         customSelect("previewRace", races);
         select.value = races.includes(current) ? current : races[0];
     }
+    /**
+     * Connect the preview buttons and inputs to their handlers and initialize the preview interface.
+     */
     function initClassPreview() {
         document.querySelectorAll("[data-preview-mode]").forEach(btn => btn.addEventListener("click", () => setPreviewMode(btn.dataset.previewMode)));
         updatePreviewRaceOptions();
@@ -598,6 +665,9 @@
         previewSkillSelects(allSkills.slice(0, 5), allSkills.slice(5, 10));
         renderClassPreview();
     }
+    /**
+     * Prevent the two favored-attribute controls from selecting the same attribute.
+     */
     function keepFavsDistinct(changed, other) { const a = document.getElementById(changed), b = document.getElementById(other); if (a.value === b.value)
         b.value = ATTRIBUTE_NAMES.find(x => x !== a.value) || "Endurance"; }
     function previewCustomObject() {
@@ -605,6 +675,9 @@
         const minors = [...document.querySelectorAll("#previewMinors select")].map(x => x.value);
         return { race: document.getElementById("previewRace").value, sex: document.getElementById("previewSex").value, birth: document.getElementById("previewBirth").value, cls: "Custom Class", className: document.getElementById("previewClassName").value || "Custom Class", c: { spec: document.getElementById("previewSpec").value, maj: majors, min: minors, fav: [document.getElementById("previewFav1").value, document.getElementById("previewFav2").value] }, majors, minors, primary: majors[0], factions: bestFactions([...majors, ...minors]), name: fullNameFor(document.getElementById("previewRace").value, document.getElementById("previewSex").value) };
     }
+    /**
+     * Read the currently selected class and race settings into the object used by the preview renderer.
+     */
     function classPreviewObject() {
         const race = document.getElementById("previewRace").value, sex = document.getElementById("previewSex").value, birth = document.getElementById("previewBirth").value, cls = document.getElementById("previewClass").value;
         if (previewSource === "custom")
@@ -612,6 +685,9 @@
         const c = ALL_CLASSES_WITH_TR[cls];
         return { race, sex, birth, cls, c, majors: c.maj.slice(0, 5), minors: c.min.slice(0, 5), primary: c.maj[0], factions: bestFactions([...c.maj.slice(0, 5), ...c.min.slice(0, 5)]), name: fullNameFor(race, sex) };
     }
+    /**
+     * Build and display the preview card from the current preview controls.
+     */
     function renderClassPreview() {
         const b = classPreviewObject();
         if (!b.c || !b.c.fav || new Set(b.c.fav).size !== 2 || new Set([...b.majors, ...b.minors]).size !== 10) {
@@ -622,42 +698,13 @@
         const className = b.cls === "Custom Class" ? (b.className || "Custom Class") : b.cls;
         document.getElementById("customResult").innerHTML = buildCard({ ...b, cls: className }, "Character Record", false);
     }
-    function randomizeClassPreview() {
-        const custom = previewSource === "custom";
-        const raceSource = document.querySelector("[data-preview-race-source].active")
-            ?.dataset.previewRaceSource || "default";
-        const racePool = raceSource === "tr"
-            ? ALL_RACES_WITH_TR.filter(race => !RACES.includes(race))
-            : RACES;
-        document.getElementById("previewRace").value = pick(racePool);
-        document.getElementById("previewSex").value = pick(GENDERS);
-        document.getElementById("previewBirth").value = pick(BIRTHSIGNS);
-        if (custom) {
-            document.getElementById("previewSpec").value = pick(["Combat", "Magic", "Stealth"]);
-            const fav = sample(ATTRIBUTE_NAMES, 2);
-            document.getElementById("previewFav1").value = fav[0];
-            document.getElementById("previewFav2").value = fav[1];
-            const chosen = sample(allSkills, 10);
-            previewSkillSelects(chosen.slice(0, 5), chosen.slice(5));
-            renderClassPreview();
-            return;
-        }
-        const classPool = previewSource === "npc"
-            ? DATA.npcClasses
-            : previewSource === "tr"
-                ? DATA.trClasses
-                : DATA.classes;
-        document.getElementById("previewClass").value = pick(Object.keys(classPool));
-        const c = ALL_CLASSES_WITH_TR[document.getElementById("previewClass").value];
-        if (c) {
-            document.getElementById("previewSpec").value = c.spec;
-            document.getElementById("previewFav1").value = c.fav[0];
-            document.getElementById("previewFav2").value = c.fav[1];
-            previewSkillSelects(c.maj.slice(0, 5), c.min.slice(0, 5));
-        }
-        renderClassPreview();
-    }
+    /**
+     * Choose a random label for the RNGesus-generated class.
+     */
     function rngClassName() { return pick(DATA.rngClassNames); }
+    // -------------------------------------------------------------------------
+    // RNGESUS: intentionally less constrained random build generation.
+    // -------------------------------------------------------------------------
     function makeRNGesus() {
         const race = pick(ALL_RACES_WITH_TR), sex = pick(GENDERS), birth = pick(BIRTHSIGNS);
         const presetKeys = Object.keys(DATA.classes), npcKeys = Object.keys(DATA.npcClasses), classRoll = Math.random();
@@ -681,6 +728,9 @@
             majors = c.maj.slice(0, 5), minors = c.min.slice(0, 5);
         return prepareBuild({ primary: pick([...c.maj, ...c.min]), race, cls, birth, c, majors, minors, factions: selectFactions([...c.maj, ...c.min], "RNGesus"), sex, name: fullNameFor(race, sex) });
     }
+    /**
+     * Run the RNGesus build and backstory generation, then render the combined result.
+     */
     function generateRNGesus() {
         const b = makeRNGesus();
         b.name = unrestrictedName(b.sex);
@@ -717,10 +767,19 @@
     </div>` +
                 buildCard(b, "Character Record");
     }
+    /**
+     * Select a backstory option with weights adjusted toward any preferred tags.
+     */
+    // -------------------------------------------------------------------------
+    // BACKSTORY: choose details first, then format them into narrative text.
+    // -------------------------------------------------------------------------
     function weightedBackstoryChoice(items, preferredTags = []) {
         const tagged = items.filter(x => Array.isArray(x.tags) && x.tags.some(t => preferredTags.includes(t)));
         return pick(tagged.length ? tagged : items);
     }
+    /**
+     * Choose a homeland detail appropriate to the character’s race, with a chance of a broader answer.
+     */
     function chooseHomeland(race) {
         const specific = DATA.backstory.homelands.filter(x => x.race === race);
         const universal = DATA.backstory.homelands.filter(x => x.race === "Any");
@@ -728,12 +787,18 @@
             return Math.random() < RULES.homeland.specificChance ? pick(specific) : pick(universal);
         return pick(specific.length ? specific : universal.length ? universal : DATA.backstory.homelands);
     }
+    /**
+     * Choose a family/background detail appropriate to the race, sometimes using a less specific option.
+     */
     function chooseFamily(race) {
         const specific = DATA.backstory.familyByRace?.[race] || [];
         if (specific.length && DATA.backstory.family.length)
             return Math.random() < RULES.family.specificChance ? pick(specific) : pick(DATA.backstory.family);
         return pick(specific.length ? specific : DATA.backstory.family);
     }
+    /**
+     * Select an occupation detail informed by the character’s build and skills.
+     */
     function chooseOccupation(b) {
         let pool = DATA.backstory.occupations;
         const matching = pool.filter(o => o.skills.some(sk => b.majors?.includes(sk) ||
@@ -743,6 +808,9 @@
             pool = matching;
         return pick(pool);
     }
+    /**
+     * Turn a number into an ordinal string such as 1st, 2nd, or 3rd.
+     */
     function ordinal(n) { return n + (n % 100 >= 11 && n % 100 <= 13 ? "th" : n % 10 === 1 ? "st" : n % 10 === 2 ? "nd" : n % 10 === 3 ? "rd" : "th"); }
     function birthDetails(sign) {
         const month = (sign === "The Serpent") ? pick(Object.keys(DATA.calendar.monthDays)) : (DATA.birthsigns[sign]?.month || "Sun's Height");
@@ -753,6 +821,9 @@
     /* --------------------------------------------------------------------------
        BACKSTORY GENERATION
        -------------------------------------------------------------------------- */
+    /**
+     * Assemble the structured backstory facts for a build and requested narrative style.
+     */
     function storyFor(b, style) {
         const race = b.race;
         const sex = b.sex;
@@ -780,12 +851,21 @@
         const wildCard = Math.random() < wildcardChance ? pick(DATA.backstory.wildCards) : "";
         return { race, sex, name, homeland, occupation, family, mentor, event, crime, detail, arrest, attitude, prison, change, relationship, future, skill, faction, factions, birth, birthday, age, wildCard, style };
     }
+    /**
+     * Normalize the requested style and provide the effective style used by the story generator.
+     */
     function resolveBackstoryStyle(style) {
         return style === "Any" ? pick(BACKSTORY_STYLES) : style;
     }
+    /**
+     * Extract concise metadata/labels from the structured story for display.
+     */
     function storyMeta(s) {
         return `Name: ${s.name} • Race: ${s.race} • Gender: ${genderLabel(s.sex)} • Age: ${s.age} • Birthday: ${s.birthday.label} • Birthsign: ${s.birth}`;
     }
+    /**
+     * Turn structured backstory facts into readable prose, incorporating the character’s identity and build.
+     */
     function storyText(s, b) {
         const skillLine = b?.primary
             ? `You developed a particular knack for ${b.primary}, while your work gave you practical reasons to keep improving.`
@@ -855,6 +935,9 @@
                 ].filter(p => p && p.trim()).join("\n\n");
         }
     }
+    /**
+     * Generate a build and its matching backstory together, then render the combined output.
+     */
     function generateBoth() {
         const style = resolveBackstoryStyle("Any");
         const allowNpc = document.getElementById("bothAllowNpcClasses")?.checked || false;
@@ -894,10 +977,19 @@
    </div>` +
                 buildCard(b, "Character Record");
     }
+    /**
+     * Escape HTML-sensitive characters before inserting user- or data-derived strings into HTML.
+     */
     function esc(v) { return String(v).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[c])); }
     /* --------------------------------------------------------------------------
        VALIDATION / REFERENCE
        -------------------------------------------------------------------------- */
+    /**
+     * Run internal data and rule checks to catch missing, mismatched, or malformed generator inputs.
+     */
+    // -------------------------------------------------------------------------
+    // VALIDATION AND UI WIRING: checks plus event handlers for page controls.
+    // -------------------------------------------------------------------------
     function runConsistencyChecks() {
         const checkOrder = (label, obj, expected) => {
             const actual = Object.keys(obj || {});
@@ -1001,8 +1093,6 @@
         const action = button.dataset.action;
         if (action === "show")
             show(button.dataset.target);
-        else if (action === "randomize-preview")
-            randomizeClassPreview();
         else if (action === "generate-rng")
             generateRNGesus();
         else if (action === "generate-both")
