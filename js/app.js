@@ -981,12 +981,7 @@
      * Escape HTML-sensitive characters before inserting user- or data-derived strings into HTML.
      */
     function esc(v) { return String(v).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[c])); }
-    /* --------------------------------------------------------------------------
-       VALIDATION / REFERENCE
-       -------------------------------------------------------------------------- */
-    /**
-     * Run internal data and rule checks to catch missing, mismatched, or malformed generator inputs.
-     */
+
     // -------------------------------------------------------------------------
     // VALIDATION AND UI WIRING: checks plus event handlers for page controls.
     // -------------------------------------------------------------------------
