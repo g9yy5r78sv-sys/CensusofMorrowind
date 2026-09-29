@@ -11,7 +11,6 @@ const ORDER = Object.freeze({
   buildFocuses: ["Any", "Combat", "Magic", "Stealth"]
 });
 
-const ATTR=DATA.attributes;
 const allSkills = DATA.skills;
 function sortSkillsByCanon(skills){
   return [...skills].sort((a,b)=>allSkills.indexOf(a)-allSkills.indexOf(b));
@@ -23,7 +22,6 @@ const TR_RACES=Object.keys(DATA.trRaces);
 const ALL_RACES_WITH_TR=[...RACES,...TR_RACES];
 const BIRTHSIGNS = ORDER.birthsigns;
 const BACKSTORY_STYLES = ORDER.backstoryStyles;
-function orderedRaceEntries(obj){return RACES.filter(r=>Object.prototype.hasOwnProperty.call(obj,r)).map(r=>[r,obj[r]])}
 const SPEC_SKILLS={
    Combat:["Armorer","Axe","Block","Blunt Weapon","Heavy Armor","Long Blade","Medium Armor","Spear","Athletics"],
    Magic:["Alchemy","Alteration","Conjuration","Destruction","Enchant","Illusion","Mysticism","Restoration","Unarmored"],
@@ -916,7 +914,6 @@ function runConsistencyChecks(){
     checkOrder("Race-specific family pools",DATA.backstory.familyByRace,ORDER.races),
     checkOrder("Birthsigns",DATA.birthsigns,ORDER.birthsigns),
     checkList("Backstory styles",BACKSTORY_STYLES,ORDER.backstoryStyles),
-    checkList("Build focuses", ORDER.buildFocuses, ORDER.buildFocuses),
   ];
   const passed=checks.filter(Boolean).length;
   const total=checks.length;
