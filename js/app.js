@@ -453,9 +453,6 @@ function buildCard(b,title="Census Record",showIdentity=true){
  <p><button type="button" data-action="copy" data-copy="${esc(formatBuild(b))}">Copy Build</button></p></div>`;
 }
 function formatBuild(b){return `The Census of Morrowind\\nRace: ${b.race}\\nClass: ${b.cls}\\nSpecialization: ${b.c.spec}\\nBirthsign: ${b.birth}\\nFavored Attributes: ${b.c.fav.join(", ")}\\nMajor Skills: ${b.majors.join(", ")}\\nMinor Skills: ${b.minors.join(", ")}\\nFaction Matches: ${b.factions.join(", ")}`}
-
-
-const CUSTOM_ATTRS=["Strength","Intelligence","Willpower","Agility","Speed","Endurance","Personality","Luck"];
 function customSelect(id,options){const el=document.getElementById(id);el.innerHTML=options.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join("");}
 function previewSkillSelects(overrideMajors=null,overrideMinors=null){
  const majors=overrideMajors||[...document.querySelectorAll("#previewMajors select")].map(x=>x.value).filter(Boolean);
@@ -540,7 +537,7 @@ document.querySelectorAll("[data-preview-race-source]").forEach(btn=>{
   });
 });
  customSelect("previewBirth",BIRTHSIGNS);
- customSelect("previewFav1",CUSTOM_ATTRS);customSelect("previewFav2",CUSTOM_ATTRS);
+ customSelect("previewFav1",ATTRIBUTE_NAMES);customSelect("previewFav2",ATTRIBUTE_NAMES);
  document.getElementById("previewFav1").value="Strength";document.getElementById("previewFav2").value="Endurance";
  document.getElementById("previewRace").value="Breton";document.getElementById("previewSex").value="male";document.getElementById("previewBirth").value="The Apprentice";
  document.getElementById("previewClass").addEventListener("change",()=>{
@@ -567,7 +564,7 @@ document.querySelectorAll("[data-preview-race-source]").forEach(btn=>{
  previewSkillSelects(allSkills.slice(0,5),allSkills.slice(5,10));
  renderClassPreview();
 }
-function keepFavsDistinct(changed,other){const a=document.getElementById(changed),b=document.getElementById(other);if(a.value===b.value)b.value=CUSTOM_ATTRS.find(x=>x!==a.value)||"Endurance";}
+function keepFavsDistinct(changed,other){const a=document.getElementById(changed),b=document.getElementById(other);if(a.value===b.value)b.value=ATTRIBUTE_NAMES.find(x=>x!==a.value)||"Endurance";}
 function previewCustomObject(){
  const majors=[...document.querySelectorAll("#previewMajors select")].map(x=>x.value);
  const minors=[...document.querySelectorAll("#previewMinors select")].map(x=>x.value);
@@ -603,7 +600,7 @@ const racePool = raceSource === "tr"
  document.getElementById("previewBirth").value=pick(BIRTHSIGNS);  
  if(custom){
    document.getElementById("previewSpec").value=pick(["Combat","Magic","Stealth"]);
-   const fav=sample(CUSTOM_ATTRS,2);
+   const fav=sample(ATTRIBUTE_NAMES,2);
    document.getElementById("previewFav1").value=fav[0];
    document.getElementById("previewFav2").value=fav[1];
    const chosen=sample(allSkills,10);
@@ -638,7 +635,7 @@ function makeRNGesus(){
  }else if(classRoll<RULES.rngesus.presetClassChance+RULES.rngesus.npcClassChance&&npcKeys.length){
   cls=pick(npcKeys);c=DATA.npcClasses[cls];
  }else{
-  const spec=pick(["Combat","Magic","Stealth"]),fav=sample(CUSTOM_ATTRS,2),chosen=sample(allSkills,10);
+  const spec=pick(["Combat","Magic","Stealth"]),fav=sample(ATTRIBUTE_NAMES,2),chosen=sample(allSkills,10);
   majors=chosen.slice(0,5);minors=chosen.slice(5);c={spec,maj:majors,min:minors,fav};cls=rngClassName();
  }
  if(!majors)majors=c.maj.slice(0,5),minors=c.min.slice(0,5);
