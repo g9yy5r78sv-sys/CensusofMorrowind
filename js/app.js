@@ -937,12 +937,26 @@ async function copyText(t){
   alert("Could not copy automatically. Select and copy the text manually.");
  }
 }
-let referenceRendered=false;
+
 function show(id){
   document.querySelectorAll(".mode").forEach(x=>x.classList.add("hidden"));
   document.getElementById(id).classList.remove("hidden");
   document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x.dataset.mode===id));
   window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function updateBothRaceOptions(){
+  const select = document.getElementById("bothRace");
+  const current = select.value;
+  const allowTR = document.getElementById("bothAllowTRRaces").checked;
+  const races = allowTR ? ALL_RACES_WITH_TR : RACES;
+
+  select.innerHTML = `<option value="Any">Any</option>` +
+    races.map(r => `<option value="${esc(r)}">${esc(r)}</option>`).join("");
+
+  select.value = races.includes(current) || current === "Any"
+    ? current
+    : "Any";
 }
 
 updateBothRaceOptions();
