@@ -851,9 +851,8 @@ function generateBoth(){
  const meta=storyMeta(s);
  const text=storyText(s,b);
 
- document.getElementById("bothResult").innerHTML=
-   buildCard(b,"Character Record")+`
-   <div class="card">
+ document.getElementById("bothResult").innerHTML =
+   `<div class="card">
      <h2>Backstory</h2>
 
      <div class="big">${esc(s.name)}</div>
@@ -875,9 +874,10 @@ function generateBoth(){
        data-copy="${esc(formatBuild(b)+"\n"+meta+"\n\n"+text+"\n\nFaction Matches: "+s.factions.join(", "))}">
        Copy Record
      </button>
-   </div>`;
+   </div>` +
+   buildCard(b,"Character Record");
 }
-
+   
 function esc(v){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));}
 
 /* --------------------------------------------------------------------------
