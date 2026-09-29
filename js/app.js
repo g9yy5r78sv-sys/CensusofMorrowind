@@ -650,9 +650,8 @@ function generateRNGesus(){
   const meta=storyMeta(s);
   const text=storyText(s,b);
 
-  document.getElementById("bothResult").innerHTML=
-    buildCard(b,"Character Record")+`
-    <div class="card">
+  document.getElementById("bothResult").innerHTML =
+    `<div class="card">
       <h2>Backstory</h2>
 
       <div class="big">${esc(s.name)}</div>
@@ -677,7 +676,8 @@ function generateRNGesus(){
           </button>
         </p>
       </div>
-    </div>`;
+    </div>` +
+    buildCard(b,"Character Record");
 }
 function weightedBackstoryChoice(items, preferredTags=[]){
  const tagged=items.filter(x=>Array.isArray(x.tags)&&x.tags.some(t=>preferredTags.includes(t)));
