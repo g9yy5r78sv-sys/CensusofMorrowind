@@ -532,7 +532,88 @@
     /**
      * Convert a build into plain text for copying or sharing; this is a text export, not the on-screen card renderer.
      */
-    function formatBuild(b) { return `The Elder Scrolls - Character Creator\\nRace: ${b.race}\\nClass: ${b.cls}\\nSpecialization: ${b.c.spec}\\nBirthsign: ${b.birth}\\nFavored Attributes: ${b.c.fav.join(", ")}\\nMajor Skills: ${b.majors.join(", ")}\\nMinor Skills: ${b.minors.join(", ")}\\nFaction Matches: ${b.factions.join(", ")}`; }
+
+        /**
+     * Export a readable character build as plain text.
+     * Includes identity, calculated starting values, skills, and faction matches.
+     */
+    function formatBuild(b) {
+        const statLines = Object.entries(b.starting.stats)
+            .map(([name, value]) => `  ${name}: ${value}`)
+            .join("\n");
+
+        const skillLines = (skills) => skills
+            .map(name => `  ${name}: ${b.starting.skills[name]}`)
+            .join("\n");
+
+        const spellLines = b.spells.length
+            ? b.spells.map(sp => `  ${sp.name} — ${sp.desc} (${sp.cost} magicka)`).join("\n")
+            : "  None granted";
+
+        return [
+            "THE ELDER SCROLLS",
+            "CHARACTER BUILD",
+            "",
+            "IDENTITY",
+            `Name: ${b.name}`,
+            `Race: ${b.race}`,
+            `Gender: ${genderLabel(b.sex)}`,
+            `Class: ${b.cls}`,
+            `Specialization: ${b.c.spec}`,
+            `Birthsign: ${b.birth}`,
+            "",
+            "FAVORED ATTRIBUTES",
+            ...b.c.fav.map(name => `  ${name}`),
+            "",
+            "STARTING ATTRIBUTES",
+            statLines,
+            "",
+            "STARTING RESOURCES",
+            `  Health: ${b.starting.health}`,
+            `  Magicka: ${b.starting.mag}`,
+            `  Fatigue: ${b.starting.fatigue}`,
+            "",
+            "MAJOR SKILLS",
+            skillLines(b.majors),
+            "",
+            "MINOR SKILLS",
+            skillLines(b.minors),
+            "",
+            "MISCELLANEOUS SKILLS",
+            skillLines(allSkills.filter(sk =>
+                !b.majors.includes(sk) && !b.minors.includes(sk)
+            )),
+            "",
+            "STARTING SPELLS",
+            spellLines,
+            "",
+            "FACTION MATCHES",
+            ...b.factions.map(name => `  ${name}`)
+        ].join("\n");
+    }
+
+    /**
+     * Export only the character's identity and backstory.
+     * Excludes build details and faction matches.
+     */
+    function formatRecord(s, text) {
+        return [
+            "THE ELDER SCROLLS",
+            "CHARACTER RECORD",
+            "",
+            `Name: ${s.name}`,
+            `Race: ${s.race}`,
+            `Gender: ${genderLabel(s.sex)}`,
+            `Age: ${s.age}`,
+            `Birthday: ${s.birthday.label}`,
+            `Birthsign: ${s.birth}`,
+            "",
+            "BACKSTORY",
+            "",
+            text
+        ].join("\n");
+    }
+    
     function customSelect(id, options) { const el = document.getElementById(id); el.innerHTML = options.map(x => `<option value="${esc(x)}">${esc(x)}</option>`).join(""); }
     function previewSkillSelects(overrideMajors = null, overrideMinors = null) {
         const majors = overrideMajors || [...document.querySelectorAll("#previewMajors select")].map(x => x.value).filter(Boolean);
@@ -754,16 +835,16 @@
         <div class="factionMatchList">
           ${s.factions.map(f => `<div class="factionMatch">${esc(f)}</div>`).join("")}
         </div>
-
+    </div>
         <p>
           <button
             type="button"
             data-action="copy"
-            data-copy="${esc(formatBuild(b) + "\n" + meta + "\n\n" + text + "\n\nFaction Matches: " + s.factions.join(", "))}">
+            data-copy="${esc(formatRecord(s, text))}">
             Copy Record
           </button>
         </p>
-      </div>
+      
     </div>` +
                 buildCard(b, "Character Record");
     }
@@ -977,7 +1058,7 @@
      <button
        type="button"
        data-action="copy"
-       data-copy="${esc(formatBuild(b) + "\n" + meta + "\n\n" + text + "\n\nFaction Matches: " + s.factions.join(", "))}">
+       data-copy="${esc(formatRecord(s, text))}">
        Copy Record
      </button>
    </div>` +
