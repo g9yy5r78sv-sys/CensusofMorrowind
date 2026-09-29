@@ -195,41 +195,6 @@ function fullNameFor(race,sex){
  return first;
 }
 
-function renderGeneratedName(){
- const race=document.getElementById("nameRace").value,sex=document.getElementById("nameSex").value;
- const name=fullNameFor(race,sex);
- document.getElementById("nameResult").innerHTML=`<div class="card"><h2>Census Record</h2><div class="big">${esc(name)}</div><p class="muted">${esc(race)} • ${esc(sex==="female"?"Female":"Male")}</p></div>`;
-}
-function updateNameRaceOptions(){
-  const select = document.getElementById("nameRace");
-  const current = select.value;
-  const races = document.getElementById("nameAllowTRRaces").checked
-    ? ALL_RACES_WITH_TR
-    : RACES;
-
-  customSelect("nameRace", races);
-  select.value = races.includes(current) ? current : "Breton";
-}
-
-function initNameGenerator(){
-  updateNameRaceOptions();
-  document.getElementById("nameRace").value = "Breton";
-  document.getElementById("nameSex").value = "male";
-
-  document.getElementById("nameAllowTRRaces")
-    .addEventListener("change", updateNameRaceOptions);
-}
-
-function randomizeName(){
-  const races = document.getElementById("nameAllowTRRaces").checked
-    ? ALL_RACES_WITH_TR
-    : RACES;
-
-  document.getElementById("nameRace").value = pick(races);
-  document.getElementById("nameSex").value = pick(GENDERS);
-  renderGeneratedName();
-}
-
 /* --------------------------------------------------------------------------
    BUILD GENERATION
    -------------------------------------------------------------------------- */
@@ -875,50 +840,6 @@ function storyText(s,b){
  }
 }
    
-function generateStory(){
- const racePref=document.getElementById("storyRace").value;
- const genderPref=document.getElementById("storyGender").value;
- const birthPref=document.getElementById("storyBirth").value;
- const racePool = document.getElementById("storyAllowTRRaces").checked
-  ? ALL_RACES_WITH_TR
-  : RACES;
-
-const fake = {
-  race: racePref !== "Any" ? racePref : pick(racePool),
-  primary: null,
-  majors: [],
-  minors: [],
-  cls: pick(Object.keys(DATA.classes)),
-  birth: birthPref !== "Any" ? birthPref : pick(BIRTHSIGNS),
-  factions: [pick(Object.keys(DATA.factions))],
-  sex: genderPref !== "Any" ? genderPref : pick(GENDERS)
-};
- const style = resolveBackstoryStyle("Any");
- const s=storyFor(fake,style,genderPref,birthPref);
- const text=storyText(s,fake);
- const meta = `Name: ${s.name} • Race: ${s.race} • Gender: ${genderLabel(s.sex)} • Age: ${s.age} • Birthday: ${s.birthday.label} • Birthsign: ${s.birth}`;
-document.getElementById("storyResult").innerHTML=`
-<div class="card">
-  <h2>Census Record</h2>
-
-  <div class="big">${esc(s.name)}</div>
-
-  <p class="muted">
-    <b>Race:</b> ${esc(s.race)} •
-    <b>Gender:</b> ${esc(genderLabel(s.sex))} •
-    <b>Birthsign:</b> ${esc(s.birth)}
-  </p>
-
-  <p class="muted">
-    <b>Age:</b> ${s.age} •
-    <b>Birthday:</b> ${esc(s.birthday.label)}
-  </p>
-
-  <p>${text.replace(/\n\n/g,"</p><p>")}</p>
-
-  <button type="button" data-action="copy" data-copy="${esc(meta+"\n\n"+text)}">Copy Story</button>
-</div>`;}
-
 function generateBoth(){
 
  const style = resolveBackstoryStyle("Any");
@@ -962,12 +883,7 @@ function generateBoth(){
 }
 
 function esc(v){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));}
-function refSection(title,body,open=false,level=1,id=""){
- const cls=level===1?'refGroup':'refSubGroup';
- return `<details class="${cls}"${id?` id="${esc(id)}"`:''} ${open?'open':''}><summary>${title}</summary><div class="refBody">${body}</div></details>`;
-}
-function refList(items){return `<ul class="refList">${items.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`;}
-function refRows(rows){return rows.map(([label,value])=>`<div class="row"><b>${esc(label)}</b><span>${value}</span></div>`).join("");}
+
 /* --------------------------------------------------------------------------
    VALIDATION / REFERENCE
    -------------------------------------------------------------------------- */
@@ -1007,109 +923,7 @@ function runConsistencyChecks(){
   if(passed===total) console.info(`Census consistency: all ${total} canonical-order checks passed.`);
   else console.warn(`Census consistency: ${passed}/${total} canonical-order checks passed.`);
 }
-function renderReference(){
- const bs=DATA.backstory;
- const givenNameCount=Object.values(DATA.names).reduce((n,x)=>n+(x.male?.length||0)+(x.female?.length||0),0);
- const backstoryCount=Object.entries(bs).reduce((n,[k,x])=>n+(Array.isArray(x)?x.length:Object.values(x).reduce((a,v)=>a+(Array.isArray(v)?v.length:1),0)),0);
 
- let h=`<div class="notice refNotice">This page is the Census's reference desk: one place to inspect the data, mappings, rules, and source components used by the generators. Mechanical values are intended to reproduce vanilla The Elder Scrolls III: Morrowind. Open the section you need. Nested sections stay collapsed so large pools do not turn the page into a wall of text.</div>`;
-
- h+=refSection(`Game Mechanics`,
-    refSection(`Attributes & Skills (${DATA.skills.length})`,`<div class="refItem"><p class="muted">Each of Morrowind's ${DATA.skills.length} skills is governed by one primary attribute. Luck is the exception and governs no skills.</p></div>`+Object.entries({...ATTR,Luck:[]}).map(([a,skills])=>`<div class="row"><b>${esc(a)}</b><span>${skills.length?skills.map(esc).join(" · "):"None"}</span></div>`).join(""),false,2)+
-    refSection("Starting attributes",`<div class="refItem"><p>Start with the race's sex-specific base attributes. Add 10 to each favored attribute, including Luck when Luck is favored. Then apply birthsign attribute bonuses.</p></div>`,false,2)+
-    refSection("Starting skills",`<div class="refItem"><p>Skills start at ${RULES.startingSkills.base}. Add ${RULES.startingSkills.specialization} for specialization, ${RULES.startingSkills.major} for a major skill or ${RULES.startingSkills.minor} for a minor skill, then add the race's racial skill bonus.</p></div>`,false,2)+
-    refSection("Derived stats",`<div class="refItem">${refRows([["Health","Floor((Strength + Endurance) / 2)"],["Fatigue","Strength + Willpower + Agility + Endurance"],["Maximum Magicka","Floor(Intelligence × (1 + racial modifier + birthsign modifier))"]])}</div>`,false,2)+
-    refSection("Maximum Magicka modifiers",`<div class="refItem"><p>These values are additions to the base Magicka multiplier of 1.0. Maximum Magicka is calculated as Intelligence × (1 + racial modifier + birthsign modifier).</p>${refRows([["Races","Breton +0.5; High Elf +1.5"],["Birthsigns","Apprentice +1.5; Mage +0.5; Atronach +2.0"]])}</div>`,false,2),false,1,"ref-core");
-
-h+=refSection(`Races (${Object.keys(DATA.races).length})`,
-   orderedRaceEntries(DATA.races).map(([name,d])=>{
-     const trait=d.traits;
-     return refSection(esc(name),
-       `<div class="refItem"><h4>Base attributes</h4>${refRows(ATTRIBUTE_NAMES.map((attr,i)=>[attr,`Male ${d.male[i]} · Female ${d.female[i]}`]).concat([["Luck","Male 40 · Female 40"]]))}</div>`+
-       `<div class="refItem"><h4>Racial traits</h4>${renderTraits(trait)}</div>`,false,2);
-   }).join(""),false,1,"ref-races");
-
- h+=refSection(`Birthsigns (${Object.keys(DATA.birthsigns).length})`,
-   Object.entries(DATA.birthsigns).map(([name,d])=>refSection(esc(name),
-     `<div class="refItem">${d.description?`<p class="muted">${esc(d.description)}</p>`:""}${renderTraits(d.traits)}</div>`,false,2)).join("")+
-   refSection("Birthday mapping",Object.entries(DATA.birthsigns).map(([name,d])=>{
-     if(d.month)return `<div class="row"><b>${esc(name)}</b><span>${esc(d.month)} • ${DATA.calendar.monthDays[d.month]} days</span></div>`;
-     return `<div class="row"><b>${esc(name)}</b><span>Wandering sign • no fixed birth month</span></div>`;
-   }).join("")+`<p class="muted">The Census uses TES3 month lengths. Morning Star is the historical Ritual association, but Morrowind's in-game calendar omits Morning Star, so Ritual uses a 30-day fallback. The Serpent has no fixed month, so its birthday uses a random valid calendar month and day. Current age range: ${RULES.backstory.minAge}–${RULES.backstory.minAge+RULES.backstory.ageSpan-1}.</p>`,false,2),false,1,"ref-birthsigns");
-
- h+=refSection(`Classes (${Object.keys(DATA.classes).length + Object.keys(DATA.npcClasses).length} total)`,
-   refSection(`Player classes (${Object.keys(DATA.classes).length})`,Object.entries(DATA.classes).map(([name,d])=>refSection(esc(name),
-     `<div class="refItem">${refRows([
-       ["Specialization",esc(d.spec)],
-       ["Major skills",d.maj.map(esc).join(", ")],
-       ["Minor skills",d.min.map(esc).join(", ")],
-       ["Favored attributes",d.fav.map(esc).join(", ")]
-     ])}</div>`,false,2)).join(""),false,2)+
-   refSection(`NPC classes (${Object.keys(DATA.npcClasses).length})`,Object.entries(DATA.npcClasses).map(([name,d])=>refSection(esc(name),
-     `<div class="refItem">${refRows([
-       ["Specialization",esc(d.spec)],
-       ["Major skills",d.maj.map(esc).join(", ")],
-       ["Minor skills",d.min.map(esc).join(", ")],
-       ["Favored attributes",d.fav.map(esc).join(", ")]
-     ])}</div>`,false,2)).join(""),false,2)+
-   refSection(`RNGesus custom class names (${DATA.rngClassNames.length})`,`<div class="refItem"><p class="muted">Reserved for RNGesus custom-class rolls. The name is flavor only; specialization, favored attributes, and the ten skills are rolled separately.</p><div class="pillRow">${DATA.rngClassNames.map(x=>`<span class="pill">${esc(x)}</span>`).join("")}</div></div>`,false,2),false,1,"ref-classes");
-
- h+=refSection(`Starting spells (${DATA.starterSpells.length})`,DATA.starterSpells.map(sp=>refSection(esc(sp.name),
-   `<div class="refItem">${refRows([
-     ["Skill",esc(sp.skill)],
-     ["Cost",`${esc(sp.cost)} magicka`],
-     ["Status",sp.unobtainable?"Unobtainable during normal character creation":"Eligible for normal character-creation auto-grant when requirements are met"],
-     ["Effect",esc(sp.desc)]
-   ])}</div>`,false,2)).join(""),false,1,"ref-spells");
-
- h+=refSection(`Faction affinities (${Object.keys(DATA.factions).length})`,Object.entries(DATA.factions).map(([name,skills])=>refSection(esc(name),
-   `<div class="refItem"><h4>Favored skills</h4><div class="pillRow">${skills.map(sk=>`<span class="pill">${esc(sk)}</span>`).join("")}</div></div>`,false,2)).join(""),false,1,"ref-factions");
-
- h+=refSection(`Names`,
-   refSection(`Given names (${givenNameCount})`,orderedRaceEntries(DATA.names).map(([race,d])=>refSection(esc(race),
-     `${d.male?`<div class="refItem"><h4>Male</h4><div class="nameCloud">${d.male.map(x=>`<span>${esc(x)}</span>`).join("")}</div></div>`:""}${d.female?`<div class="refItem"><h4>Female</h4><div class="nameCloud">${d.female.map(x=>`<span>${esc(x)}</span>`).join("")}</div></div>`:""}`,false,2)).join(""),false,2)+
-   refSection("Family names / name endings",orderedRaceEntries(DATA.nameFamilies).filter(([r,p])=>p.length).map(([race,pool])=>refSection(esc(race),`<div class="nameCloud">${pool.map(x=>`<span>${esc(x)}</span>`).join("")}</div>`,false,2)).join("")+`<p class="muted">The name corpus is built from the supplied UESP Lore name pages across their documented Elder Scrolls games and source sections. Family-name pools preserve documented historical forms, while titles and bynames remain distinct from ordinary surnames.</p>`,false,2)+
-   refSection("High Elf titles / bynames",`<div class="nameCloud">${HIGH_ELF_TITLES.map(x=>`<span>${esc(x)}</span>`).join("")}</div>`,false,2)+
-   refSection("Naming conventions",`<div class="refItem"><p>Dark Elf, Imperial, and Breton use family names; High Elf, Nord, Redguard, and Wood Elf may use documented family names or bynames; Argonian and Khajiit have historical surname material but normally use single names in the later naming tradition; Orcs use gendered gra-/gro- clan construction, with documented exceptions.</p><p>RNGesus deliberately ignores ordinary race and gender naming conventions. It can choose a documented given name from any race or gender, then independently add a documented family name or title from any race.</p></div>`,false,2),false,1,"ref-names");
-
- h+=refSection(`Backstory Components (${backstoryCount} stored entries)`,
-   `<div class="notice refNotice">Backstories are assembled from independent chunks. This section exposes the stored pieces rather than the final prose generated from them.</div>`+
-   refSection(`Homelands (${bs.homelands.length})`,`<div class="notice refNotice">Homelands are organized by race. Universal options remain available to keep the generator from becoming completely deterministic.</div>`+refSection(`Universal (${bs.homelands.filter(x=>x.race==="Any").length})`,refList(bs.homelands.filter(x=>x.race==="Any").map(x=>`${x.place}: ${x.text}`)),false,2)+Object.entries(RACES.reduce((o,r)=>{o[r]=bs.homelands.filter(x=>x.race===r);return o},{})).map(([race,items])=>refSection(`${esc(race)} (${items.length})`,refList(items.map(x=>`${x.place}: ${x.text}`)),false,2)).join(""),false,2)+
-   refSection(`Family / upbringing (${bs.family.length + Object.values(bs.familyByRace||{}).flat().length} total)`,
-      `<div class="notice refNotice">Most upbringing entries are universal, with additional race-specific options shown below.</div>`+
-      refSection(`Universal (${bs.family.length})`,refList(bs.family),false,2)+
-      RACES.filter(r=>bs.familyByRace?.[r]).map(r=>[r,bs.familyByRace[r]]).map(([race,items])=>refSection(`${esc(race)} (${items.length})`,refList(items),false,2)).join(""),false,2)+
-   refSection(`Occupations (${bs.occupations.length})`,bs.occupations.map(x=>`<div class="refItem"><h4>${esc(x.name)}</h4>${refRows([["Skills",x.skills.map(esc).join(", ")],["Crime tags",x.crimeTags.map(esc).join(", ")]])}</div>`).join(""),false,2)+
-   refSection(`Mentors (${bs.mentors.length})`,refList(bs.mentors),false,2)+
-   refSection(`Defining events (${bs.definingEvents.length})`,refList(bs.definingEvents),false,2)+
-   refSection(`Crimes (${bs.crimes.length})`,bs.crimes.map(x=>`<div class="refItem"><h4>${esc(x.name)}</h4>${refRows([["Charge wording",esc(x.charge)],["Details",x.details.map(esc).join(" • ")],["Tags",x.tags.map(esc).join(", ")]])}</div>`).join(""),false,2)+
-   refSection(`Arrest methods (${bs.arrestMethods.length})`,refList(bs.arrestMethods),false,2)+
-   refSection(`Arrest attitudes (${bs.arrestAttitudes.length})`,refList(bs.arrestAttitudes),false,2)+
-   refSection(`Prison experiences (${bs.prisonExperiences.length})`,refList(bs.prisonExperiences),false,2)+
-   refSection(`Prison changes (${bs.prisonChanges.length})`,refList(bs.prisonChanges),false,2)+
-   refSection(`Relationships (${bs.relationships.length})`,refList(bs.relationships),false,2)+
-   refSection(`Future intentions (${bs.futureIntentions.length})`,bs.futureIntentions.map(x=>`<div class="row"><b>${esc(x.mode)}</b><span>${esc(x.text)}</span></div>`).join(""),false,2)+
-   refSection(`Wild cards (${bs.wildCards.length})`,refList(bs.wildCards),false,2)+
-   refSection(`Tone hooks (${Object.keys(bs.toneHooks).length})`,Object.entries(bs.toneHooks).map(([name,items])=>refSection(`${esc(name)} (${items.length})`,refList(items),false,2)).join(""),false,2)+
-   refSection(`Fate attitudes (${Object.keys(bs.fate).length})`,Object.entries(bs.fate).map(([name,items])=>refSection(`${esc(name)} (${items.length})`,items.length?refList(items):`<p class="muted">No extra prose.</p>`,false,2)).join(""),false,2),false,1,"ref-backstory");
-
- h+=refSection(`Generation & Selection Rules`,
-    refSection("Specialization skill groups",Object.entries(SPEC_SKILLS).map(([name,skills])=>`<div class="refItem"><h4>${esc(name)}</h4><div class="pillRow">${skills.map(sk=>`<span class="pill">${esc(sk)}</span>`).join("")}</div></div>`).join(""),false,2)+
-    refSection("Starting spell auto-grant",`<div class="refItem"><p>During character creation, a stored PC-start spell is eligible when its governing skill is a major or minor skill and <b>2 × skill + Willpower / 5 + Luck / 10</b> meets or exceeds the spell's listed threshold. Three PC-start spells are flagged by UESP as impossible to receive during normal character creation: Exhausting Touch, Tap Energy, and Feet of Notorgo.</p></div>`,false,2)+
-    refSection(
-  "Build focus",
-  `<div class="refItem">${refRows([
-    ["Any", "Classes from all enabled specializations."],
-    ["Combat", "Classes with the Combat specialization."],
-    ["Magic", "Classes with the Magic specialization."],
-    ["Stealth", "Classes with the Stealth specialization."]
-  ])}</div>`,
-  false,
-  2
-)+
-    refSection("Backstory rules",`<div class="refItem">${refRows([["Age","18–45 inclusive."],["Wildcard chance","Comedic ${RULES.backstory.wildcardChance.Comedic*100}%; Adventurous ${RULES.backstory.wildcardChance.Adventurous*100}%; all other tones ${RULES.backstory.wildcardChance.Default*100}%."],["Birthday","Fixed birthsigns use their associated TES3 month length. Morning Star uses a 30-day fallback; the Serpent has no fixed month and receives a random valid calendar month and day."]])}</div>`,false,2),false,1,"ref-rules");
-document.getElementById("refContent").innerHTML=h;
-}
 
 /* --------------------------------------------------------------------------
    UI / EVENT WIRING
@@ -1128,42 +942,7 @@ function show(id){
   document.querySelectorAll(".mode").forEach(x=>x.classList.add("hidden"));
   document.getElementById(id).classList.remove("hidden");
   document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x.dataset.mode===id));
-  if(id==="reference"&&!referenceRendered){
-    renderReference();
-    referenceRendered=true;
-  }
   window.scrollTo({top:0,behavior:"smooth"});
-}
-function updateStoryRaceOptions(){
-  const select = document.getElementById("storyRace");
-  const current = select.value;
-  const allowTR = document.getElementById("storyAllowTRRaces").checked;
-  const races = allowTR ? ALL_RACES_WITH_TR : RACES;
-
-  select.innerHTML = `<option value="Any">Any</option>` +
-    races.map(r => `<option value="${esc(r)}">${esc(r)}</option>`).join("");
-
-  select.value = races.includes(current) || current === "Any"
-    ? current
-    : "Any";
-}
-
-updateStoryRaceOptions();
-document.getElementById("storyAllowTRRaces")
-  .addEventListener("change", updateStoryRaceOptions);
-for(const sign of BIRTHSIGNS){document.getElementById("storyBirth").insertAdjacentHTML("beforeend",`<option value="${esc(sign)}">${esc(sign)}</option>`)}
-function updateBothRaceOptions(){
-  const select = document.getElementById("bothRace");
-  const current = select.value;
-  const allowTR = document.getElementById("bothAllowTRRaces").checked;
-  const races = allowTR ? ALL_RACES_WITH_TR : RACES;
-
-  select.innerHTML = `<option value="Any">Any</option>` +
-    races.map(r => `<option value="${esc(r)}">${esc(r)}</option>`).join("");
-
-  select.value = races.includes(current) || current === "Any"
-    ? current
-    : "Any";
 }
 
 updateBothRaceOptions();
@@ -1201,10 +980,7 @@ document.addEventListener("click",event=>{
   if(action==="show")show(button.dataset.target);
   else if(action==="randomize-preview")randomizeClassPreview();
   else if(action==="generate-rng")generateRNGesus();
-  else if(action==="generate-story")generateStory();
   else if(action==="generate-both")generateBoth();
-  else if(action==="randomize-name")randomizeName();
-  else if(action==="generate-name")renderGeneratedName();
   else if(action==="copy")copyText(button.dataset.copy||"");
 });
 
